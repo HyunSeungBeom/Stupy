@@ -1,10 +1,27 @@
-import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
+import { createGlobalStyle } from 'styled-components';
+import Login from './screen/login';
+import Main from './screen/main';
+
+const GlobalStyle = createGlobalStyle`
+
+body{
+  background: white;
+}
+`;
 
 function App() {
   return (
-    <div>
-      <p> 안녕하세요 , 도메인 연결 잘 되나 테스트해보자! </p>
-    </div>
+    <BrowserRouter>
+      <GlobalStyle />
+      <RecoilRoot>
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </RecoilRoot>
+    </BrowserRouter>
   );
 }
 
