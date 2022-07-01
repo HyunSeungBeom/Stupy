@@ -1,8 +1,22 @@
 import styled from 'styled-components';
 import { FaPlusCircle } from 'react-icons/fa';
+import { useParams, useSearchParams } from 'react-router-dom';
+import { useEffect } from 'react';
 import TodoList from '../components/TodoList';
 
 function Main() {
+  const [params] = useSearchParams();
+  // console.log(params.get('token'));
+
+  useEffect(() => {
+    const kakaotoken = params.get('token');
+    if (kakaotoken != null) {
+      localStorage.clear();
+      localStorage.setItem('token', kakaotoken);
+      window.location.replace('/');
+    }
+  }, []);
+
   return (
     <SetBackGround>
       <DayBox>
