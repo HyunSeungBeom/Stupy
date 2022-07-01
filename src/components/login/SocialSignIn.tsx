@@ -5,7 +5,8 @@ import { ReactComponent as KakaoIcon } from '../../assets/icons/socialLogin/Kaka
 function SocialSignIn() {
   const moveToSocialKakao = () => {
     window.location.replace(
-      'https://kauth.kakao.com/oauth/authorize?client_id=968fe442549959a4ab2bb530f508c889&redirect_uri=https://studypeople.site/oauth&response_type=code',
+      // 'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=968fe442549959a4ab2bb530f508c889&redirect_uri=https://stupy.co.kr/main',
+      'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=968fe442549959a4ab2bb530f508c889&redirect_uri=http://localhost:3000/main',
     );
   };
   return (
