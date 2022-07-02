@@ -19,9 +19,9 @@ function Main() {
 
   return (
     <SetBackGround>
-      <DayBox>
+      <UpperBox>
         <p>날짜 요일</p>
-      </DayBox>
+      </UpperBox>
       <RadiusBox>
         <p> GROUP</p>
         <GroupBox>내가참여중인 그룹</GroupBox>
@@ -44,12 +44,13 @@ function Main() {
 
 export default Main;
 
-export const SetBackGround = styled.div`
+const SetBackGround = styled.div`
   background: gray;
   height: 100vh;
+  overflow: hidden;
 `;
 
-const DayBox = styled.div`
+export const UpperBox = styled.div`
   font-size: 30px;
   font-weight: bold;
   padding-top: 30px;
@@ -58,12 +59,12 @@ const DayBox = styled.div`
   box-sizing: border-box;
 `;
 
-const RadiusBox = styled.div`
+export const RadiusBox = styled.div`
   padding-top: 30px;
   padding-left: 5%;
   padding-right: 5%;
   border-radius: 29px;
-  height: 100%;
+  padding-bottom: 50px;
   background: white;
 `;
 

@@ -4,6 +4,7 @@ import { createGlobalStyle } from 'styled-components';
 import List from './screen/list';
 import Login from './screen/login';
 import Main from './screen/main';
+import './App.css';
 
 const GlobalStyle = createGlobalStyle`
 

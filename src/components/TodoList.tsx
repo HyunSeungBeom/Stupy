@@ -7,17 +7,16 @@ function TodoList() {
   return (
     <TodoBackground>
       <Category>
-        <p>
-          카테고리 <FiMoreHorizontal />
-        </p>
+        <div>카테고리</div>
+        <FiMoreHorizontal />
       </Category>
       <ListBox>
         <li>치과가기</li>
         <li>치과가기</li>
         <li>치과가기</li>
         <li>치과가기</li>
-        <PlusCircle />
       </ListBox>
+      <PlusCircle />
     </TodoBackground>
   );
 }
@@ -27,7 +26,6 @@ export default TodoList;
 const TodoBackground = styled.div`
   display: flex;
   flex-direction: column;
-
   border-radius: 8px;
   width: 400px;
   margin-bottom: 10px;
@@ -42,6 +40,7 @@ const Category = styled.div`
   background: gray;
   gap: 5px;
   margin-bottom: 10px;
+  justify-content: space-between;
 `;
 
 const ListBox = styled.div`
@@ -50,10 +49,10 @@ const ListBox = styled.div`
   background: gray;
   padding-left: 20px;
   box-sizing: border-box;
+  padding-bottom: 100px;
 `;
 
 const PlusCircle = styled(FaPlusCircle)`
-  text-align: center;
   margin-left: auto;
   margin-right: auto;
 `;
