@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BsFillPeopleFill } from 'react-icons/bs';
-import { useRecoilState } from 'recoil';
 
 function OpenChetModal({
   modal,
 }: {
   modal: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const [password, setPassword] = useState<string>();
+  const [, setPassword] = useState<string>(); // password 배포때문에 뺌.
   const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };

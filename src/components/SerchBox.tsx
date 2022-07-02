@@ -3,7 +3,7 @@ import { FiSearch } from 'react-icons/fi';
 import styled from 'styled-components';
 
 function SearchBox() {
-  const [search, Setsearch] = useState<string>();
+  const [, Setsearch] = useState<string>(); // search 배포 때문에 뺌.
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     Setsearch(e.target.value);
   };

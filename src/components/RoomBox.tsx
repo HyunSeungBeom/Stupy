@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { BsFillPeopleFill } from 'react-icons/bs';
-import { useRecoilState } from 'recoil';
+
 import styled from 'styled-components';
 
 import OpenChetModal from './OpenChetModal';
