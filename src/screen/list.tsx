@@ -5,41 +5,52 @@ import { useState } from 'react';
 import RoomBox from '../components/RoomBox';
 import SearchBox from '../components/SerchBox';
 import { UpperBox, RadiusBox } from './main';
+import MakeRoom from '../components/MakeRoom';
 
 function List() {
   const [mouse, setMouse] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const modalClose = () => {
+    setModalOpen(!modalOpen);
+  };
 
   return (
-    <div>
-      <SetBackGround>
-        <UpperBox>
-          <SearchBoxBackGround>
-            <SearchBox />
-          </SearchBoxBackGround>
-        </UpperBox>
-        <RadiusBox>
-          <UpperMenu>
-            <UpperLeft>전체</UpperLeft>
-            <RiEqualizerLine />
-          </UpperMenu>
-          <RoomBoxContainer>
-            <RoomBox />
-            <RoomBox />
-            <RoomBox />
-            <RoomBox />
-          </RoomBoxContainer>
-        </RadiusBox>
-        <ButtonPlus>
-          <FaPlusCircle
-            size="80px"
-            cursor="pointer"
-            color={mouse ? 'red' : 'black'}
-            onMouseOver={() => setMouse(true)}
-            onMouseLeave={() => setMouse(false)}
-          />
-        </ButtonPlus>
-      </SetBackGround>
-    </div>
+    <>
+      <div>
+        <SetBackGround>
+          <UpperBox>
+            <SearchBoxBackGround>
+              <SearchBox />
+            </SearchBoxBackGround>
+          </UpperBox>
+          <RadiusBox>
+            <UpperMenu>
+              <UpperLeft>전체</UpperLeft>
+              <RiEqualizerLine />
+            </UpperMenu>
+            <RoomBoxContainer>
+              <RoomBox />
+              <RoomBox />
+              <RoomBox />
+              <RoomBox />
+            </RoomBoxContainer>
+          </RadiusBox>
+          <ButtonPlus>
+            <FaPlusCircle
+              onClick={() => {
+                modalClose();
+              }}
+              size="80px"
+              cursor="pointer"
+              color={mouse ? 'red' : 'black'}
+              onMouseOver={() => setMouse(true)}
+              onMouseLeave={() => setMouse(false)}
+            />
+          </ButtonPlus>
+        </SetBackGround>
+      </div>
+      {modalOpen && <MakeRoom modal={setModalOpen} />}
+    </>
   );
 }
 
@@ -79,7 +90,7 @@ const ButtonPlus = styled.div`
   display: flex;
   position: sticky;
   bottom: 40px;
-  right: 150px;
+  right: 50px;
   border-radius: 160px;
   overflow: hidden;
   float: right;
