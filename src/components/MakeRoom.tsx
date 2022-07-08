@@ -1,16 +1,34 @@
-import { useEffect, useState } from 'react';
+/* eslint-disable prettier/prettier */
+/* eslint-disable react/jsx-props-no-spreading */
+import React, { useEffect, useState } from 'react';
 import { BsFillPeopleFill } from 'react-icons/bs';
 import styled from 'styled-components';
+import { FieldValues, useForm } from 'react-hook-form';
 import OpenChetModal from './OpenChetModal';
+import { ImgSource } from './ImgSource';
+import PerSonnelButton from './PersonnelButton';
+import InputBox from './InputBox';
 
 function MakeRoom({
   modal,
 }: {
   modal: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const [, setRoomname] = useState<string>(); // password 배포때문에 뺌.
-  const onCreateRoomname = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setRoomname(e.target.value);
+  const {
+    register,
+    watch,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
+
+  const [count, setCount] = useState<number>(1);
+  const [imagePreview, setImagePreview] = useState<File | null>(null);
+  const onSubmit = (data: FieldValues) => {
+    const formData = new FormData();
+    if (imagePreview) {
+      formData.append('image', imagePreview);
+      // formData.append('max_people', count);
+    }
   };
   const modalClose = () => {
     modal(false);
@@ -24,31 +42,57 @@ function MakeRoom({
       document.body.style.cssText = '';
     };
   }, []);
+  console.log(errors.groupname);
   return (
     <ModalContainer>
       <ModalInner>
-        <ModalHeader>
-          <ProfileImg>
-            <ProfileRevise />
-          </ProfileImg>
-          <GroupName placeholder="방 이름" onChange={onCreateRoomname} />
-        </ModalHeader>
-        <div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <ModalHeader>
+            <ImgSource set={setImagePreview} />
+            <PerSonnelButton set={setCount} count={count} />
+          </ModalHeader>
           <ModalMiddle>
-            <div>그룹 정원</div>
-            <div>- +</div>
+            <InputBox
+              text="그룹이름"
+              placetext="그룹이름을 입력하세요.(최대 8글자) "
+              type="groupname"
+              register={register}
+              required
+              maxLength={8}
+              errors={errors}
+            />
+            <div style={{ fontWeight: 'bold' }}>그룹설명*</div>
+            <Writetext placeholder="그룹 설명을 입력하세요.(최대 70글자)" />
+            <InputBox
+              text="해시태그"
+              placetext="해시태그를 입력하세요.(최대 3개) "
+              type="text"
+              register={register}
+              required={false}
+              errors={errors}
+            />
+            <InputBox
+              text="비밀번호"
+              placetext="비밀번호를 입력하세요.(숫자 4글자) "
+              type="password"
+              register={register}
+              required
+              maxLength={4}
+              errors={errors}
+            />
+            <InputBox
+              text="카카오톡 오픈채팅 주소"
+              placetext="카카오톡 오픈채팅 주소를 입력하세요."
+              type="text"
+              register={register}
+              required
+              errors={errors}
+            />
           </ModalMiddle>
-          <div>그룹 설명(글자수 제한 필요)</div>
-          <div>비밀 번호</div>
-          <HashBox>
-            <div>
-              해시 태그 <GroupName />
-            </div>
-          </HashBox>
-        </div>
-        <ModalBtnBox>
-          <ModalBtn>방 만들기</ModalBtn>
-        </ModalBtnBox>
+          <ModalBtnBox>
+            <ModalBtn type="submit">방만들기</ModalBtn>
+          </ModalBtnBox>
+        </form>
       </ModalInner>
       <Zindex onClick={modalClose} />
     </ModalContainer>
@@ -79,59 +123,44 @@ const Zindex = styled.div`
   z-index: -1;
 `;
 
-const ProfileImg = styled.div`
-  border-radius: 80px;
-  background-color: gray;
-  width: 80px;
-  height: 80px;
-  border: 1px solid black;
-  position: relative;
-`;
-
-const GroupName = styled.input`
-  padding: 5px;
+const Writetext = styled.textarea`
+  font-size: 14px;
+  resize: none;
+  border-radius: 3px;
   padding-left: 10px;
-  border-radius: 5px;
-  margin: 20px;
-  box-sizing: border-box;
+  width: 326px;
+  outline: none;
+  border: none;
+  background-color: #faede6;
+  height: 77px;
 `;
 
-const ProfileRevise = styled.div`
-  border-radius: 30px;
-  width: 30px;
-  height: 30px;
-  background: green;
-  position: absolute;
-  bottom: 0;
-  right: -5px;
+const ModalMiddle = styled.div`
+  overflow-y: auto; //스크롤바 없애기
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const ModalInner = styled.div`
+  border-radius: 20px;
   box-sizing: border-box;
   position: relative;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.5);
   background-color: #fff;
-  width: 360px;
-  max-width: 400px;
+  width: 380px;
+  max-width: 380px;
+  height: 558px;
+  max-height: 558px;
   top: 50%;
   transform: translateY(-50%);
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 20px 25px;
 `;
 
 const ModalHeader = styled.div`
   display: flex;
-  justify-content: space-between;
-`;
-
-const ModalMiddle = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const HashBox = styled.div`
-  display: flex;
-  justify-content: space-between;
+  padding-bottom: 20px;
 `;
 
 const ModalBtnBox = styled.div`
@@ -143,9 +172,19 @@ const ModalBtnBox = styled.div`
 
 const ModalBtn = styled.button`
   display: flex;
-  width: 110px;
-  padding: 5px 10px;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 20px;
+  padding: 7.57273px 20.194px;
+  gap: 12.62px;
+  position: absolute;
+  width: 306px;
+  height: 46px;
+  left: calc(50% - 306px / 2 - 1px);
+  top: calc(50% - 46px / 2 + 229px);
+  background: #ff9052;
+  border-radius: 10.097px;
+  color: white;
+  border: none;
+  font-weight: bold;
 `;

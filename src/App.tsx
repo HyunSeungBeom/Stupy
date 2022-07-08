@@ -6,6 +6,7 @@ import Login from './screen/login';
 import Main from './screen/main';
 import './App.css';
 import Mypage from './screen/mypage';
+import Webcamchatting from './screen/webcamchatting';
 
 const GlobalStyle = createGlobalStyle`
 
@@ -25,6 +26,7 @@ function App() {
           <Route path="/list" element={<List />} />
           <Route path="/kakao/login" element={<Main />} />
           <Route path="/mypage" element={<Mypage />} />
+          <Route path="/webcamchatting" element={<Webcamchatting />} />
         </Routes>
       </RecoilRoot>
     </BrowserRouter>

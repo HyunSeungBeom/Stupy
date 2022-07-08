@@ -6,6 +6,7 @@ import RoomBox from '../components/RoomBox';
 import SearchBox from '../components/SerchBox';
 import { UpperBox, RadiusBox } from './main';
 import MakeRoom from '../components/MakeRoom';
+import BottomBar from '../components/BottomBar';
 
 function List() {
   const [mouse, setMouse] = useState<boolean>(false);
@@ -48,6 +49,7 @@ function List() {
             />
           </ButtonPlus>
         </SetBackGround>
+        <BottomBar />
       </div>
       {modalOpen && <MakeRoom modal={setModalOpen} />}
     </>

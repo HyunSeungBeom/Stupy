@@ -3,6 +3,7 @@ import { FaPlusCircle } from 'react-icons/fa';
 import { useSearchParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import TodoList from '../components/TodoList';
+import BottomBar from '../components/BottomBar';
 
 function Main() {
   const [params] = useSearchParams();
@@ -38,16 +39,15 @@ function Main() {
           <TodoList />
         </TodoListBox>
       </RadiusBox>
+      <BottomBar />
     </SetBackGround>
   );
 }
 
 export default Main;
-
 const SetBackGround = styled.div`
   background: gray;
   height: 100vh;
-  overflow: hidden;
 `;
 
 export const UpperBox = styled.div`

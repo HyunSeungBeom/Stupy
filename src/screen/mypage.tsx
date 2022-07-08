@@ -1,11 +1,17 @@
 import styled from 'styled-components';
 import { FiLogOut } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
+import BottomBar from '../components/BottomBar';
 
 function Mypage() {
+  const LogoutClick = () => {
+    localStorage.clear();
+    window.location.replace('/login');
+  };
   return (
     <Background>
       <ProfileMenu>
-        <LogoutMenu>
+        <LogoutMenu onClick={LogoutClick}>
           로그아웃
           <FiLogOut />
         </LogoutMenu>
@@ -27,6 +33,7 @@ function Mypage() {
         <SettingBox>설정</SettingBox>
         <Withdrawal>회원탈퇴</Withdrawal>
       </SettingMenu>
+      <BottomBar />
     </Background>
   );
 }
