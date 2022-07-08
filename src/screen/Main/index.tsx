@@ -52,7 +52,7 @@ export default function Main() {
         <BodyContainer>
           <TitleContainer>
             <Title>GROUP</Title>
-            <p>
+            <div>
               참가 그룹{' '}
               <span>
                 <img
@@ -61,13 +61,13 @@ export default function Main() {
                   style={{ width: 22, height: 24 }}
                 />
               </span>
-            </p>
+            </div>
           </TitleContainer>
           <GroupImgContainer>
             <img src={undefined} alt="" />
           </GroupImgContainer>
           <GroupNameContainer>
-            <div style={{ display: 'flex' }}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
               <GroupName>스터디 그룹 이름</GroupName>
               <MemberCount>+0/4</MemberCount>
             </div>
