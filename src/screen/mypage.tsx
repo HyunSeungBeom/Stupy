@@ -8,6 +8,7 @@ function Mypage() {
     localStorage.clear();
     window.location.replace('/login');
   };
+
   return (
     <Background>
       <ProfileMenu>
