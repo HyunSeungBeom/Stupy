@@ -1,7 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import icoList from 'src/assets/icons/bottomTab/icoList.svg';
+import icoListOn from 'src/assets/icons/bottomTab/icoListOn.svg';
+import icoMain from 'src/assets/icons/bottomTab/icoMain.svg';
+import icoMainOn from 'src/assets/icons/bottomTab/icoMainOn.svg';
+import icoSetting from 'src/assets/icons/bottomTab/icoSetting.svg';
+import { RATIO } from '../constants';
 
-function BottomBar() {
+type Props = {
+  currentPage: 'List' | 'Main' | 'Mypage';
+};
+
+export default function BottomBar({ currentPage }: Props) {
   const nav = useNavigate();
   const MainClick = () => {
     nav('/');
@@ -15,40 +25,43 @@ function BottomBar() {
 
   return (
     <BottomBox>
-      <BottomBetween>
-        <BottomNav onClick={MainClick}> 메인 </BottomNav>
-        <BottomNav onClick={ListClick}> 리스트 </BottomNav>
-        <BottomNav onClick={MypageClick}> 마이페이지 </BottomNav>
-      </BottomBetween>
+      <BottomNav
+        src={currentPage === 'List' ? icoListOn : icoList}
+        alt=""
+        onClick={ListClick}
+      />
+      <BottomNav
+        src={currentPage === 'Main' ? icoMainOn : icoMain}
+        alt=""
+        onClick={MainClick}
+      />
+      <BottomNav
+        src={currentPage === 'Mypage' ? icoSetting : icoSetting}
+        alt=""
+        onClick={MypageClick}
+      />
     </BottomBox>
   );
 }
-export default BottomBar;
 
 const BottomBox = styled.div`
-  width: 100%;
-  height: 60px;
-  color: white;
-  font-size: 20px;
-  font-weight: bold;
-  background-color: orange;
+  max-width: 500px;
+  height: 90px;
   display: flex;
   position: sticky;
   bottom: 0px;
-
-  overflow: hidden;
-  float: right;
-  z-index: 999;
-`;
-
-const BottomBetween = styled.div`
-  padding: 0px 60px 0px 60px;
+  padding: 0px 60px 20px 60px;
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  float: center;
+  z-index: 999;
+  background-color: white;
 `;
 
-const BottomNav = styled.div`
-  height: 30px;
+const BottomNav = styled.img`
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
 `;
