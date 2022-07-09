@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import moment from 'moment';
 import 'moment/locale/ko';
 import BottomBar from 'src/components/BottomBar';
-import TodoList from 'src/components/TodoList';
+import TodoList from 'src/screen/Main/TodoList';
 import icoArrowDown from 'src/assets/icons/icoArrowDown.svg';
 import icoMaster from 'src/assets/icons/main/icoMaster.svg';
 import {
@@ -12,7 +12,6 @@ import {
   GroupImgContainer,
   BodyContainer,
   SetBackGround,
-  TodoListBox,
   TopContainer,
   Welcome,
   TitleContainer,
@@ -42,6 +41,7 @@ export default function Main() {
       style={{
         display: 'flex',
         justifyContent: 'center',
+        backgroundColor: 'gray',
       }}
     >
       <SetBackGround>
@@ -80,13 +80,51 @@ export default function Main() {
           <TitleContainer>
             <Title>TO DO LIST</Title>
           </TitleContainer>
-          <TodoList />
-          <TodoList />
-          <TodoList />
-          <TodoList />
+          {MOCK_UP_DATA.map((item) => {
+            return (
+              <TodoList
+                key={item.id}
+                subject={item.subject}
+                item={item.to_do_list_item}
+              />
+            );
+          })}
         </BodyContainer>
-        <BottomBar />
+        <BottomBar currentPage="Main" />
       </SetBackGround>
     </div>
   );
 }
+
+const MOCK_UP_DATA = [
+  {
+    id: 1,
+    subject: 'TO_DO_LIST_TITLE_A',
+    to_do_list_item: [
+      { id: 1, content: 'TO DO ITEM 1', is_done: true },
+      { id: 2, content: 'TO DO ITEM 2', is_done: true },
+      { id: 3, content: 'TO DO ITEM 3', is_done: true },
+      { id: 4, content: 'TO DO ITEM 4', is_done: false },
+    ],
+  },
+  {
+    id: 2,
+    subject: 'TO_DO_LIST_TITLE_B',
+    to_do_list_item: [
+      { id: 1, content: 'TO DO ITEM 1', is_done: true },
+      { id: 2, content: 'TO DO ITEM 2', is_done: true },
+      { id: 3, content: 'TO DO ITEM 3', is_done: true },
+      { id: 4, content: 'TO DO ITEM 4', is_done: false },
+    ],
+  },
+  {
+    id: 3,
+    subject: 'TO_DO_LIST_TITLE_C',
+    to_do_list_item: [
+      { id: 1, content: 'TO DO ITEM 1', is_done: true },
+      { id: 2, content: 'TO DO ITEM 2', is_done: true },
+      { id: 3, content: 'TO DO ITEM 3', is_done: true },
+      { id: 4, content: 'TO DO ITEM 4', is_done: false },
+    ],
+  },
+];

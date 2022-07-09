@@ -7,7 +7,11 @@ import icoMainOn from 'src/assets/icons/bottomTab/icoMainOn.svg';
 import icoSetting from 'src/assets/icons/bottomTab/icoSetting.svg';
 import { RATIO } from '../constants';
 
-function BottomBar() {
+type Props = {
+  currentPage: 'List' | 'Main' | 'Mypage';
+};
+
+export default function BottomBar({ currentPage }: Props) {
   const nav = useNavigate();
   const MainClick = () => {
     nav('/');
@@ -21,13 +25,24 @@ function BottomBar() {
 
   return (
     <BottomBox>
-      <BottomNav src={icoList} alt="" onClick={ListClick} />
-      <BottomNav src={icoMain} alt="" onClick={MainClick} />
-      <BottomNav src={icoSetting} alt="" onClick={MypageClick} />
+      <BottomNav
+        src={currentPage === 'List' ? icoListOn : icoList}
+        alt=""
+        onClick={ListClick}
+      />
+      <BottomNav
+        src={currentPage === 'Main' ? icoMainOn : icoMain}
+        alt=""
+        onClick={MainClick}
+      />
+      <BottomNav
+        src={currentPage === 'Mypage' ? icoSetting : icoSetting}
+        alt=""
+        onClick={MypageClick}
+      />
     </BottomBox>
   );
 }
-export default BottomBar;
 
 const BottomBox = styled.div`
   max-width: 500px;
@@ -42,7 +57,7 @@ const BottomBox = styled.div`
   align-items: center;
   float: center;
   z-index: 999;
-  background-color: lightblue;
+  background-color: white;
 `;
 
 const BottomNav = styled.img`

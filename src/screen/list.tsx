@@ -49,7 +49,7 @@ function List() {
             />
           </ButtonPlus>
         </SetBackGround>
-        <BottomBar />
+        <BottomBar currentPage="List" />
       </div>
       {modalOpen && <MakeRoom modal={setModalOpen} />}
     </>
