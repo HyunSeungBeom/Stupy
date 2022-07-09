@@ -26,7 +26,7 @@ function BottomBar() {
 export default BottomBar;
 
 const BottomBox = styled.div`
-  width: 100%;
+  width: 500px * (500px / 428px);
   height: 60px;
   color: white;
   font-size: 20px;

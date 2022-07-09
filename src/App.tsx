@@ -3,7 +3,7 @@ import { RecoilRoot } from 'recoil';
 import { createGlobalStyle } from 'styled-components';
 import List from './screen/list';
 import Login from './screen/login';
-import Main from './screen/main';
+import Main from './screen/Main';
 import './App.css';
 import Mypage from './screen/mypage';
 import Webcamchatting from './screen/webcamchatting';

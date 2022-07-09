@@ -7,7 +7,7 @@ import { FieldValues, useForm } from 'react-hook-form';
 import OpenChetModal from './OpenChetModal';
 import { ImgSource } from './ImgSource';
 import PerSonnelButton from './PersonnelButton';
-import InputBox from './InputBox';
+import HashInput from './HashInput';
 
 function MakeRoom({
   modal,
@@ -23,10 +23,17 @@ function MakeRoom({
 
   const [count, setCount] = useState<number>(1);
   const [imagePreview, setImagePreview] = useState<File | null>(null);
+
   const onSubmit = (data: FieldValues) => {
     const formData = new FormData();
-    if (imagePreview) {
+
+    if (imagePreview && count) {
       formData.append('image', imagePreview);
+      formData.append('title', data.title);
+      formData.append('content', data.content);
+      formData.append('hashtag', data.hashtag);
+      formData.append('password', data.password);
+      formData.append('open_kakao', data.open_kakao);
       // formData.append('max_people', count);
     }
   };
@@ -42,53 +49,95 @@ function MakeRoom({
       document.body.style.cssText = '';
     };
   }, []);
-  console.log(errors.groupname);
   return (
     <ModalContainer>
       <ModalInner>
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalHeader>
             <ImgSource set={setImagePreview} />
-            <PerSonnelButton set={setCount} count={count} />
           </ModalHeader>
+
           <ModalMiddle>
-            <InputBox
-              text="그룹이름"
-              placetext="그룹이름을 입력하세요.(최대 8글자) "
-              type="groupname"
-              register={register}
-              required
-              maxLength={8}
-              errors={errors}
+            <PerSonnelButton set={setCount} count={count} />
+            <InputText>
+              그룹이름<StarColor>*</StarColor>
+            </InputText>
+            <OrangeInput
+              type="title"
+              {...register('title', {
+                required: true,
+                maxLength: 8,
+              })}
             />
-            <div style={{ fontWeight: 'bold' }}>그룹설명*</div>
-            <Writetext placeholder="그룹 설명을 입력하세요.(최대 70글자)" />
-            <InputBox
-              text="해시태그"
-              placetext="해시태그를 입력하세요.(최대 3개) "
-              type="text"
-              register={register}
-              required={false}
-              errors={errors}
+            {errors.title && errors.title.type === 'required' && (
+              <ErrorText>필수 입력입니다.</ErrorText>
+            )}
+            {errors.title && errors.title.type === 'maxLength' && (
+              <ErrorText>최대 8글자</ErrorText>
+            )}
+            <div style={{ fontWeight: 'bold' }}>
+              그룹설명<StarColor>*</StarColor>
+            </div>
+            <Writetext
+              placeholder="그룹 설명을 입력하세요.(최대 70글자)"
+              {...register('content', {
+                required: true,
+                maxLength: 70,
+              })}
             />
-            <InputBox
-              text="비밀번호"
-              placetext="비밀번호를 입력하세요.(숫자 4글자) "
+            {errors.content && errors.content.type === 'required' && (
+              <ErrorText>필수 입력입니다.</ErrorText>
+            )}
+            {errors.content && errors.content.type === 'maxLength' && (
+              <ErrorText>글자수(70글자)가 초과되었습니다.</ErrorText>
+            )}
+
+            <InputText>
+              오픈채팅 주소<StarColor>*</StarColor>
+            </InputText>
+            <OrangeInput
+              type="open_kakao"
+              {...register('open_kakao', {
+                required: true,
+                maxLength: 50,
+              })}
+            />
+            {errors.open_kakao && errors.open_kakao.type === 'required' && (
+              <ErrorText>필수 입력입니다.</ErrorText>
+            )}
+            {errors.open_kakao && errors.open_kakao.type === 'maxLength' && (
+              <ErrorText>글자수(50글자)가 초과되었습니다.</ErrorText>
+            )}
+            <InputText>
+              비밀번호<StarColor>*</StarColor>
+            </InputText>
+            <OrangeInput
               type="password"
-              register={register}
-              required
-              maxLength={4}
-              errors={errors}
+              {...register('password', {
+                required: true,
+                maxLength: 4,
+                minLength: 4,
+                pattern: /^[0-9]*$/,
+              })}
             />
-            <InputBox
-              text="카카오톡 오픈채팅 주소"
-              placetext="카카오톡 오픈채팅 주소를 입력하세요."
-              type="text"
-              register={register}
-              required
-              errors={errors}
-            />
+            {errors.password && errors.password.type === 'required' && (
+              <ErrorText>필수 입력입니다.</ErrorText>
+            )}
+            {errors.password && errors.password.type === 'maxLength' && (
+              <ErrorText>4자리 입력해주세요.</ErrorText>
+            )}
+            {errors.password && errors.password.type === 'pattern' && (
+              <ErrorText>숫자만 입력해주세요.</ErrorText>
+            )}
+            {errors.password && errors.password.type === 'minLength' && (
+              <ErrorText>4자리 입력해주세요.</ErrorText>
+            )}
+            <InputText>
+              해시태그<StarColor>*</StarColor>
+            </InputText>
+            <HashInput />
           </ModalMiddle>
+
           <ModalBtnBox>
             <ModalBtn type="submit">방만들기</ModalBtn>
           </ModalBtnBox>
@@ -122,6 +171,28 @@ const Zindex = styled.div`
   display: relative;
   z-index: -1;
 `;
+const StarColor = styled.span`
+  color: #ef3061;
+`;
+
+const InputText = styled.div`
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 20px;
+`;
+const ErrorText = styled.p`
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 14px;
+  color: #ef3061;
+`;
+const OrangeInput = styled.input`
+  width: 326px;
+  font-size: 14px;
+  border: none;
+  border-bottom: #f8dac9 2px solid;
+  outline: none;
+`;
 
 const Writetext = styled.textarea`
   font-size: 14px;
@@ -136,6 +207,9 @@ const Writetext = styled.textarea`
 `;
 
 const ModalMiddle = styled.div`
+  padding: 20px 25px;
+  height: 200px;
+  column-gap: 10px;
   overflow-y: auto; //스크롤바 없애기
   ::-webkit-scrollbar {
     display: none;
@@ -155,13 +229,9 @@ const ModalInner = styled.div`
   top: 50%;
   transform: translateY(-50%);
   margin: 0 auto;
-  padding: 20px 25px;
 `;
 
-const ModalHeader = styled.div`
-  display: flex;
-  padding-bottom: 20px;
-`;
+const ModalHeader = styled.div``;
 
 const ModalBtnBox = styled.div`
   display: flex;

@@ -19,7 +19,7 @@ function PerSonnelButton({
   };
 
   return (
-    <div style={{ paddingTop: '30px', boxSizing: 'border-box' }}>
+    <div style={{ paddingTop: '47px', boxSizing: 'border-box' }}>
       <Personnel>
         인원 <p>*</p>{' '}
       </Personnel>
@@ -33,14 +33,17 @@ function PerSonnelButton({
 }
 
 export default PerSonnelButton;
-
+const PersonnelBox = styled.div`
+  padding-top: '47px';
+  box-sizing: 'border-box';
+`;
 const Personnel = styled.div`
   margin-left: 50px;
   display: flex;
   font-size: 15px;
   font-weight: bold;
   p {
-    color: red;
+    color: #ef3061;
   }
 `;
 

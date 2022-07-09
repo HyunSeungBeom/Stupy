@@ -4,9 +4,10 @@ import { FaPlusCircle } from 'react-icons/fa';
 import { useState } from 'react';
 import RoomBox from '../components/RoomBox';
 import SearchBox from '../components/SerchBox';
-import { UpperBox, RadiusBox } from './main';
+import { UpperBox, RadiusBox } from './Main';
 import MakeRoom from '../components/MakeRoom';
 import BottomBar from '../components/BottomBar';
+import HashInput from '../components/HashInput';
 
 function List() {
   const [mouse, setMouse] = useState<boolean>(false);
@@ -34,6 +35,7 @@ function List() {
               <RoomBox />
               <RoomBox />
               <RoomBox />
+              {/* <HashInput /> */}
             </RoomBoxContainer>
           </RadiusBox>
           <ButtonPlus>

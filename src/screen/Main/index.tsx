@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import { FaPlusCircle } from 'react-icons/fa';
 import { useSearchParams } from 'react-router-dom';
 import { useEffect } from 'react';
-import TodoList from '../components/TodoList';
-import BottomBar from '../components/BottomBar';
+import TodoList from '../../components/TodoList';
+import BottomBar from '../../components/BottomBar';
 
 function Main() {
   const [params] = useSearchParams();

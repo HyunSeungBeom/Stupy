@@ -12,8 +12,9 @@ const onRequest = (config: AxiosRequestConfig): AxiosRequestConfig => {
     const toto = JSON.parse(localToken);
     // console.log(toto.tokenState);
     if (toto) {
+      // eslint-disable-next-line no-param-reassign
       config.headers = {
-        'X-AUTH-TOKEN': toto.tokenState || 0 || false,
+        Authorization: toto.tokenState || 0 || false,
         'Content-Type': 'application/json',
       };
     }
