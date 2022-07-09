@@ -26,7 +26,7 @@ export default function TodoList({ subject, item }: Props) {
   }, [subject, item]);
 
   const handleDeleteContent = useCallback((id: number) => {
-    setItemData(itemData?.filter((e) => e.id !== id));
+    setItemData((prev) => prev?.filter((e) => e.id !== id));
   }, []);
 
   const handleAddContent = () => {
@@ -35,6 +35,7 @@ export default function TodoList({ subject, item }: Props) {
     tempArray.push({ id: tempId, content: '', is_done: false });
     setItemData(itemData.concat(tempArray));
   };
+
   return (
     <Wrap>
       <SubjectRow>
@@ -46,14 +47,13 @@ export default function TodoList({ subject, item }: Props) {
         />
         <SubMenuBtn src={icoDots} alt="" />
       </SubjectRow>
-      {itemData?.map((item, idx) => {
+      {itemData?.map((item) => {
         return (
           <TodoItem
-            // eslint-disable-next-line react/no-array-index-key
-            key={idx}
+            key={item.id}
             id={item.id}
-            content={item.content}
-            isDone={item.is_done}
+            contentProp={item.content}
+            isDoneProp={item.is_done}
             onDeleteContent={handleDeleteContent}
           />
         );
@@ -65,20 +65,29 @@ export default function TodoList({ subject, item }: Props) {
 
 type ItemProps = {
   id: number;
-  content: string;
-  isDone: boolean;
+  contentProp: string;
+  isDoneProp: boolean;
   onDeleteContent: (id: number) => void;
 };
 
-function TodoItem({ id, content, isDone, onDeleteContent }: ItemProps) {
+function TodoItem({ id, contentProp, isDoneProp, onDeleteContent }: ItemProps) {
+  const [content, setContent] = useState<typeof contentProp>();
+  const [isDone, setIsDone] = useState(false);
+
   const handleDelItemPress = (id: number) => {
     onDeleteContent(id);
   };
+
+  useEffect(() => {
+    setContent(contentProp);
+    setIsDone(isDoneProp);
+  }, [contentProp, isDoneProp]);
+
   return (
     <ItemRow>
       <div>
         <Checkbox isCheckedProp={isDone} />
-        <Input value={content} />
+        <Input value={content} onChange={(e) => setContent(e.target.value)} />
       </div>
       <ItemDelBtn
         src={icoXbutton}
