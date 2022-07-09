@@ -2,9 +2,9 @@ import styled from 'styled-components';
 import { RiEqualizerLine } from 'react-icons/ri';
 import { FaPlusCircle } from 'react-icons/fa';
 import { useState } from 'react';
+import { TopContainer, BodyContainer } from 'src/screen/Main/styles';
 import RoomBox from '../components/RoomBox';
 import SearchBox from '../components/SerchBox';
-import { UpperBox, RadiusBox } from './main';
 import MakeRoom from '../components/MakeRoom';
 import BottomBar from '../components/BottomBar';
 
@@ -19,12 +19,12 @@ function List() {
     <>
       <div>
         <SetBackGround>
-          <UpperBox>
+          <TopContainer>
             <SearchBoxBackGround>
               <SearchBox />
             </SearchBoxBackGround>
-          </UpperBox>
-          <RadiusBox>
+          </TopContainer>
+          <BodyContainer>
             <UpperMenu>
               <UpperLeft>전체</UpperLeft>
               <RiEqualizerLine />
@@ -35,7 +35,7 @@ function List() {
               <RoomBox />
               <RoomBox />
             </RoomBoxContainer>
-          </RadiusBox>
+          </BodyContainer>
           <ButtonPlus>
             <FaPlusCircle
               onClick={() => {
@@ -49,7 +49,7 @@ function List() {
             />
           </ButtonPlus>
         </SetBackGround>
-        <BottomBar />
+        <BottomBar currentPage="List" />
       </div>
       {modalOpen && <MakeRoom modal={setModalOpen} />}
     </>
