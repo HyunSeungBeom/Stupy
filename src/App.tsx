@@ -23,6 +23,7 @@ function App() {
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'gray',
+        minHeight: window.innerHeight,
       }}
     >
       <BrowserRouter>
