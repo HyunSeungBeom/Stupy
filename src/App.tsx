@@ -11,7 +11,7 @@ import Webcamchatting from './screen/webcamchatting';
 const GlobalStyle = createGlobalStyle`
 
 body{
-  background: white;
+  /* background: '#efefef'; */
 }
 `;
 
@@ -26,19 +26,29 @@ function App() {
     true,
   );
   return (
-    <BrowserRouter>
-      <GlobalStyle />
-      <RecoilRoot>
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/list" element={<List />} />
-          <Route path="/kakao/login" element={<Main />} />
-          <Route path="/mypage" element={<Mypage />} />
-          <Route path="/webcamchatting" element={<Webcamchatting />} />
-        </Routes>
-      </RecoilRoot>
-    </BrowserRouter>
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'gray',
+        minHeight: window.innerHeight,
+      }}
+    >
+      <BrowserRouter>
+        <GlobalStyle />
+        <RecoilRoot>
+          <Routes>
+            <Route path="/" element={<Main />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/list" element={<List />} />
+            <Route path="/kakao/login" element={<Main />} />
+            <Route path="/mypage" element={<Mypage />} />
+            <Route path="/webcamchatting" element={<Webcamchatting />} />
+          </Routes>
+        </RecoilRoot>
+      </BrowserRouter>
+    </div>
   );
 }
 

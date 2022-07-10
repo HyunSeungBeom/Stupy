@@ -1,11 +1,22 @@
-import styled from 'styled-components';
-import { FaPlusCircle } from 'react-icons/fa';
 import { useSearchParams } from 'react-router-dom';
 import { useEffect } from 'react';
-import TodoList from '../../components/TodoList';
-import BottomBar from '../../components/BottomBar';
+import moment from 'moment';
+import 'moment/locale/ko';
+import BottomBar from 'src/components/BottomBar';
+import TodoList from 'src/screen/Main/TodoList';
+import icoArrowDown from 'src/assets/icons/icoArrowDown.svg';
+import icoMaster from 'src/assets/icons/main/icoMaster.svg';
+import styled from 'styled-components';
+import { RATIO, PRIMARY } from 'src/constants';
+import {
+  SetBackGround,
+  TopContainer,
+  BodyContainer,
+} from 'src/components/Styled';
 
-function Main() {
+moment.locale('ko');
+
+export default function Main() {
   const [params] = useSearchParams();
   // console.log(params.get('token'));
 
@@ -20,68 +31,141 @@ function Main() {
 
   return (
     <SetBackGround>
-      <UpperBox>
-        <p>날짜 요일</p>
-      </UpperBox>
-      <RadiusBox>
-        <p> GROUP</p>
-        <GroupBox>내가참여중인 그룹</GroupBox>
-        <PlusBetween>
-          <p>
-            {' '}
-            TO DO LIST <FaPlusCircle />
-          </p>
-        </PlusBetween>
-        <TodoListBox>
-          <TodoList />
-          <TodoList />
-          <TodoList />
-          <TodoList />
-        </TodoListBox>
-      </RadiusBox>
-      <BottomBar />
+      <TopContainer>
+        <Welcome>WELCOME, STUPY</Welcome>
+        <Date>{moment().format('M월 D일 dddd')}</Date>
+      </TopContainer>
+      <BodyContainer>
+        <TitleContainer>
+          <Title>GROUP</Title>
+          <div>
+            참가 그룹{' '}
+            <span>
+              <img
+                src={icoArrowDown}
+                alt=""
+                style={{ width: 22, height: 24 }}
+              />
+            </span>
+          </div>
+        </TitleContainer>
+        <GroupImgContainer>
+          <img src={undefined} alt="" />
+        </GroupImgContainer>
+        <GroupNameContainer>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <GroupName>스터디 그룹 이름</GroupName>
+            <MemberCount>+0/4</MemberCount>
+          </div>
+          <img
+            src={icoMaster}
+            alt=""
+            style={{ width: 62, height: 25, alignSelf: 'center' }}
+          />
+        </GroupNameContainer>
+        <TitleContainer>
+          <Title>TO DO LIST</Title>
+        </TitleContainer>
+        {MOCK_UP_DATA.map((item) => {
+          return (
+            <TodoList
+              key={item.id}
+              subject={item.subject}
+              item={item.to_do_list_item}
+            />
+          );
+        })}
+      </BodyContainer>
+      <BottomBar currentPage="Main" />
     </SetBackGround>
   );
 }
 
-export default Main;
-const SetBackGround = styled.div`
-  background: gray;
-  height: 100vh;
+const Welcome = styled.div`
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
 `;
-
-export const UpperBox = styled.div`
+const Date = styled.div`
   font-size: 30px;
+  font-weight: 600;
+  color: white;
+`;
+const TitleContainer = styled.div`
+  display: flex;
+  height: 44px;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  border-radius: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-bottom: 14px;
+`;
+const Title = styled.div`
+  font-size: 20px;
   font-weight: bold;
-  padding-top: 30px;
-  padding-left: 5%;
-  height: 159px;
-  box-sizing: border-box;
+  color: ${PRIMARY};
 `;
-
-export const RadiusBox = styled.div`
-  padding-top: 30px;
-  padding-left: 5%;
-  padding-right: 5%;
-  border-radius: 29px;
-  padding-bottom: 50px;
-  background: white;
-`;
-
-const GroupBox = styled.div`
+const GroupImgContainer = styled.div`
   background: gray;
-  border-radius: 7px;
-  height: 149px;
-  padding-left: 3%;
-  padding-top: 20px;
-  box-sizing: border-box;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  height: 138px;
+  overflow: hidden;
+`;
+const GroupNameContainer = styled.div`
+  display: flex;
+  height: 58px;
+  justify-content: space-between;
+  background-color: white;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-bottom: 14px;
+`;
+const GroupName = styled.div`
+  font-size: 24px;
+  font-weight: bold;
+  color: black;
+  margin-right: 8px;
+`;
+const MemberCount = styled.div`
+  font-size: 20px;
+  font-weight: bold;
+  color: rgba(80, 80, 80, 0.69);
 `;
 
-const PlusBetween = styled.div`
-  display: flex;
-`;
-
-const TodoListBox = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-`;
+const MOCK_UP_DATA = [
+  {
+    id: 1,
+    subject: 'TO_DO_LIST_TITLE_A',
+    to_do_list_item: [
+      { id: 1, content: 'TO DO ITEM 1', is_done: true },
+      { id: 2, content: 'TO DO ITEM 2', is_done: true },
+      { id: 3, content: 'TO DO ITEM 3', is_done: true },
+      { id: 4, content: 'TO DO ITEM 4', is_done: false },
+    ],
+  },
+  {
+    id: 2,
+    subject: 'TO_DO_LIST_TITLE_B',
+    to_do_list_item: [
+      { id: 1, content: 'TO DO ITEM 1', is_done: true },
+      { id: 2, content: 'TO DO ITEM 2', is_done: true },
+      { id: 3, content: 'TO DO ITEM 3', is_done: true },
+      { id: 4, content: 'TO DO ITEM 4', is_done: false },
+    ],
+  },
+  {
+    id: 3,
+    subject: 'TO_DO_LIST_TITLE_C',
+    to_do_list_item: [
+      { id: 1, content: 'TO DO ITEM 1', is_done: true },
+      { id: 2, content: 'TO DO ITEM 2', is_done: true },
+      { id: 3, content: 'TO DO ITEM 3', is_done: true },
+      { id: 4, content: 'TO DO ITEM 4', is_done: false },
+    ],
+  },
+];
