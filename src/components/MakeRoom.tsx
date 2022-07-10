@@ -1,13 +1,14 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useState } from 'react';
-import { BsFillPeopleFill } from 'react-icons/bs';
 import styled from 'styled-components';
 import { FieldValues, useForm } from 'react-hook-form';
-import OpenChetModal from './OpenChetModal';
+import { useMutation } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import { ImgSource } from './ImgSource';
 import PerSonnelButton from './PersonnelButton';
 import HashInput from './HashInput';
+import { createRoomApi } from '../api/room';
 
 function MakeRoom({
   modal,
@@ -16,27 +17,53 @@ function MakeRoom({
 }) {
   const {
     register,
-    watch,
     formState: { errors },
     handleSubmit,
   } = useForm();
 
   const [count, setCount] = useState<number>(1);
   const [imagePreview, setImagePreview] = useState<File | null>(null);
+  const [hashArr, setHashArr] = useState<string[] | []>([]);
+  const nav = useNavigate();
+
+  type MakeRoomTypes = {
+    image: File;
+    title: string;
+    content: string;
+    hashtag: [] | string[];
+    password: string;
+    open_kakao: string;
+    max_people: number;
+  };
 
   const onSubmit = (data: FieldValues) => {
     const formData = new FormData();
-
     if (imagePreview && count) {
       formData.append('image', imagePreview);
       formData.append('title', data.title);
       formData.append('content', data.content);
-      formData.append('hashtag', data.hashtag);
+      hashArr.forEach((hash) => formData.append('hashtag[]', hash));
+      // formData.append('hashtag[]', hashArr);
       formData.append('password', data.password);
-      formData.append('open_kakao', data.open_kakao);
-      // formData.append('max_people', count);
+      formData.append('openKakao', data.open_kakao);
+      formData.append('maxPeople', count.toString());
     }
+    console.log(formData.get('image'));
+    console.log(formData.get('title'));
+    console.log(formData.get('content'));
+    console.log(formData.getAll('hashtag[]'));
+    console.log(formData.get('password'));
+    console.log(formData.get('open_kakao'));
+    console.log(formData.get('max_people'));
+
+    MakeRoomdata.mutate(formData);
   };
+
+  const MakeRoomdata = useMutation((data: FormData) => createRoomApi(data), {
+    onSuccess: () => {
+      nav('/');
+    },
+  });
   const modalClose = () => {
     modal(false);
   };
@@ -56,13 +83,13 @@ function MakeRoom({
           <ModalHeader>
             <ImgSource set={setImagePreview} />
           </ModalHeader>
-
           <ModalMiddle>
             <PerSonnelButton set={setCount} count={count} />
             <InputText>
               그룹이름<StarColor>*</StarColor>
             </InputText>
             <OrangeInput
+              placeholder="그룹이름을 입력하세요"
               type="title"
               {...register('title', {
                 required: true,
@@ -75,7 +102,7 @@ function MakeRoom({
             {errors.title && errors.title.type === 'maxLength' && (
               <ErrorText>최대 8글자</ErrorText>
             )}
-            <div style={{ fontWeight: 'bold' }}>
+            <div style={{ fontWeight: 'bold', marginTop: '20px' }}>
               그룹설명<StarColor>*</StarColor>
             </div>
             <Writetext
@@ -96,10 +123,12 @@ function MakeRoom({
               오픈채팅 주소<StarColor>*</StarColor>
             </InputText>
             <OrangeInput
+              placeholder="오픈채팅 주소를 입력하세요"
               type="open_kakao"
               {...register('open_kakao', {
                 required: true,
                 maxLength: 50,
+                pattern: /open.kakao.com/,
               })}
             />
             {errors.open_kakao && errors.open_kakao.type === 'required' && (
@@ -108,11 +137,15 @@ function MakeRoom({
             {errors.open_kakao && errors.open_kakao.type === 'maxLength' && (
               <ErrorText>글자수(50글자)가 초과되었습니다.</ErrorText>
             )}
+            {errors.open_kakao && errors.open_kakao.type === 'pattern' && (
+              <ErrorText>open.kakao.com 형식에 맞춰주세요!</ErrorText>
+            )}
             <InputText>
               비밀번호<StarColor>*</StarColor>
             </InputText>
             <OrangeInput
               type="password"
+              placeholder="비밀번호를 입력하세요 (숫자 4글자)"
               {...register('password', {
                 required: true,
                 maxLength: 4,
@@ -132,10 +165,8 @@ function MakeRoom({
             {errors.password && errors.password.type === 'minLength' && (
               <ErrorText>4자리 입력해주세요.</ErrorText>
             )}
-            <InputText>
-              해시태그<StarColor>*</StarColor>
-            </InputText>
-            <HashInput />
+            <InputText>해시태그</InputText>
+            <HashInput set={setHashArr} hashArr2={hashArr} />
           </ModalMiddle>
 
           <ModalBtnBox>
@@ -176,18 +207,19 @@ const StarColor = styled.span`
 `;
 
 const InputText = styled.div`
-  font-size: 17px;
+  margin-top: 21px;
+  font-size: 16px;
   font-weight: 600;
   line-height: 20px;
 `;
 const ErrorText = styled.p`
   font-size: 14px;
   font-weight: 400;
-  line-height: 14px;
   color: #ef3061;
 `;
 const OrangeInput = styled.input`
   width: 326px;
+  margin-top: 10px;
   font-size: 14px;
   border: none;
   border-bottom: #f8dac9 2px solid;
@@ -208,7 +240,7 @@ const Writetext = styled.textarea`
 
 const ModalMiddle = styled.div`
   padding: 20px 25px;
-  height: 200px;
+  height: 270px;
   column-gap: 10px;
   overflow-y: auto; //스크롤바 없애기
   ::-webkit-scrollbar {

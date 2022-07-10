@@ -2,12 +2,12 @@ import styled from 'styled-components';
 import { RiEqualizerLine } from 'react-icons/ri';
 import { FaPlusCircle } from 'react-icons/fa';
 import { useState } from 'react';
-import RoomBox from '../components/RoomBox';
-import SearchBox from '../components/SerchBox';
-import { UpperBox, RadiusBox } from './Main';
-import MakeRoom from '../components/MakeRoom';
-import BottomBar from '../components/BottomBar';
-import HashInput from '../components/HashInput';
+import RoomBox from '../../components/RoomBox';
+import SearchBox from '../../components/SerchBox';
+import { UpperBox, RadiusBox } from '../Main';
+import MakeRoom from '../../components/MakeRoom';
+import BottomBar from '../../components/BottomBar';
+import HashInput from '../../components/HashInput';
 
 function List() {
   const [mouse, setMouse] = useState<boolean>(false);

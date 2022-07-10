@@ -5,11 +5,18 @@ import React, { useCallback, useState } from 'react';
 import { jsx, css } from '@emotion/react';
 import styled from 'styled-components';
 
-export default function HashInput() {
+export default function HashInput({
+  set,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  hashArr2,
+}: {
+  set: React.Dispatch<React.SetStateAction<[] | string[]>>;
+  hashArr2: string[];
+}) {
   // onChange로 관리할 문자열
   const [hashtag, setHashtag] = useState<string | ''>('');
   // 해시태그를 담을 배열
-  const [hashArr, setHashArr] = useState<string[] | []>([]);
+  // const [hashArr, setHashArr] = useState<string[] | []>([]);
   const onChangeHashtag = (e: React.ChangeEvent<HTMLInputElement>) => {
     setHashtag(e.target.value);
   };
@@ -26,23 +33,20 @@ export default function HashInput() {
         $HashWrapInner.addEventListener('click', () => {
           $HashWrapOuter?.removeChild($HashWrapInner);
           console.log($HashWrapInner.innerHTML);
-          setHashArr(hashArr.filter((hashtag) => hashtag));
+          set(hashArr2.filter((hashtag) => hashtag));
         });
 
         /* enter 키 코드 :13 */
-        if (
-          e.keyCode === 188 ||
-          (e.keyCode === 13 && e.target.value.trim() !== '')
-        ) {
+        if (e.keyCode === 13 && e.target.value.trim() !== '') {
           console.log('Enter Key 입력됨!', e.target.value);
           $HashWrapInner.innerHTML = `#${e.target.value}`;
           $HashWrapOuter?.appendChild($HashWrapInner);
-          setHashArr((hashArr) => [...hashArr, hashtag]);
+          set((hashArr: any) => [...hashArr, hashtag]);
           setHashtag('');
         }
       }
     },
-    [hashtag, hashArr],
+    [hashtag, hashArr2],
   );
   return (
     <div className="HashWrap" css={hashDivrap}>
@@ -53,7 +57,7 @@ export default function HashInput() {
         value={hashtag}
         onChange={onChangeHashtag}
         onKeyUp={onKeyUp}
-        placeholder="해시태그 입력"
+        placeholder="해시태그 입력(최대 3개)"
       />
     </div>
   );
@@ -63,13 +67,11 @@ export default function HashInput() {
 
 const hashDivrap = css`
   color: rgb(52, 58, 64);
-  font-size: 1.125rem;
+  font-size: 14px;
   display: flex;
   flex-wrap: wrap;
-  letter-spacing: -0.6px;
-  color: #444241;
-  border-bottom: 1.6px solid #ff6e35;
-  padding: 2px 2px 8px 2px;
+
+  border-bottom: #f8dac9 2px solid;
 
   .HashWrapOuter {
     display: flex;
@@ -77,35 +79,31 @@ const hashDivrap = css`
   }
 
   .HashWrapInner {
-    margin-top: 5px;
-    background: #ffeee7;
-    border-radius: 56px;
-    padding: 8px 12px;
+    background: #f8dac9;
+    border-radius: 20px;
+    padding: 4px 8px;
     color: #ff6e35;
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: bold;
-    font-size: 1.4rem;
-    line-height: 20px;
+    font-size: 14px;
+    line-height: 10px;
     margin-right: 5px;
     cursor: pointer;
   }
 
   .HashInput {
     width: auto;
-    margin: 10px;
     display: inline-flex;
     outline: none;
     cursor: text;
-    line-height: 2rem;
-    margin-bottom: 0.75rem;
-    min-width: 8rem;
     border: none;
   }
 `;
 const OrangeInput = styled.input`
   width: 326px;
+  margin-top: 10px;
   font-size: 14px;
   border: none;
   border-bottom: #f8dac9 2px solid;
