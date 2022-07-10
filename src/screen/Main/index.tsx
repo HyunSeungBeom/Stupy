@@ -7,6 +7,7 @@ import TodoList from 'src/screen/Main/TodoList';
 import icoArrowDown from 'src/assets/icons/icoArrowDown.svg';
 import icoMaster from 'src/assets/icons/main/icoMaster.svg';
 import styled from 'styled-components';
+import imgSample from 'src/assets/images/imgSample.png';
 import { RATIO, PRIMARY } from 'src/constants';
 import {
   SetBackGround,
@@ -51,9 +52,9 @@ export default function Main() {
             </span>
           </div>
         </TitleContainer>
-        <GroupImgContainer>
-          <img src={undefined} alt="" />
-        </GroupImgContainer>
+        <GroupImgContainer
+          style={{ background: `url(${imgSample})`, backgroundSize: 'cover' }}
+        />
         <GroupNameContainer>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <GroupName>스터디 그룹 이름</GroupName>
