@@ -5,9 +5,11 @@ import {
   SetBackGround,
   TopContainer,
   BodyContainer,
+  TitleContainer,
+  Title,
 } from 'src/components/Styled';
 import BottomBar from 'src/components/BottomBar';
-import RoomBox from './RoomBox';
+import Room from './Room';
 import SearchBox from './SerchBox';
 
 function List() {
@@ -20,16 +22,16 @@ function List() {
         </SearchBoxBackGround>
       </TopContainer>
       <BodyContainer>
-        <UpperMenu>
-          <UpperLeft>전체</UpperLeft>
+        <TitleContainer>
+          <Title>전체</Title>
           <RiEqualizerLine />
-        </UpperMenu>
-        <RoomBoxContainer>
-          <RoomBox />
-          <RoomBox />
-          <RoomBox />
-          <RoomBox />
-        </RoomBoxContainer>
+        </TitleContainer>
+        <RoomListContainer>
+          <Room />
+          <Room />
+          <Room />
+          <Room />
+        </RoomListContainer>
       </BodyContainer>
       <BottomBar currentPage="List" />
     </SetBackGround>
@@ -44,32 +46,8 @@ const SearchBoxBackGround = styled.div`
   margin-right: auto;
 `;
 
-const RoomBoxContainer = styled.div`
+const RoomListContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-`;
-
-const UpperMenu = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  font-size: 30px;
-  font-weight: bold;
-`;
-
-const UpperLeft = styled.div``;
-
-const ButtonPlus = styled.div`
-  width: 80px;
-  height: 80px;
-  background-color: white;
-  display: flex;
-  position: sticky;
-  bottom: 40px;
-  right: 50px;
-  border-radius: 160px;
-  overflow: hidden;
-  float: right;
-  z-index: 999;
+  gap: 12px;
 `;
