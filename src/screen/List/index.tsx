@@ -1,67 +1,42 @@
 import styled from 'styled-components';
 import { RiEqualizerLine } from 'react-icons/ri';
-import { FaPlusCircle } from 'react-icons/fa';
 import { useState } from 'react';
-import { TopContainer, BodyContainer } from 'src/screen/Main/styles';
+import {
+  SetBackGround,
+  TopContainer,
+  BodyContainer,
+} from 'src/components/Styled';
 import BottomBar from 'src/components/BottomBar';
 import RoomBox from './RoomBox';
 import SearchBox from './SerchBox';
-import MakeRoom from './MakeRoom';
 
 function List() {
   const [mouse, setMouse] = useState<boolean>(false);
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const modalClose = () => {
-    setModalOpen(!modalOpen);
-  };
-
   return (
-    <>
-      <div>
-        <SetBackGround>
-          <TopContainer>
-            <SearchBoxBackGround>
-              <SearchBox />
-            </SearchBoxBackGround>
-          </TopContainer>
-          <BodyContainer>
-            <UpperMenu>
-              <UpperLeft>전체</UpperLeft>
-              <RiEqualizerLine />
-            </UpperMenu>
-            <RoomBoxContainer>
-              <RoomBox />
-              <RoomBox />
-              <RoomBox />
-              <RoomBox />
-            </RoomBoxContainer>
-          </BodyContainer>
-          <ButtonPlus>
-            <FaPlusCircle
-              onClick={() => {
-                modalClose();
-              }}
-              size="80px"
-              cursor="pointer"
-              color={mouse ? 'red' : 'black'}
-              onMouseOver={() => setMouse(true)}
-              onMouseLeave={() => setMouse(false)}
-            />
-          </ButtonPlus>
-        </SetBackGround>
-        <BottomBar currentPage="List" />
-      </div>
-      {modalOpen && <MakeRoom modal={setModalOpen} />}
-    </>
+    <SetBackGround>
+      <TopContainer>
+        <SearchBoxBackGround>
+          <SearchBox />
+        </SearchBoxBackGround>
+      </TopContainer>
+      <BodyContainer>
+        <UpperMenu>
+          <UpperLeft>전체</UpperLeft>
+          <RiEqualizerLine />
+        </UpperMenu>
+        <RoomBoxContainer>
+          <RoomBox />
+          <RoomBox />
+          <RoomBox />
+          <RoomBox />
+        </RoomBoxContainer>
+      </BodyContainer>
+      <BottomBar currentPage="List" />
+    </SetBackGround>
   );
 }
 
 export default List;
-
-const SetBackGround = styled.div`
-  background: gray;
-  padding-bottom: 100px;
-`;
 
 const SearchBoxBackGround = styled.div`
   width: 100%;

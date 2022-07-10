@@ -17,19 +17,29 @@ body{
 
 function App() {
   return (
-    <BrowserRouter>
-      <GlobalStyle />
-      <RecoilRoot>
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/list" element={<List />} />
-          <Route path="/kakao/login" element={<Main />} />
-          <Route path="/mypage" element={<Mypage />} />
-          <Route path="/webcamchatting" element={<Webcamchatting />} />
-        </Routes>
-      </RecoilRoot>
-    </BrowserRouter>
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'gray',
+        height: window.innerHeight,
+      }}
+    >
+      <BrowserRouter>
+        <GlobalStyle />
+        <RecoilRoot>
+          <Routes>
+            <Route path="/" element={<Main />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/list" element={<List />} />
+            <Route path="/kakao/login" element={<Main />} />
+            <Route path="/mypage" element={<Mypage />} />
+            <Route path="/webcamchatting" element={<Webcamchatting />} />
+          </Routes>
+        </RecoilRoot>
+      </BrowserRouter>
+    </div>
   );
 }
 

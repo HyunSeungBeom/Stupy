@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { SetBackGround } from 'src/components/Styled';
 import styled from 'styled-components';
 import icoList from 'src/assets/icons/bottomTab/icoList.svg';
 import icoListOn from 'src/assets/icons/bottomTab/icoListOn.svg';
@@ -6,6 +7,7 @@ import icoMain from 'src/assets/icons/bottomTab/icoMain.svg';
 import icoMainOn from 'src/assets/icons/bottomTab/icoMainOn.svg';
 import icoSetting from 'src/assets/icons/bottomTab/icoSetting.svg';
 import { RATIO } from '../constants';
+import { CreateButton } from './Button';
 
 type Props = {
   currentPage: 'List' | 'Main' | 'Mypage';
@@ -25,6 +27,7 @@ export default function BottomBar({ currentPage }: Props) {
 
   return (
     <BottomBox>
+      {currentPage === 'List' && <CreateButton />}
       <BottomNav
         src={currentPage === 'List' ? icoListOn : icoList}
         alt=""
@@ -45,6 +48,7 @@ export default function BottomBar({ currentPage }: Props) {
 }
 
 const BottomBox = styled.div`
+  width: ${500 * RATIO}px;
   max-width: 500px;
   height: 90px;
   display: flex;
