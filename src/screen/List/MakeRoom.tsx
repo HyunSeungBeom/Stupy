@@ -5,9 +5,9 @@ import { BsFillPeopleFill } from 'react-icons/bs';
 import styled from 'styled-components';
 import { FieldValues, useForm } from 'react-hook-form';
 import OpenChetModal from './OpenChetModal';
-import { ImgSource } from './ImgSource';
-import PerSonnelButton from './PersonnelButton';
-import InputBox from './InputBox';
+import { ImgSource } from '../../components/ImgSource';
+import PerSonnelButton from '../../components/PersonnelButton';
+import InputBox from '../../components/InputBox';
 
 function MakeRoom({
   modal,

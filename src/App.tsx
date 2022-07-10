@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import { createGlobalStyle } from 'styled-components';
-import List from './screen/list';
+import List from './screen/List';
 import Login from './screen/login';
 import Main from './screen/Main';
 import './App.css';

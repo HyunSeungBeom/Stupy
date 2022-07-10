@@ -3,10 +3,10 @@ import { RiEqualizerLine } from 'react-icons/ri';
 import { FaPlusCircle } from 'react-icons/fa';
 import { useState } from 'react';
 import { TopContainer, BodyContainer } from 'src/screen/Main/styles';
-import RoomBox from '../components/RoomBox';
-import SearchBox from '../components/SerchBox';
-import MakeRoom from '../components/MakeRoom';
-import BottomBar from '../components/BottomBar';
+import BottomBar from 'src/components/BottomBar';
+import RoomBox from './RoomBox';
+import SearchBox from './SerchBox';
+import MakeRoom from './MakeRoom';
 
 function List() {
   const [mouse, setMouse] = useState<boolean>(false);
