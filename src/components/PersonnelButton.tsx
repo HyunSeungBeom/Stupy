@@ -19,12 +19,17 @@ function PerSonnelButton({
   };
 
   return (
-    <div style={{ paddingTop: '30px', boxSizing: 'border-box' }}>
+    <div
+      style={{ boxSizing: 'border-box', display: 'flex', paddingTop: '15px' }}
+    >
       <Personnel>
-        인원 <p>*</p>{' '}
+        <div style={{ width: '50px' }}>
+          인원<span>*</span>{' '}
+        </div>
       </Personnel>
       <MinusPlusBox>
-        <Minus onClick={MinusClick} cursor="pointer" /> {count}명{' '}
+        <Minus onClick={MinusClick} cursor="pointer" />
+        <div style={{ width: '40px', display: 'flex' }}>{count}명</div>
         <Plus onClick={PlusClick} cursor="pointer" />
       </MinusPlusBox>
       <UnderLineOrange />
@@ -35,24 +40,33 @@ function PerSonnelButton({
 export default PerSonnelButton;
 
 const Personnel = styled.div`
-  margin-left: 50px;
+  text-align: center;
+  align-items: center;
   display: flex;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: bold;
-  p {
-    color: red;
+  margin-right: 80px;
+  span {
+    color: #ef3061;
   }
 `;
 
 const MinusPlusBox = styled.div`
+  width: 200px;
+  text-align: center;
+  align-items: center;
   font-size: 17px;
   display: flex;
   padding-left: 50px;
   font-weight: bold;
   gap: 45px;
+  flex-direction: row;
 `;
 
 const UnderLineOrange = styled(UnderLine)`
-  margin-left: 51px;
-  margin-bottom: 20px;
+  position: absolute;
+  width: 160px;
+  height: 0px;
+  left: 214px;
+  top: 416.01px;
 `;

@@ -16,6 +16,15 @@ body{
 `;
 
 function App() {
+  document.addEventListener(
+    'keydown',
+    function (event) {
+      if (event.code === 'Enter') {
+        event.preventDefault();
+      }
+    },
+    true,
+  );
   return (
     <div
       style={{

@@ -1,13 +1,15 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useState } from 'react';
-import { BsFillPeopleFill } from 'react-icons/bs';
 import styled from 'styled-components';
 import { FieldValues, useForm } from 'react-hook-form';
-import OpenChetModal from 'src/components/OpenChetModal';
+import { useMutation } from 'react-query';
+import { useNavigate } from 'react-router-dom';
+import OpenChetModal from 'src/screen/List/OpenChetModal';
 import { ImgSource } from './ImgSource';
 import PerSonnelButton from './PersonnelButton';
-import InputBox from './InputBox';
+import HashInput from './HashInput';
+import { createRoomApi } from '../api/room';
 
 function MakeRoom({
   modal,
@@ -16,20 +18,53 @@ function MakeRoom({
 }) {
   const {
     register,
-    watch,
     formState: { errors },
     handleSubmit,
   } = useForm();
 
   const [count, setCount] = useState<number>(1);
   const [imagePreview, setImagePreview] = useState<File | null>(null);
+  const [hashArr, setHashArr] = useState<string[] | []>([]);
+  const nav = useNavigate();
+
+  type MakeRoomTypes = {
+    image: File;
+    title: string;
+    content: string;
+    hashtag: [] | string[];
+    password: string;
+    open_kakao: string;
+    max_people: number;
+  };
+
   const onSubmit = (data: FieldValues) => {
     const formData = new FormData();
-    if (imagePreview) {
+    if (imagePreview && count) {
       formData.append('image', imagePreview);
-      // formData.append('max_people', count);
+      formData.append('title', data.title);
+      formData.append('content', data.content);
+      hashArr.forEach((hash) => formData.append('hashtag[]', hash));
+      // formData.append('hashtag[]', hashArr);
+      formData.append('password', data.password);
+      formData.append('openKakao', data.open_kakao);
+      formData.append('maxPeople', count.toString());
     }
+    console.log(formData.get('image'));
+    console.log(formData.get('title'));
+    console.log(formData.get('content'));
+    console.log(formData.getAll('hashtag[]'));
+    console.log(formData.get('password'));
+    console.log(formData.get('open_kakao'));
+    console.log(formData.get('max_people'));
+
+    MakeRoomdata.mutate(formData);
   };
+
+  const MakeRoomdata = useMutation((data: FormData) => createRoomApi(data), {
+    onSuccess: () => {
+      nav('/');
+    },
+  });
   const modalClose = () => {
     modal(false);
   };
@@ -42,53 +77,99 @@ function MakeRoom({
       document.body.style.cssText = '';
     };
   }, []);
-  console.log(errors.groupname);
   return (
     <ModalContainer>
       <ModalInner>
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalHeader>
             <ImgSource set={setImagePreview} />
-            <PerSonnelButton set={setCount} count={count} />
           </ModalHeader>
           <ModalMiddle>
-            <InputBox
-              text="그룹이름"
-              placetext="그룹이름을 입력하세요.(최대 8글자) "
-              type="groupname"
-              register={register}
-              required
-              maxLength={8}
-              errors={errors}
+            <PerSonnelButton set={setCount} count={count} />
+            <InputText>
+              그룹이름<StarColor>*</StarColor>
+            </InputText>
+            <OrangeInput
+              placeholder="그룹이름을 입력하세요"
+              type="title"
+              {...register('title', {
+                required: true,
+                maxLength: 8,
+              })}
             />
-            <div style={{ fontWeight: 'bold' }}>그룹설명*</div>
-            <Writetext placeholder="그룹 설명을 입력하세요.(최대 70글자)" />
-            <InputBox
-              text="해시태그"
-              placetext="해시태그를 입력하세요.(최대 3개) "
-              type="text"
-              register={register}
-              required={false}
-              errors={errors}
+            {errors.title && errors.title.type === 'required' && (
+              <ErrorText>필수 입력입니다.</ErrorText>
+            )}
+            {errors.title && errors.title.type === 'maxLength' && (
+              <ErrorText>최대 8글자</ErrorText>
+            )}
+            <div style={{ fontWeight: 'bold', marginTop: '20px' }}>
+              그룹설명<StarColor>*</StarColor>
+            </div>
+            <Writetext
+              placeholder="그룹 설명을 입력하세요.(최대 70글자)"
+              {...register('content', {
+                required: true,
+                maxLength: 70,
+              })}
             />
-            <InputBox
-              text="비밀번호"
-              placetext="비밀번호를 입력하세요.(숫자 4글자) "
+            {errors.content && errors.content.type === 'required' && (
+              <ErrorText>필수 입력입니다.</ErrorText>
+            )}
+            {errors.content && errors.content.type === 'maxLength' && (
+              <ErrorText>글자수(70글자)가 초과되었습니다.</ErrorText>
+            )}
+
+            <InputText>
+              오픈채팅 주소<StarColor>*</StarColor>
+            </InputText>
+            <OrangeInput
+              placeholder="오픈채팅 주소를 입력하세요"
+              type="open_kakao"
+              {...register('open_kakao', {
+                required: true,
+                maxLength: 50,
+                pattern: /open.kakao.com/,
+              })}
+            />
+            {errors.open_kakao && errors.open_kakao.type === 'required' && (
+              <ErrorText>필수 입력입니다.</ErrorText>
+            )}
+            {errors.open_kakao && errors.open_kakao.type === 'maxLength' && (
+              <ErrorText>글자수(50글자)가 초과되었습니다.</ErrorText>
+            )}
+            {errors.open_kakao && errors.open_kakao.type === 'pattern' && (
+              <ErrorText>open.kakao.com 형식에 맞춰주세요!</ErrorText>
+            )}
+            <InputText>
+              비밀번호<StarColor>*</StarColor>
+            </InputText>
+            <OrangeInput
               type="password"
-              register={register}
-              required
-              maxLength={4}
-              errors={errors}
+              placeholder="비밀번호를 입력하세요 (숫자 4글자)"
+              {...register('password', {
+                required: true,
+                maxLength: 4,
+                minLength: 4,
+                pattern: /^[0-9]*$/,
+              })}
             />
-            <InputBox
-              text="카카오톡 오픈채팅 주소"
-              placetext="카카오톡 오픈채팅 주소를 입력하세요."
-              type="text"
-              register={register}
-              required
-              errors={errors}
-            />
+            {errors.password && errors.password.type === 'required' && (
+              <ErrorText>필수 입력입니다.</ErrorText>
+            )}
+            {errors.password && errors.password.type === 'maxLength' && (
+              <ErrorText>4자리 입력해주세요.</ErrorText>
+            )}
+            {errors.password && errors.password.type === 'pattern' && (
+              <ErrorText>숫자만 입력해주세요.</ErrorText>
+            )}
+            {errors.password && errors.password.type === 'minLength' && (
+              <ErrorText>4자리 입력해주세요.</ErrorText>
+            )}
+            <InputText>해시태그</InputText>
+            <HashInput set={setHashArr} hashArr2={hashArr} />
           </ModalMiddle>
+
           <ModalBtnBox>
             <ModalBtn type="submit">방만들기</ModalBtn>
           </ModalBtnBox>
@@ -122,6 +203,29 @@ const Zindex = styled.div`
   display: relative;
   z-index: -1;
 `;
+const StarColor = styled.span`
+  color: #ef3061;
+`;
+
+const InputText = styled.div`
+  margin-top: 21px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+`;
+const ErrorText = styled.p`
+  font-size: 14px;
+  font-weight: 400;
+  color: #ef3061;
+`;
+const OrangeInput = styled.input`
+  width: 326px;
+  margin-top: 10px;
+  font-size: 14px;
+  border: none;
+  border-bottom: #f8dac9 2px solid;
+  outline: none;
+`;
 
 const Writetext = styled.textarea`
   font-size: 14px;
@@ -136,6 +240,9 @@ const Writetext = styled.textarea`
 `;
 
 const ModalMiddle = styled.div`
+  padding: 20px 25px;
+  height: 270px;
+  column-gap: 10px;
   overflow-y: auto; //스크롤바 없애기
   ::-webkit-scrollbar {
     display: none;
@@ -155,13 +262,9 @@ const ModalInner = styled.div`
   top: 50%;
   transform: translateY(-50%);
   margin: 0 auto;
-  padding: 20px 25px;
 `;
 
-const ModalHeader = styled.div`
-  display: flex;
-  padding-bottom: 20px;
-`;
+const ModalHeader = styled.div``;
 
 const ModalBtnBox = styled.div`
   display: flex;

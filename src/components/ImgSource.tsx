@@ -38,12 +38,11 @@ export function ImgSource({
 }
 
 const ImageSize = styled.img`
-  border-radius: 109px;
-  background-color: gray;
-  width: 109px;
-  height: 109px;
-  border: 1px solid black;
-  position: relative;
+  width: 380px;
+  height: 180px;
+  border-radius: 5px 5px 0px 0px;
+  left: -24px;
+  top: -20px;
 `;
 
 const SetImage = styled.input`
@@ -58,6 +57,6 @@ const SetImagediv = styled.div`
   width: 47px;
   height: 47px;
   position: absolute;
-  bottom: 3px;
-  right: -5px;
+  bottom: -23px;
+  right: 13px;
 `;
