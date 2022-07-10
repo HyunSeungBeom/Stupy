@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { BsFillPeopleFill } from 'react-icons/bs';
 import styled from 'styled-components';
 import { FieldValues, useForm } from 'react-hook-form';
-import OpenChetModal from './OpenChetModal';
+import OpenChetModal from 'src/screen/List/OpenChetModal';
 import { ImgSource } from './ImgSource';
 import PerSonnelButton from './PersonnelButton';
 import InputBox from './InputBox';
