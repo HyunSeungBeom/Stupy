@@ -23,4 +23,22 @@ const BodyContainer = styled.div`
   background-color: #efefef;
 `;
 
-export { SetBackGround, TopContainer, BodyContainer };
+const TitleContainer = styled.div`
+  display: flex;
+  height: 44px;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  border-radius: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-bottom: 14px;
+`;
+
+const Title = styled.div`
+  font-size: 20px;
+  font-weight: bold;
+  color: ${PRIMARY};
+`;
+
+export { SetBackGround, TopContainer, BodyContainer, TitleContainer, Title };

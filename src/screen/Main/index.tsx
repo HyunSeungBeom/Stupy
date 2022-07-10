@@ -12,6 +12,8 @@ import {
   SetBackGround,
   TopContainer,
   BodyContainer,
+  TitleContainer,
+  Title,
 } from 'src/components/Styled';
 
 moment.locale('ko');
@@ -91,22 +93,7 @@ const Date = styled.div`
   font-weight: 600;
   color: white;
 `;
-const TitleContainer = styled.div`
-  display: flex;
-  height: 44px;
-  align-items: center;
-  justify-content: space-between;
-  background-color: white;
-  border-radius: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
-  margin-bottom: 14px;
-`;
-const Title = styled.div`
-  font-size: 20px;
-  font-weight: bold;
-  color: ${PRIMARY};
-`;
+
 const GroupImgContainer = styled.div`
   background: gray;
   border-top-left-radius: 10px;
