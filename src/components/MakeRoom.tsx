@@ -5,11 +5,11 @@ import styled from 'styled-components';
 import { FieldValues, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
-import OpenChetModal from 'src/components/OpenChetModal';
 import { ImgSource } from './ImgSource';
 import PerSonnelButton from './PersonnelButton';
 import HashInput from './HashInput';
 import { createRoomApi } from '../api/room';
+import defaultimage from '../assets/images/imgSample.png';
 
 function MakeRoom({
   modal,
@@ -23,33 +23,24 @@ function MakeRoom({
   } = useForm();
 
   const [count, setCount] = useState<number>(1);
-  const [imagePreview, setImagePreview] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<File | undefined>();
   const [hashArr, setHashArr] = useState<string[] | []>([]);
   const nav = useNavigate();
-
-  type MakeRoomTypes = {
-    image: File;
-    title: string;
-    content: string;
-    hashtag: [] | string[];
-    password: string;
-    open_kakao: string;
-    max_people: number;
-  };
 
   const onSubmit = (data: FieldValues) => {
     const formData = new FormData();
 
-    if (imagePreview && count) {
+    if (imagePreview) {
       formData.append('image', imagePreview);
-      formData.append('title', data.title);
-      formData.append('content', data.content);
-      hashArr.forEach((hash) => formData.append('hashtag[]', hash));
-      // formData.append('hashtag[]', hashArr);
-      formData.append('password', data.password);
-      formData.append('openKakao', data.open_kakao);
-      formData.append('maxPeople', count.toString());
     }
+    formData.append('title', data.title);
+    formData.append('content', data.content);
+    hashArr.forEach((hash) => formData.append('hashtag[]', hash));
+    // formData.append('hashtag[]', hashArr);
+    formData.append('password', data.password);
+    formData.append('openKakao', data.open_kakao);
+    formData.append('maxPeople', count.toString());
+
     console.log(formData.get('image'));
     console.log(formData.get('title'));
     console.log(formData.get('content'));

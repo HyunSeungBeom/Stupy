@@ -4,13 +4,13 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import defaultimage from '../assets/icons/makeroom/DefaultImage.png';
+import defaultimage from '../assets/images/imgSample.png';
 import ImgPlus from '../assets/icons/makeroom/ImgPlus.svg';
 
 export function ImgSource({
   set,
 }: {
-  set: React.Dispatch<React.SetStateAction<File | null>>;
+  set: React.Dispatch<React.SetStateAction<File | undefined>>;
 }) {
   const [imagePreview, setImagePreview] = useState(defaultimage);
   const { watch, register } = useForm();

@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import io from 'socket.io-client';
+import styled from 'styled-components';
+import { RATIO } from 'src/constants';
 import Video from './Video/index';
 import { WebRTCUser } from '../../types/types';
 
@@ -100,6 +102,7 @@ function WebCam() {
 
   useEffect(() => {
     socketRef.current = io.connect(SOCKET_SERVER_URL);
+
     getLocalStream();
 
     socketRef.current.on(
@@ -207,24 +210,25 @@ function WebCam() {
   }, [createPeerConnection, getLocalStream]);
 
   return (
-    <div>
-      <video
-        style={{
-          width: 240,
-          height: 240,
-          margin: 5,
-          backgroundColor: 'black',
-        }}
-        muted
-        ref={localVideoRef}
-        autoPlay
-      />
+    <Contanier>
+      <VideoBox muted ref={localVideoRef} autoPlay />
       {users.map((user, index) => (
         // eslint-disable-next-line react/no-array-index-key
         <Video key={index} userid={user.userid} stream={user.stream} />
       ))}
-    </div>
+    </Contanier>
   );
 }
 
 export default WebCam;
+
+const Contanier = styled.div`
+  display: flex;
+`;
+
+const VideoBox = styled.video`
+  max-width: 240px;
+  width: ${100 * RATIO}px;
+
+  background-color: blue;
+`;
