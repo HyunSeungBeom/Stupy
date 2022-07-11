@@ -16,7 +16,7 @@ const pc_config = {
     },
   ],
 };
-const SOCKET_SERVER_URL = 'http://localhost:3001';
+const SOCKET_SERVER_URL = 'http://13.125.58.110:3000/';
 
 function WebCam() {
   console.log('bye');

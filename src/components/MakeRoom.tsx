@@ -39,6 +39,7 @@ function MakeRoom({
 
   const onSubmit = (data: FieldValues) => {
     const formData = new FormData();
+
     if (imagePreview && count) {
       formData.append('image', imagePreview);
       formData.append('title', data.title);
@@ -52,10 +53,11 @@ function MakeRoom({
     console.log(formData.get('image'));
     console.log(formData.get('title'));
     console.log(formData.get('content'));
+    console.log(typeof formData.get('hashtag[]'));
     console.log(formData.getAll('hashtag[]'));
     console.log(formData.get('password'));
-    console.log(formData.get('open_kakao'));
-    console.log(formData.get('max_people'));
+    console.log(formData.get('openKakao'));
+    console.log(formData.get('maxPeople'));
 
     MakeRoomdata.mutate(formData);
   };
