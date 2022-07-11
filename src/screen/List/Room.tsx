@@ -1,21 +1,75 @@
 import { useState } from 'react';
 import { RATIO } from 'src/constants';
 import styled from 'styled-components';
-import icoSampleTag from 'src/assets/icons/icoSampleTag.svg';
-import imgSample from 'src/assets/images/icoSample.png';
+import icoOn from 'src/assets/icons/icoOn.svg';
+import icoOff from 'src/assets/icons/icoOff.svg';
+import ico1st from 'src/assets/icons/ico1st.svg';
+import ico2nd from 'src/assets/icons/ico2nd.svg';
+import ico3rd from 'src/assets/icons/ico3rd.svg';
+import imgSample from 'src/assets/images/imgSample.png';
 import OpenChetModal from 'src/components/OpenChetModal';
 
-export default function RoomBox() {
+type Props = {
+  isOn: boolean;
+  title: string;
+  desc: string;
+  currentMember: number;
+  maxMember: number;
+  hashtag: string[];
+  // eslint-disable-next-line react/require-default-props
+  rank?: number;
+};
+
+export default function RoomBox({
+  isOn,
+  title,
+  desc,
+  currentMember,
+  maxMember,
+  hashtag,
+  rank,
+}: Props) {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const modalClose = () => {
-    setModalOpen(!modalOpen);
+  const handleModalOpen = () => {
+    if (currentMember < maxMember) setModalOpen(!modalOpen);
+    else alert('정원이 가득찬 그룹입니다.');
   };
+
+  function rankIcon() {
+    if (rank === 1) return ico1st;
+    if (rank === 2) return ico2nd;
+    if (rank === 3) return ico3rd;
+    return undefined;
+  }
 
   return (
     <>
-      <Container>
-        <ImgContainer>어쩌구 저쩌구</ImgContainer>
-        <GroupNameRow>GROUP_NAME_A</GroupNameRow>
+      <Container onClick={handleModalOpen}>
+        <ImgContainer
+          style={{ background: `url(${imgSample})`, backgroundSize: 'cover' }}
+        >
+          <img
+            src={isOn ? icoOn : icoOff}
+            alt=""
+            style={{ width: 45, height: 22 }}
+          />
+          {desc}
+          <br />
+          {hashtag.map((item) => {
+            return `#${item} `;
+          })}
+        </ImgContainer>
+        <GroupNameRow>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <GroupName>{title}</GroupName>
+            <MemberCount>
+              +{currentMember}/{maxMember}
+            </MemberCount>
+          </div>
+          {!!rank && (
+            <img src={rankIcon()} alt="" style={{ width: 34, height: 46 }} />
+          )}
+        </GroupNameRow>
       </Container>
       {modalOpen && <OpenChetModal modal={setModalOpen} />}
     </>
@@ -35,7 +89,7 @@ const Container = styled.div`
 const ImgContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  justify-content: space-between;
   background-color: gray;
   padding: 14px 18px;
   height: ${138 * RATIO}px;
@@ -49,10 +103,21 @@ const ImgContainer = styled.div`
 const GroupNameRow = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
+  justify-content: space-between;
+  height: ${58 * RATIO}px;
   max-height: 58px;
   padding-left: 18px;
   padding-right: 18px;
 `;
 
-// const;
+const GroupName = styled.div`
+  font-size: 24px;
+  font-weight: 600;
+  margin-right: 8px;
+`;
+
+const MemberCount = styled.div`
+  font-size: 20px;
+  font-weight: 500;
+  color: rgba(80, 80, 80, 0.69);
+`;

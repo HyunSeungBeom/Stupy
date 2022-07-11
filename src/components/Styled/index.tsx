@@ -7,13 +7,16 @@ const SetBackGround = styled.div`
 `;
 
 const TopContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   width: ${window.innerWidth * RATIO}px;
+  height: ${100 * RATIO}px;
   max-width: 500px;
-  background-color: ${PRIMARY};
-  padding-top: 30px;
-  padding-left: 25px;
+  max-height: 100px;
   padding-right: 25px;
-  padding-bottom: 15px;
+  padding-left: 25px;
+  background-color: ${PRIMARY};
+  justify-content: center;
 `;
 
 const BodyContainer = styled.div`
