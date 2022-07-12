@@ -39,7 +39,7 @@ function App() {
         <GlobalStyle />
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/home" element={<Main />} />
+          <Route path="/main" element={<Main />} />
           <Route path="/list" element={<List />} />
           <Route path="/kakao/login" element={<Main />} />
           <Route path="/mypage" element={<Mypage />} />

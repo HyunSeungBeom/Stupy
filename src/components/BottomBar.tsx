@@ -15,7 +15,7 @@ type Props = {
 export default function BottomBar({ currentPage }: Props) {
   const nav = useNavigate();
   const MainClick = () => {
-    nav('/');
+    nav('/main');
   };
   const ListClick = () => {
     nav('/list');
