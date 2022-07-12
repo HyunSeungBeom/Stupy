@@ -53,6 +53,8 @@ function MakeRoom({
 
   const MakeRoomdata = useMutation((data: FormData) => createRoomApi(data), {
     onSuccess: (v) => {
+      // eslint-disable-next-line no-console
+      console.log(v.data.id);
       nav(`/room/${v.data.id}`);
     },
   });

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {
   AxiosError,
   AxiosInstance,
@@ -7,17 +8,17 @@ import {
 
 const onRequest = (config: AxiosRequestConfig): AxiosRequestConfig => {
   // console.info(`[request] [${JSON.stringify(config)}]`);
-  const localToken = localStorage.getItem('recoil-persist');
+  const localToken = localStorage.getItem('token');
+  console.log(localToken);
   if (localToken) {
-    const toto = JSON.parse(localToken);
+    // const toto = JSON.parse(localToken);
     // console.log(toto.tokenState);
-    if (toto) {
-      // eslint-disable-next-line no-param-reassign
-      config.headers = {
-        Authorization: toto.tokenState || 0 || false,
-        'Content-Type': 'application/json',
-      };
-    }
+    // if (toto) {
+    // eslint-disable-next-line no-param-reassign
+    config.headers = {
+      authorization: `Bearer ${localToken}`,
+      'Content-Type': 'application/json',
+    };
   }
   return config;
 };

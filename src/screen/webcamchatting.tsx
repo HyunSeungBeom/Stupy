@@ -1,4 +1,8 @@
-import { BiArrowBack } from 'react-icons/bi';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { userInfo } from 'os';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { BiArrowBack, BiUser } from 'react-icons/bi';
+import { RATIO } from 'src/constants';
 import styled from 'styled-components';
 
 import WebCam from '../components/WebRtc/WebCam';
@@ -15,7 +19,13 @@ function Webcamchatting() {
             <RoomTitle>디자이너 스터디 </RoomTitle>
           </Block2>
         </UpperMenu>
-        <WebCam />
+        <WebCambox>
+          <WebCam />
+        </WebCambox>
+        <ChattingMenu>
+          <ChattingBox />
+          {/* <ChattingInput /> */}
+        </ChattingMenu>
       </WebScreen>
     </div>
   );
@@ -23,12 +33,24 @@ function Webcamchatting() {
 
 export default Webcamchatting;
 
+const WebScreen = styled.div`
+  display: flex;
+  width: ${460 * RATIO}px;
+  height: 100vh;
+  max-width: 460px;
+  flex-direction: column;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: yellow;
+`;
+
 const UpperMenu = styled.div`
-  width: 100%;
+  width: ${460 * RATIO}px;
+  max-width: 460px;
   display: flex;
   position: fixed;
-  padding-left: 7%;
-  padding-top: 3%;
+  padding-left: ${3 * RATIO}px;
+  padding-top: ${7 * RATIO}px;
 `;
 
 const RoomTitle = styled.div`
@@ -38,12 +60,6 @@ const RoomTitle = styled.div`
 const BackIcon = styled(BiArrowBack)`
   font-size: 20px;
   margin-top: 5px;
-`;
-
-const WebScreen = styled.div`
-  width: 100%;
-  height: 100vh;
-  background-color: yellow;
 `;
 
 const Block = styled.div`
@@ -64,3 +80,12 @@ const Block2 = styled.div`
   background-color: gray;
   color: white;
 `;
+
+const WebCambox = styled.div`
+  width: ${460 * RATIO}px;
+  display: flex;
+`;
+
+const ChattingMenu = styled.div``;
+
+const ChattingBox = styled.div``;

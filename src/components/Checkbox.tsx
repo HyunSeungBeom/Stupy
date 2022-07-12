@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import icoCheckboxOff from 'src/assets/icons/icoCheckboxOff.svg';
