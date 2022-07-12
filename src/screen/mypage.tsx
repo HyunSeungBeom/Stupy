@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { FiLogOut } from 'react-icons/fi';
-import { useNavigate } from 'react-router-dom';
 import BottomBar from '../components/BottomBar';
 
 function Mypage() {

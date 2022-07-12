@@ -1,11 +1,9 @@
-import { userInfo } from 'os';
-import { BiArrowBack, BiUser } from 'react-icons/bi';
+import { BiArrowBack } from 'react-icons/bi';
 import styled from 'styled-components';
-import Chatting from '../components/Chatting';
+
 import WebCam from '../components/WebRtc/WebCam';
 
 function Webcamchatting() {
-  console.log('hi');
   return (
     <div>
       <WebScreen>

@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import { SetBackGround } from 'src/components/Styled';
 import styled from 'styled-components';
 import icoList from 'src/assets/icons/bottomTab/icoList.svg';
 import icoListOn from 'src/assets/icons/bottomTab/icoListOn.svg';

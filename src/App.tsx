@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { RecoilRoot } from 'recoil';
 import { createGlobalStyle } from 'styled-components';
 import List from './screen/List';
 import Login from './screen/login';
@@ -37,16 +36,15 @@ function App() {
     >
       <BrowserRouter>
         <GlobalStyle />
-        <RecoilRoot>
-          <Routes>
-            <Route path="/" element={<Main />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/list" element={<List />} />
-            <Route path="/kakao/login" element={<Main />} />
-            <Route path="/mypage" element={<Mypage />} />
-            <Route path="/webcamchatting" element={<Webcamchatting />} />
-          </Routes>
-        </RecoilRoot>
+
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/list" element={<List />} />
+          <Route path="/kakao/login" element={<Main />} />
+          <Route path="/mypage" element={<Mypage />} />
+          <Route path="/webcamchatting" element={<Webcamchatting />} />
+        </Routes>
       </BrowserRouter>
     </div>
   );

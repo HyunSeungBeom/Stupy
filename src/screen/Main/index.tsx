@@ -8,7 +8,6 @@ import icoArrowDown from 'src/assets/icons/icoArrowDown.svg';
 import icoMaster from 'src/assets/icons/main/icoMaster.svg';
 import styled from 'styled-components';
 import imgSample from 'src/assets/images/imgSample.png';
-import { RATIO, PRIMARY } from 'src/constants';
 import {
   SetBackGround,
   TopContainer,

@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { RecoilRoot } from 'recoil';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import App from './App';
@@ -13,10 +12,8 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <QueryClientProvider client={queryClient}>
-    <RecoilRoot>
-      <ReactQueryDevtools initialIsOpen />
-      <App />
-    </RecoilRoot>
+    <ReactQueryDevtools initialIsOpen />
+    <App />
   </QueryClientProvider>,
 );
 

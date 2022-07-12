@@ -4,6 +4,7 @@ import { RATIO, PRIMARY } from 'src/constants';
 import icoPlus from 'src/assets/icons/list/icoPlus.svg';
 import MakeRoom from 'src/components/MakeRoom';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type Props = {
   onClickEvent: () => void;
 };

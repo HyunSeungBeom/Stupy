@@ -32,6 +32,7 @@ export default function RoomBox({
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const handleModalOpen = () => {
     if (currentMember < maxMember) setModalOpen(!modalOpen);
+    // eslint-disable-next-line no-alert
     else alert('정원이 가득찬 그룹입니다.');
   };
 

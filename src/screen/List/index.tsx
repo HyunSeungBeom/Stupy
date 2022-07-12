@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { RiEqualizerLine } from 'react-icons/ri';
-import { useState } from 'react';
 import {
   SetBackGround,
   TopContainer,
@@ -13,7 +12,6 @@ import Room from './Room';
 import SearchBox from './SerchBox';
 
 function List() {
-  const [mouse, setMouse] = useState<boolean>(false);
   return (
     <SetBackGround>
       <TopContainer>

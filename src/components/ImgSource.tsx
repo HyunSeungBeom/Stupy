@@ -10,7 +10,7 @@ import ImgPlus from '../assets/icons/makeroom/ImgPlus.svg';
 export function ImgSource({
   set,
 }: {
-  set: React.Dispatch<React.SetStateAction<File | null>>;
+  set: React.Dispatch<React.SetStateAction<File | undefined>>;
 }) {
   const [imagePreview, setImagePreview] = useState(defaultimage);
   const { watch, register } = useForm();
