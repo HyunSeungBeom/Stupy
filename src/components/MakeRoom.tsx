@@ -5,11 +5,11 @@ import styled from 'styled-components';
 import { FieldValues, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { ImgSource } from './ImgSource';
 import PerSonnelButton from './PersonnelButton';
 import HashInput from './HashInput';
 import { createRoomApi } from '../api/room';
-import defaultimage from '../assets/images/imgSample.png';
 
 function MakeRoom({
   modal,
@@ -36,26 +36,26 @@ function MakeRoom({
     formData.append('title', data.title);
     formData.append('content', data.content);
     hashArr.forEach((hash) => formData.append('hashtag[]', hash));
-    // formData.append('hashtag[]', hashArr);
     formData.append('password', data.password);
     formData.append('openKakao', data.open_kakao);
     formData.append('maxPeople', count.toString());
 
-    console.log(formData.get('image'));
-    console.log(formData.get('title'));
-    console.log(formData.get('content'));
-    console.log(typeof formData.get('hashtag[]'));
-    console.log(formData.getAll('hashtag[]'));
-    console.log(formData.get('password'));
-    console.log(formData.get('openKakao'));
-    console.log(formData.get('maxPeople'));
+    // console.log(formData.get('image'));
+    // console.log(formData.get('title'));
+    // console.log(formData.get('content'));
+    // console.log(typeof formData.get('hashtag[]'));
+    // console.log(formData.getAll('hashtag[]'));
+    // console.log(formData.get('password'));
+    // console.log(formData.get('openKakao'));
+    // console.log(formData.get('maxPeople'));
 
     MakeRoomdata.mutate(formData);
   };
 
   const MakeRoomdata = useMutation((data: FormData) => createRoomApi(data), {
-    onSuccess: () => {
-      nav('/');
+    onSuccess: (v) => {
+      console.log(v.data.id);
+      nav(`/room/${v.data.id}`);
     },
   });
   const modalClose = () => {
@@ -70,6 +70,7 @@ function MakeRoom({
       document.body.style.cssText = '';
     };
   }, []);
+
   return (
     <ModalContainer>
       <ModalInner>

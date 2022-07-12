@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable @typescript-eslint/no-namespace */
 import React, { useCallback, useState } from 'react';
 /** @jsxRuntime classic */
@@ -21,44 +23,68 @@ export default function HashInput({
     setHashtag(e.target.value);
   };
 
+  const onDelete = (e: React.MouseEvent<HTMLElement>) => {
+    set(
+      hashArr2.filter((tag) => {
+        const target = e.target as HTMLElement;
+        return target.innerHTML !== `#${tag}`;
+      }),
+    );
+  };
+
   const onKeyUp = useCallback(
     (e: any) => {
       if (typeof navigator !== 'undefined') {
         /* 요소 불러오기, 만들기 */
-        const $HashWrapOuter = document.querySelector('.HashWrapOuter');
         const $HashWrapInner = document.createElement('div');
         $HashWrapInner.className = 'HashWrapInner';
 
         /* 태그를 클릭 이벤트 관련 로직 */
         $HashWrapInner.addEventListener('click', () => {
-          $HashWrapOuter?.removeChild($HashWrapInner);
-          console.log($HashWrapInner.innerHTML);
-          set(hashArr2.filter((hashtag) => hashtag));
+          // $HashWrapOuter?.removeChild($HashWrapInner);
         });
 
         /* enter 키 코드 :13 */
         if (e.keyCode === 13 && e.target.value.trim() !== '') {
           console.log('Enter Key 입력됨!', e.target.value);
           $HashWrapInner.innerHTML = `#${e.target.value}`;
-          $HashWrapOuter?.appendChild($HashWrapInner);
-          set((hashArr: any) => [...hashArr, hashtag]);
+          // $HashWrapOuter?.appendChild($HashWrapInner);
+          if (hashArr2.length < 3) {
+            set((hashArr) => [...hashArr, hashtag]);
+          }
           setHashtag('');
         }
       }
     },
+
     [hashtag, hashArr2],
   );
+
   return (
     <div className="HashWrap" css={hashDivrap}>
       <div className="HashWrapOuter" />
-      <OrangeInput
-        className="HashInput"
-        type="text"
-        value={hashtag}
-        onChange={onChangeHashtag}
-        onKeyUp={onKeyUp}
-        placeholder="해시태그 입력(최대 3개)"
-      />
+      {hashArr2.length < 4 &&
+        hashArr2.map((v, index) => {
+          return (
+            <div
+              onClick={onDelete}
+              key={`${index + v}`}
+              className="HashWrapInner"
+            >
+              #{v}
+            </div>
+          );
+        })}
+      {hashArr2.length < 3 && (
+        <OrangeInput
+          className="HashInput"
+          type="text"
+          value={hashtag}
+          onChange={onChangeHashtag}
+          onKeyUp={onKeyUp}
+          placeholder="해시태그 입력(최대 3개)"
+        />
+      )}
     </div>
   );
 }
@@ -90,6 +116,8 @@ const hashDivrap = css`
     font-size: 14px;
     line-height: 10px;
     margin-right: 5px;
+    margin-top: 3px;
+    height: 30px;
     cursor: pointer;
   }
 

@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { RecoilRoot } from 'recoil';
 import { createGlobalStyle } from 'styled-components';
 import List from './screen/List';
 import Login from './screen/login';
@@ -18,6 +17,7 @@ body{
 function App() {
   document.addEventListener(
     'keydown',
+    // eslint-disable-next-line func-names
     function (event) {
       if (event.code === 'Enter') {
         event.preventDefault();
@@ -37,16 +37,14 @@ function App() {
     >
       <BrowserRouter>
         <GlobalStyle />
-        <RecoilRoot>
-          <Routes>
-            <Route path="/" element={<Main />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/list" element={<List />} />
-            <Route path="/kakao/login" element={<Main />} />
-            <Route path="/mypage" element={<Mypage />} />
-            <Route path="/webcamchatting" element={<Webcamchatting />} />
-          </Routes>
-        </RecoilRoot>
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/list" element={<List />} />
+          <Route path="/kakao/login" element={<Main />} />
+          <Route path="/mypage" element={<Mypage />} />
+          <Route path="/room/:id" element={<Webcamchatting />} />
+        </Routes>
       </BrowserRouter>
     </div>
   );

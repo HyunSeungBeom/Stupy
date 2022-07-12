@@ -21,7 +21,6 @@ const pc_config = {
 const SOCKET_SERVER_URL = 'http://13.125.58.110:3000/';
 
 function WebCam() {
-  console.log('bye');
   const socketRef = useRef<SocketIOClient.Socket>();
   const pcsRef = useRef<{ [socketId: string]: RTCPeerConnection }>({});
   const localVideoRef = useRef<HTMLVideoElement>(null);
