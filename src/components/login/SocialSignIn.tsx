@@ -1,6 +1,6 @@
 /* eslint-disable react/button-has-type */
 import React from 'react';
-import { ReactComponent as KakaoIcon } from '../../assets/icons/socialLogin/KakaoIcon.svg';
+import { ReactComponent as LoginButton } from 'src/assets/icons/socialLogin/loginbutton.svg';
 
 function SocialSignIn() {
   const moveToSocialKakao = () => {
@@ -12,10 +12,7 @@ function SocialSignIn() {
     );
   };
   return (
-    <button onClick={moveToSocialKakao}>
-      <KakaoIcon />
-      카카오로 시작하기
-    </button>
+    <LoginButton onClick={moveToSocialKakao} style={{ cursor: 'pointer' }} />
   );
 }
 

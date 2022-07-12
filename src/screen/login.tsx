@@ -1,13 +1,17 @@
 import styled from 'styled-components';
+import { ReactComponent as Logo } from 'src/assets/icons/socialLogin/logo.svg';
+import { RATIO } from 'src/constants';
 import SocialSignIn from '../components/login/SocialSignIn';
 
 function Login() {
   return (
     <PageBackground>
-      <Logobox />
-      <SocialSignBox>
-        <SocialSignIn />
-      </SocialSignBox>
+      <LogoBox>
+        <Logo />
+        <SocialSignBox>
+          <SocialSignIn />
+        </SocialSignBox>
+      </LogoBox>
     </PageBackground>
   );
 }
@@ -15,20 +19,17 @@ function Login() {
 export default Login;
 
 const PageBackground = styled.div`
+  width: ${460 * RATIO}px;
+  height: 100vh;
+  max-width: 460px;
+  background-color: white;
   align-items: center;
   text-align: center;
   margin-left: auto;
   margin-right: auto;
 `;
-
-const Logobox = styled.div`
-  display: flex;
-  margin-top: 177px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 428px;
-  height: 321px;
-  background: yellow;
+const LogoBox = styled.div`
+  margin-top: 150px;
 `;
 
 const SocialSignBox = styled.div`
