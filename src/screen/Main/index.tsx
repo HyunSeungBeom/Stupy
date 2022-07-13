@@ -27,7 +27,7 @@ export default function Main() {
     if (kakaotoken != null) {
       localStorage.clear();
       localStorage.setItem('token', kakaotoken);
-      window.location.replace('/');
+      window.location.replace('/main');
     }
   }, []);
 

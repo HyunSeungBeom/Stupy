@@ -34,7 +34,7 @@ function WebCam() {
         audio: true,
         video: {
           width: 240,
-          height: 240,
+          height: 450,
         },
       });
       localStreamRef.current = localStream;
