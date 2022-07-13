@@ -101,7 +101,15 @@ function WebCam() {
   );
 
   useEffect(() => {
-    socketRef.current = io.connect(SOCKET_SERVER_URL);
+    socketRef.current = io.connect(SOCKET_SERVER_URL, {
+      transportOptions: {
+        polling: {
+          extraHeaders: {
+            'my-custom-header': 'abcd',
+          },
+        },
+      },
+    });
 
     getLocalStream();
 
