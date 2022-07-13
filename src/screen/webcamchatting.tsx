@@ -41,7 +41,7 @@ const WebScreen = styled.div`
   flex-direction: column;
   border-radius: 10px;
   overflow: hidden;
-  background-color: yellow;
+  background-color: white;
 `;
 
 const UpperMenu = styled.div`
