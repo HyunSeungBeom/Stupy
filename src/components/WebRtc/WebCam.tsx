@@ -113,6 +113,8 @@ function WebCam() {
 
     getLocalStream();
 
+    // 자신을 제외한 같은 방의 모든 user 목록을 받아온다.
+    // 해당 user에게 offer signal을 보낸다(createOffer() 함수 호출).
     socketRef.current.on(
       'all_users',
       (allUsers: Array<{ id: string; userid: string }>) => {
@@ -232,11 +234,11 @@ export default WebCam;
 
 const Contanier = styled.div`
   display: flex;
+  width: ${210 * RATIO}px;
+  max-width: 210px;
 `;
 
 const VideoBox = styled.video`
-  max-width: 240px;
-  width: ${100 * RATIO}px;
-
-  background-color: blue;
+  width: ${460 * RATIO}px;
+  display: flex;
 `;

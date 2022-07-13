@@ -5,13 +5,13 @@ const Container = styled.div`
   position: relative;
   display: inline-block;
   width: 240px;
-  height: 270px;
+  height: 450px;
   margin: 5px;
 `;
 
 const VideoContainer = styled.video`
   width: 240px;
-  height: 240px;
+  height: 450px;
   background-color: black;
 `;
 
