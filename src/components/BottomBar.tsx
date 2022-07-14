@@ -47,8 +47,8 @@ export default function BottomBar({ currentPage }: Props) {
 }
 
 const BottomBox = styled.div`
-  width: ${500 * RATIO}px;
-  max-width: 500px;
+  width: ${window.innerWidth}px;
+  max-width: 428;
   height: 90px;
   display: flex;
   position: sticky;
