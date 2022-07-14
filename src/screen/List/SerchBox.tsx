@@ -18,6 +18,7 @@ function SearchBox() {
         <SearchIcon
           src={icoSerch}
           alt=""
+          // eslint-disable-next-line no-console
           onClick={() => console.log('[SEARCH_KEYWORD]:', serchKeyword)}
         />
       </SearchBtn>

@@ -19,7 +19,7 @@ const pc_config = {
     },
   ],
 };
-const SOCKET_SERVER_URL = 'http://13.125.58.110:3000/';
+const SOCKET_SERVER_URL = 'http://13.125.58.110:3000';
 
 function WebCam() {
   const socketRef = useRef<SocketIOClient.Socket>();

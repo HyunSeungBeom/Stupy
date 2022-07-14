@@ -5,7 +5,6 @@ import icoListOn from 'src/assets/icons/bottomTab/icoListOn.svg';
 import icoMain from 'src/assets/icons/bottomTab/icoMain.svg';
 import icoMainOn from 'src/assets/icons/bottomTab/icoMainOn.svg';
 import icoSetting from 'src/assets/icons/bottomTab/icoSetting.svg';
-import { RATIO } from '../constants';
 import { CreateButton } from './Button';
 
 type Props = {
