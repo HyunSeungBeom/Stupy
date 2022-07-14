@@ -3,7 +3,6 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import io from 'socket.io-client';
 import styled from 'styled-components';
 import { RATIO } from 'src/constants';
-import jwtDecode from 'jwt-decode';
 import Video from './Video/index';
 import { WebRTCUser } from '../../types/types';
 
