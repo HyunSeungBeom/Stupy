@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import io from 'socket.io-client';
 import styled from 'styled-components';
 import { RATIO } from 'src/constants';
+import jwtDecode from 'jwt-decode';
 import Video from './Video/index';
 import { WebRTCUser } from '../../types/types';
 
@@ -27,6 +28,7 @@ function WebCam() {
   const localVideoRef = useRef<HTMLVideoElement>(null);
   const localStreamRef = useRef<MediaStream>();
   const [users, setUsers] = useState<WebRTCUser[]>([]);
+  const localToken = localStorage.getItem('token');
 
   const getLocalStream = useCallback(async () => {
     try {
@@ -41,8 +43,9 @@ function WebCam() {
       if (localVideoRef.current) localVideoRef.current.srcObject = localStream;
       if (!socketRef.current) return;
       socketRef.current.emit('join_room', {
-        room: '1234',
-        userid: 'sample@naver.com',
+        // roomId, userId 받아와야됨.
+        roomId: '62ce5a644c6b9430b0e22c4a',
+        userId: localToken,
       });
     } catch (e) {
       console.log(`getUserMedia error: ${e}`);
@@ -101,15 +104,7 @@ function WebCam() {
   );
 
   useEffect(() => {
-    socketRef.current = io.connect(SOCKET_SERVER_URL, {
-      transportOptions: {
-        polling: {
-          extraHeaders: {
-            'my-custom-header': 'abcd',
-          },
-        },
-      },
-    });
+    socketRef.current = io.connect(SOCKET_SERVER_URL);
 
     getLocalStream();
 
@@ -117,8 +112,18 @@ function WebCam() {
     // 해당 user에게 offer signal을 보낸다(createOffer() 함수 호출).
     socketRef.current.on(
       'all_users',
-      (allUsers: Array<{ id: string; userid: string }>) => {
-        allUsers.forEach(async (user) => {
+      (
+        usersInThisRoom: Array<{ id: string; userid: string }>,
+        // chatInThisRoom: Array<{
+        //   _id: string;
+        //   roomId: string;
+        //   content: string;
+        //   senderId: string;
+        //   createdAt: Date;
+        //   __v: boolean;
+        // }>,
+      ) => {
+        usersInThisRoom.forEach(async (user) => {
           if (!localStreamRef.current) return;
           const pc = createPeerConnection(user.id, user.userid);
           if (!(pc && socketRef.current)) return;
@@ -219,6 +224,14 @@ function WebCam() {
     };
   }, [createPeerConnection, getLocalStream]);
 
+  // //자기 채팅 append한 채팅
+
+  // socketRef.current.emit("MessageFromClient", (data: {roomId: string, content: string, userId: string})
+  // socketRef.current.on("chatForOther", (data: {roomId: string, content: string, userId: string, createdAt: Date}) => {
+
+  //   //다른 사람채팅목록 append 시켜주기
+  // } )
+
   return (
     <Contanier>
       <VideoBox muted ref={localVideoRef} autoPlay />
@@ -229,7 +242,6 @@ function WebCam() {
     </Contanier>
   );
 }
-
 export default WebCam;
 
 const Contanier = styled.div`

@@ -2,6 +2,7 @@
 import { userInfo } from 'os';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { BiArrowBack, BiUser } from 'react-icons/bi';
+import Chatting from 'src/components/Chatting';
 import { RATIO } from 'src/constants';
 import styled from 'styled-components';
 
@@ -24,7 +25,7 @@ function Webcamchatting() {
         </WebCambox>
         <ChattingMenu>
           <ChattingBox />
-          {/* <ChattingInput /> */}
+          <Chatting />
         </ChattingMenu>
       </WebScreen>
     </div>

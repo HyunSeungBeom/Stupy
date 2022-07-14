@@ -1,24 +1,40 @@
+/* eslint-disable no-console */
 /* eslint-disable react/button-has-type */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { RATIO } from 'src/constants';
 import styled from 'styled-components';
 
 function Chatting() {
   const [inputMessage, setInputMessage] = useState('');
+  const [message, setMessage] = useState('');
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputMessage(e.target.value);
+    console.log(e.target.value);
   };
 
-  // const handleEnter = (e: { key: string; }) => {
-  //   if (e.key === 'Enter') {
-  //     socket.emit('message', { inputMessage });
-  //     setInputMessage({ ...inputMessage, content: '' });
-  //   }
+  const handleKeyPressed = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      sendMessage();
+    }
+  };
+
+  const sendMessage = () => {
+    if (inputMessage.length > 0) {
+      setMessage(inputMessage);
+      setInputMessage('');
+    }
+  };
 
   return (
     <ChattingBox>
-      <Chattinglist />
-      <input placeholder="메시지를 입력해주세요" onChange={handleInput} />
-      {/* <button onChange={handleEnter}>전송</button> */}
+      <Chattinglist>{message}</Chattinglist>
+      <input
+        placeholder="메시지를 입력해주세요"
+        onChange={handleInput}
+        onKeyDown={handleKeyPressed}
+      />
+      <button onClick={sendMessage}>전송</button>
     </ChattingBox>
   );
 }
@@ -26,9 +42,9 @@ export default Chatting;
 
 const ChattingBox = styled.div`
   position: fixed;
-  margin-left: 5%;
+  width: ${460 * RATIO}px;
+  max-width: 460px;
   bottom: 3%;
-  width: 60%;
   height: 30%;
   background-color: white;
 `;
@@ -36,7 +52,5 @@ const ChattingBox = styled.div`
 const Chattinglist = styled.div`
   width: 60%;
   height: 90%;
-  background-color: red;
+  background-color: pink;
 `;
-
-const ChatInput = styled.input``;
