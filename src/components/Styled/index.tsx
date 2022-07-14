@@ -9,9 +9,9 @@ const SetBackGround = styled.div`
 const TopContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: ${window.innerWidth * RATIO}px;
+  width: ${window.innerWidth}px;
   height: ${100 * RATIO}px;
-  max-width: 500px;
+  max-width: 428px;
   max-height: 100px;
   padding-right: 25px;
   padding-left: 25px;
@@ -20,8 +20,8 @@ const TopContainer = styled.div`
 `;
 
 const BodyContainer = styled.div`
-  width: ${window.innerWidth * RATIO}px;
-  max-width: 500px;
+  width: ${window.innerWidth}px;
+  max-width: 428px;
   padding: 22px 20px;
   background-color: #efefef;
 `;
