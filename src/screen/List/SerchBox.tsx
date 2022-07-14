@@ -1,23 +1,26 @@
 import { useState } from 'react';
-import { FiSearch } from 'react-icons/fi';
+import { RATIO } from 'src/constants';
 import styled from 'styled-components';
+import icoSerch from 'src/assets/icons/list/icoSearch.svg';
 
 function SearchBox() {
-  const [, Setsearch] = useState<string>(); // search 배포 때문에 뺌.
+  const [serchKeyword, setSearchKeyword] = useState<string>(); // search 배포 때문에 뺌.
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    Setsearch(e.target.value);
+    setSearchKeyword(e.target.value);
   };
   return (
     <SearchBoxdiv>
       <SearchInput
-        type="text"
-        className="input-sm"
-        size={25}
         onChange={handleChange}
+        placeholder="검색어를 입력해주세요"
       />
-      <SearchIcon>
-        <FiSearch />
-      </SearchIcon>
+      <SearchBtn>
+        <SearchIcon
+          src={icoSerch}
+          alt=""
+          onClick={() => console.log('[SEARCH_KEYWORD]:', serchKeyword)}
+        />
+      </SearchBtn>
     </SearchBoxdiv>
   );
 }
@@ -25,19 +28,42 @@ function SearchBox() {
 export default SearchBox;
 
 const SearchBoxdiv = styled.div`
-  margin-left: auto;
-  margin-right: auto;
   display: flex;
-  width: 50%;
+  flex-direction: row;
+  width: 100%;
+  justify-content: center;
 `;
 
 const SearchInput = styled.input`
-  border-radius: 8px;
+  border-width: 0px;
+  outline: none;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
   width: 100%;
-  height: 30px;
+  height: ${44 * RATIO}px;
+  max-height: 44px;
+  font-size: 16;
+  font-weight: 400;
+  padding-left: 16px;
+  padding-right: 16px;
 `;
 
-const SearchIcon = styled.div`
-  background: white;
-  border-radius: 8px;
+const SearchBtn = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  width: ${44 * RATIO}px;
+  height: ${44 * RATIO}px;
+  max-width: 44px;
+  max-height: 44px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+`;
+
+const SearchIcon = styled.img`
+  width: ${20 * RATIO}px;
+  height: ${20 * RATIO}px;
+  max-width: 20px;
+  max-height: 20px;
 `;

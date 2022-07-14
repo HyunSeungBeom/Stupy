@@ -79,8 +79,7 @@ export default function RoomBox({
 
 const Container = styled.div`
   display: flex;
-  width: ${460 * RATIO}px;
-  max-width: 460px;
+  width: 100%;
   flex-direction: column;
   background-color: white;
   border-radius: 10px;
