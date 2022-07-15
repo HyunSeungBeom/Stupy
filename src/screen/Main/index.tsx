@@ -18,8 +18,8 @@ import 'swiper/scss';
 import 'swiper/scss/navigation';
 import 'swiper/scss/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { useQuery } from 'react-query';
-import { getMain } from 'src/api/main';
+// import { useQuery } from 'react-query';
+// import { getMain } from 'src/api/main';
 import MyGroup from './MyGroup';
 
 moment.locale('ko');
@@ -29,7 +29,7 @@ export default function Main() {
   const [params] = useSearchParams();
   // console.log(params.get('token'));
 
-  const { data: mainData } = useQuery(['mainData'], getMain);
+  // const { data: mainData } = useQuery(['mainData'], getMain);
 
   useEffect(() => {
     const kakaotoken = params.get('token');

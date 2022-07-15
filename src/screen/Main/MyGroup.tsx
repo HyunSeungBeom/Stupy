@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
 import styled from 'styled-components';
 import icoMaster from 'src/assets/icons/main/icoMaster.svg';
 import imgSample from 'src/assets/images/imgSample.png';
@@ -12,6 +12,7 @@ type Props = {
   desc: string;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function MyGroup({ id, isMaster, title, desc }: Props) {
   return (
     <Container

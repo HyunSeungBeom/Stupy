@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import icoDots from 'src/assets/icons/main/icoDots.svg';
 import icoXbutton from 'src/assets/icons/main/icoXbutton.svg';
 import btnAdd from 'src/assets/icons/main/btnAdd.svg';
 import { useCallback, useEffect, useState } from 'react';
