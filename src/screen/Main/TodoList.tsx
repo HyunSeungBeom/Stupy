@@ -30,7 +30,7 @@ export default function TodoList({ subject, item }: Props) {
   }, []);
 
   const handleAddContent = () => {
-    tempId -= 1;
+    tempId += 1;
     const tempArray = [];
     tempArray.push({ id: tempId, content: '', is_done: false });
     setItemData(itemData.concat(tempArray));
@@ -45,7 +45,6 @@ export default function TodoList({ subject, item }: Props) {
             setSubjectData(e.target.value);
           }}
         />
-        <SubMenuBtn src={icoDots} alt="" />
       </SubjectRow>
       {itemData?.map((item) => {
         return (
@@ -58,7 +57,8 @@ export default function TodoList({ subject, item }: Props) {
           />
         );
       })}
-      <AddButton src={btnAdd} alt="" onClick={handleAddContent} />
+      <ItemAddBtn src={btnAdd} alt="" onClick={handleAddContent} />
+      <CartegoryDelBtn>카테고리 삭제</CartegoryDelBtn>
     </Wrap>
   );
 }
@@ -102,9 +102,10 @@ const Wrap = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 10px;
-  margin-bottom: 15px;
-  padding: 20px 25px;
+  margin: 0px 20px 15px;
+  padding: 20px 0px 0px;
   background-color: white;
+  box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.17);
 `;
 
 const SubjectRow = styled.div`
@@ -114,12 +115,25 @@ const SubjectRow = styled.div`
   align-items: center;
   font-size: 20px;
   font-weight: bold;
-  margin-bottom: 28px;
+  margin: 0px 20px 28px;
 `;
 
-const SubMenuBtn = styled.img`
-  width: 24px;
-  height: 24px;
+const ItemAddBtn = styled.img`
+  margin: 6px 20px 15px;
+  width: 96px;
+  height: 22px;
+  cursor: pointer;
+`;
+
+const CartegoryDelBtn = styled.div`
+  display: flex;
+  justify-content: center;
+  border-top: #e8e8e8 1px solid;
+  padding: 18px;
+  background-color: rgba(237, 237, 237, 0.3);
+  font-size: 16px;
+  color: #c7c7c7;
+  cursor: pointer;
 `;
 
 const ItemRow = styled.div`
@@ -128,7 +142,7 @@ const ItemRow = styled.div`
   justify-content: space-between;
   align-items: center;
   padding-bottom: 8px;
-  margin-bottom: 8px;
+  margin: 0px 20px 8px;
   font-size: 18px;
   font-weight: 400;
   border-bottom: #eee 1px solid;
@@ -137,14 +151,9 @@ const ItemRow = styled.div`
 const ItemDelBtn = styled.img`
   width: 20px;
   height: 20px;
+  cursor: pointer;
 `;
 
 const Input = styled.input`
   border: none;
-`;
-
-const AddButton = styled.img`
-  margin-top: 6px;
-  width: 96px;
-  height: 22px;
 `;

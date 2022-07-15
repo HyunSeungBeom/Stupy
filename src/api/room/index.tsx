@@ -3,7 +3,7 @@ import setupInterceptorsTo from '../interception';
 
 const baseApi = axios.create({
   baseURL: 'http://13.125.58.110:3000',
-  timeout: 1000,
+  timeout: 3000,
 });
 
 const callApi = setupInterceptorsTo(baseApi);

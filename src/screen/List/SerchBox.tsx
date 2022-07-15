@@ -60,6 +60,7 @@ const SearchBtn = styled.div`
   max-height: 44px;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
+  cursor: pointer;
 `;
 
 const SearchIcon = styled.img`
