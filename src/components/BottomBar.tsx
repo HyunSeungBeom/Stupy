@@ -60,6 +60,7 @@ const BottomBox = styled.div`
   float: center;
   z-index: 999;
   background-color: white;
+  border-top: #f5f5f5 1px solid;
 `;
 
 const BottomNav = styled.img`

@@ -22,26 +22,22 @@ const TopContainer = styled.div`
 const BodyContainer = styled.div`
   width: ${window.innerWidth}px;
   max-width: 428px;
-  padding: 22px 20px;
-  background-color: #efefef;
+  background-color: white;
+  padding: 20px 0px;
+  position: relative;
 `;
 
 const TitleContainer = styled.div`
   display: flex;
-  height: 44px;
   align-items: center;
   justify-content: space-between;
-  background-color: white;
-  border-radius: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
-  margin-bottom: 14px;
+  margin: 0px 20px 18px;
 `;
 
 const Title = styled.div`
   font-size: 20px;
   font-weight: bold;
-  color: ${PRIMARY};
+  color: #515151;
 `;
 
 export { SetBackGround, TopContainer, BodyContainer, TitleContainer, Title };
