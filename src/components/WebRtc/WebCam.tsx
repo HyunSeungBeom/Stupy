@@ -24,7 +24,7 @@ const pc_config = {
 const SOCKET_SERVER_URL = 'https://stupy.shop:3000';
 
 // eslint-disable-next-line react/no-unused-prop-types, @typescript-eslint/no-unused-vars
-function WebCam({ isroomid, isparam }: { isroomid: string; isparam: string }) {
+function WebCam({ isparam }: { isparam: string }) {
   const socketRef = useRef<SocketIOClient.Socket>();
   const pcsRef = useRef<{ [socketId: string]: RTCPeerConnection }>({});
   const localVideoRef = useRef<HTMLVideoElement>(null);

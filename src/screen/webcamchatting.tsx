@@ -2,7 +2,7 @@
 import { userInfo } from 'os';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { BiArrowBack, BiUser } from 'react-icons/bi';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Chatting from 'src/components/Chat/Chatting';
 import { SetBackGround } from 'src/components/Styled';
 import { RATIO } from 'src/constants';
@@ -11,12 +11,12 @@ import styled from 'styled-components';
 import WebCam from '../components/WebRtc/WebCam';
 
 function Webcamchatting() {
-  const location = useLocation();
+  // const location = useLocation();
   const param = useParams();
   const paramid = param.id;
-  const state = location.state as { roomId: string };
+  // const state = location.state as { roomId: string };
   // eslint-disable-next-line no-console
-  console.log(state.roomId);
+  // console.log(state.roomId);
 
   return (
     <SetBackGround>
@@ -29,9 +29,7 @@ function Webcamchatting() {
             <RoomTitle>디자이너 스터디 </RoomTitle>
           </Block2>
         </UpperMenu>
-        <WebCambox>
-          {paramid && <WebCam isroomid={state.roomId} isparam={paramid} />}
-        </WebCambox>
+        <WebCambox>{paramid && <WebCam isparam={paramid} />}</WebCambox>
         <ChattingMenu>
           <ChattingBox />
           <Chatting />
