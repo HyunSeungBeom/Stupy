@@ -24,7 +24,7 @@ const pc_config = {
 const SOCKET_SERVER_URL = 'https://stupy.shop:3000';
 
 // eslint-disable-next-line react/no-unused-prop-types, @typescript-eslint/no-unused-vars
-function WebCam({ isroomid }: { isroomid: string }) {
+function WebCam({ isroomid, isparam }: { isroomid: string; isparam: string }) {
   const socketRef = useRef<SocketIOClient.Socket>();
   const pcsRef = useRef<{ [socketId: string]: RTCPeerConnection }>({});
   const localVideoRef = useRef<HTMLVideoElement>(null);
@@ -49,7 +49,7 @@ function WebCam({ isroomid }: { isroomid: string }) {
       if (!socketRef.current) return;
       socketRef.current.emit('join_room', {
         // roomId, userId 받아와야됨.
-        roomId: params.id,
+        roomId: isparam,
         userId: localToken,
       });
     } catch (e) {
