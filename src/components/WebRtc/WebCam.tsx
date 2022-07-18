@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import io from 'socket.io-client';
 import styled from 'styled-components';
 import { RATIO } from 'src/constants';
+import { useQueryClient } from 'react-query';
 import Video from './Video/index';
 import { WebRTCUser } from '../../types/types';
 
@@ -21,13 +22,15 @@ const pc_config = {
 };
 const SOCKET_SERVER_URL = 'https://stupy.shop:3000';
 
-function WebCam() {
+// eslint-disable-next-line react/no-unused-prop-types
+function WebCam({ isroomid }: { isroomid: string }) {
   const socketRef = useRef<SocketIOClient.Socket>();
   const pcsRef = useRef<{ [socketId: string]: RTCPeerConnection }>({});
   const localVideoRef = useRef<HTMLVideoElement>(null);
   const localStreamRef = useRef<MediaStream>();
   const [users, setUsers] = useState<WebRTCUser[]>([]);
   const localToken = localStorage.getItem('token');
+  const query = useQueryClient();
 
   const getLocalStream = useCallback(async () => {
     try {
@@ -43,7 +46,7 @@ function WebCam() {
       if (!socketRef.current) return;
       socketRef.current.emit('join_room', {
         // roomId, userId 받아와야됨.
-        roomId: '62ce5a644c6b9430b0e22c4a',
+        roomId: isroomid,
         userId: localToken,
       });
     } catch (e) {
@@ -105,6 +108,7 @@ function WebCam() {
   useEffect(() => {
     socketRef.current = io.connect(SOCKET_SERVER_URL);
 
+    console.log(query.getQueryData('roomid'));
     getLocalStream();
 
     // 자신을 제외한 같은 방의 모든 user 목록을 받아온다.

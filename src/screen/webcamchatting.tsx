@@ -2,15 +2,22 @@
 import { userInfo } from 'os';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { BiArrowBack, BiUser } from 'react-icons/bi';
-import Chatting from 'src/components/Chatting';
+import { useLocation } from 'react-router-dom';
+import Chatting from 'src/components/Chat/Chatting';
+import { SetBackGround } from 'src/components/Styled';
 import { RATIO } from 'src/constants';
 import styled from 'styled-components';
 
 import WebCam from '../components/WebRtc/WebCam';
 
 function Webcamchatting() {
+  const location = useLocation();
+  const state = location.state as { roomId: string };
+  // eslint-disable-next-line no-console
+  console.log(state.roomId);
+
   return (
-    <div>
+    <SetBackGround>
       <WebScreen>
         <UpperMenu>
           <Block>
@@ -21,14 +28,14 @@ function Webcamchatting() {
           </Block2>
         </UpperMenu>
         <WebCambox>
-          <WebCam />
+          <WebCam isroomid={state.roomId} />
         </WebCambox>
         <ChattingMenu>
           <ChattingBox />
           <Chatting />
         </ChattingMenu>
       </WebScreen>
-    </div>
+    </SetBackGround>
   );
 }
 
@@ -36,8 +43,9 @@ export default Webcamchatting;
 
 const WebScreen = styled.div`
   display: flex;
-  width: ${460 * RATIO}px;
+  overflow: hidden;
   height: 100vh;
+  width: ${460 * RATIO}px;
   max-width: 460px;
   flex-direction: column;
   border-radius: 10px;

@@ -53,12 +53,22 @@ function MakeRoom({
 
   const MakeRoomdata = useMutation((data: FormData) => createRoomApi(data), {
     onSuccess: (v) => {
-      // eslint-disable-next-line no-console
-      console.log(v.data.id);
-      nav(`/room/${v.data.id}`);
+      //     nav(`/room/${v.data.id}`);
+      //   },
+      // });
+      nav(`/room/${v.data.id}`, {
+        state: {
+          roomId: v.data.id,
+        },
+      });
     },
   });
   const modalClose = () => {
+    // nav(`/room/62ce17067c870b5e55487d00`, {
+    //   state: {
+    //     roomId: '62ce17067c870b5e55487d00',
+    //   },
+    // });
     modal(false);
   };
 
