@@ -32,11 +32,11 @@ function WebCam({ isroomid }: { isroomid: string }) {
   const [users, setUsers] = useState<WebRTCUser[]>([]);
   const localToken = localStorage.getItem('token');
   const query = useQueryClient();
+  const params = useParams();
+  console.log(params);
 
   const getLocalStream = useCallback(async () => {
     try {
-      const params = useParams();
-      console.log(params);
       const localStream = await navigator.mediaDevices.getUserMedia({
         audio: true,
         video: {
@@ -49,7 +49,7 @@ function WebCam({ isroomid }: { isroomid: string }) {
       if (!socketRef.current) return;
       socketRef.current.emit('join_room', {
         // roomId, userId 받아와야됨.
-        roomId: params,
+        roomId: isroomid,
         userId: localToken,
       });
     } catch (e) {
