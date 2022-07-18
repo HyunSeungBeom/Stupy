@@ -4,14 +4,27 @@ import {
   SetBackGround,
   TopContainer,
   BodyContainer,
-  TitleContainer,
+  // TitleContainer,
   Title,
 } from 'src/components/Styled';
 import BottomBar from 'src/components/BottomBar';
+import { useState } from 'react';
+import { RATIO } from 'src/constants';
 import Room from './Room';
 import SearchBox from './SerchBox';
 
 function List() {
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [filter, setFilter] = useState('전체');
+
+  const handleDropdownPress = () => {
+    setDropdownVisible(!dropdownVisible);
+  };
+  const handleFilterChange = (selected: string) => {
+    setFilter(selected);
+    setDropdownVisible(false);
+  };
+
   return (
     <SetBackGround>
       <TopContainer>
@@ -21,8 +34,44 @@ function List() {
       </TopContainer>
       <BodyContainer>
         <TitleContainer>
-          <Title>전체</Title>
-          <RiEqualizerLine />
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              width: '100%',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <Title>{filter}</Title>
+              <RiEqualizerLine
+                style={{ cursor: 'pointer' }}
+                onClick={handleDropdownPress}
+              />
+            </div>
+            {dropdownVisible && (
+              <DropdownBox>
+                <DropdownItem onClick={() => handleFilterChange('전체')}>
+                  전체
+                </DropdownItem>
+                <DropdownItem onClick={() => handleFilterChange('최신순')}>
+                  최신순
+                </DropdownItem>
+                <DropdownItem onClick={() => handleFilterChange('인기순')}>
+                  인기순
+                </DropdownItem>
+                <DropdownItem onClick={() => handleFilterChange('모집중')}>
+                  모집중
+                </DropdownItem>
+              </DropdownBox>
+            )}
+          </div>
         </TitleContainer>
         <RoomListContainer>
           {MOCK_UP_DATA.map((item) => {
@@ -48,6 +97,13 @@ function List() {
 
 export default List;
 
+const TitleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0px 20px 18px;
+`;
+
 const SearchBoxBackGround = styled.div`
   width: 100%;
   margin-left: auto;
@@ -58,6 +114,26 @@ const RoomListContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+`;
+
+const DropdownBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 50px;
+  right: 10px;
+  border-radius: 10px;
+  background-color: white;
+  width: 148px;
+  max-width: ${148 * RATIO}px;
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
+`;
+const DropdownItem = styled.div`
+  font-size: 18px;
+  font-weight: 400;
+  border-bottom: #f5f5f5 1px solid;
+  padding: 7px 10px;
+  cursor: pointer;
 `;
 
 const MOCK_UP_DATA = [

@@ -84,6 +84,8 @@ const Container = styled.div`
   background-color: white;
   border-radius: 10px;
   overflow: hidden;
+  margin: 0px 20px;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.17);
 `;
 
 const ImgContainer = styled.div`

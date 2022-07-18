@@ -1,13 +1,11 @@
 import { useSearchParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import moment from 'moment';
 import 'moment/locale/ko';
 import BottomBar from 'src/components/BottomBar';
 import TodoList from 'src/screen/Main/TodoList';
-import icoArrowDown from 'src/assets/icons/icoArrowDown.svg';
-import icoMaster from 'src/assets/icons/main/icoMaster.svg';
+import icoPlus from 'src/assets/icons/main/icoPlus.svg';
 import styled from 'styled-components';
-import imgSample from 'src/assets/images/imgSample.png';
 import {
   SetBackGround,
   TopContainer,
@@ -15,12 +13,23 @@ import {
   TitleContainer,
   Title,
 } from 'src/components/Styled';
+import { PRIMARY } from 'src/constants';
+import 'swiper/scss';
+import 'swiper/scss/navigation';
+import 'swiper/scss/pagination';
+import { Swiper, SwiperSlide } from 'swiper/react';
+// import { useQuery } from 'react-query';
+// import { getMain } from 'src/api/main';
+import MyGroup from './MyGroup';
 
 moment.locale('ko');
 
 export default function Main() {
+  const [swiperIdx, setSwiperIdx] = useState(0);
   const [params] = useSearchParams();
   // console.log(params.get('token'));
+
+  // const { data: mainData } = useQuery(['mainData'], getMain);
 
   useEffect(() => {
     const kakaotoken = params.get('token');
@@ -34,39 +43,58 @@ export default function Main() {
   return (
     <SetBackGround>
       <TopContainer>
-        <Welcome>WELCOME, STUPY</Welcome>
-        <Date>{moment().format('M월 D일 dddd')}</Date>
+        <DayOfWeek>{moment().format('dddd')}</DayOfWeek>
+        <Date>{moment().format('M월 D일')}</Date>
       </TopContainer>
-      <BodyContainer>
+      <BodyContainer style={{ backgroundColor: 'white' }}>
         <TitleContainer>
           <Title>GROUP</Title>
-          <div>
-            참가 그룹{' '}
-            <span>
-              <img
-                src={icoArrowDown}
-                alt=""
-                style={{ width: 22, height: 24 }}
-              />
-            </span>
-          </div>
         </TitleContainer>
-        <GroupImgContainer
-          style={{ background: `url(${imgSample})`, backgroundSize: 'cover' }}
-        />
-        <GroupNameContainer>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <GroupName>스터디 그룹 이름</GroupName>
-            <MemberCount>+0/4</MemberCount>
-          </div>
-          <img
-            src={icoMaster}
-            alt=""
-            style={{ width: 62, height: 25, alignSelf: 'center' }}
-          />
-        </GroupNameContainer>
+        <Swiper
+          style={{
+            paddingBottom: 27,
+          }}
+          spaceBetween={1}
+          slidesPerView={1}
+          pagination={{ clickable: true }}
+          onSlideChange={(e) => setSwiperIdx(e.snapIndex)}
+          // onSwiper={(swiper) => console.log(swiper.el)}
+        >
+          {MOCK_UP_GROUP.map((item) => {
+            return (
+              <SwiperSlide key={item.id}>
+                <MyGroup
+                  id={item.id.toString()}
+                  isMaster={item.is_master}
+                  title={item.title}
+                  desc={item.description}
+                />
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
+        <SwiperDotContainer>
+          {MOCK_UP_GROUP.map((item, index) => {
+            return (
+              <div
+                key={item.id}
+                style={{
+                  width: 8,
+                  height: 8,
+                  borderRadius: 4,
+                  backgroundColor: index === swiperIdx ? PRIMARY : '#d9d9d9',
+                }}
+              />
+            );
+          })}
+        </SwiperDotContainer>
+        <Divider />
         <TitleContainer>
           <Title>TO DO LIST</Title>
+          <AddButton>
+            카테고리 추가
+            <PlusIcon src={icoPlus} alt="" />
+          </AddButton>
         </TitleContainer>
         {MOCK_UP_DATA.map((item) => {
           return (
@@ -83,7 +111,7 @@ export default function Main() {
   );
 }
 
-const Welcome = styled.div`
+const DayOfWeek = styled.div`
   font-size: 18px;
   font-weight: 600;
   color: white;
@@ -93,47 +121,37 @@ const Date = styled.div`
   font-weight: 600;
   color: white;
 `;
-
-const GroupImgContainer = styled.div`
-  background: gray;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  height: 138px;
-  overflow: hidden;
-`;
-const GroupNameContainer = styled.div`
+const Divider = styled.div`
   display: flex;
-  height: 58px;
-  justify-content: space-between;
-  background-color: white;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  padding-left: 15px;
-  padding-right: 15px;
-  margin-bottom: 14px;
+  height: 10px;
+  background-color: #f4f4f4;
+  margin-bottom: 18px;
 `;
-const GroupName = styled.div`
-  font-size: 24px;
-  font-weight: bold;
-  color: black;
-  margin-right: 8px;
+const AddButton = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: ${PRIMARY};
+  font-weight: 500;
+  cursor: pointer;
 `;
-const MemberCount = styled.div`
-  font-size: 20px;
-  font-weight: bold;
-  color: rgba(80, 80, 80, 0.69);
+const PlusIcon = styled.img`
+  width: 24px;
+  height: 24px;
+`;
+const SwiperDotContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 18px;
 `;
 
 const MOCK_UP_DATA = [
   {
     id: 1,
-    subject: 'TO_DO_LIST_TITLE_A',
-    to_do_list_item: [
-      { id: 1, content: 'TO DO ITEM 1', is_done: true },
-      { id: 2, content: 'TO DO ITEM 2', is_done: true },
-      { id: 3, content: 'TO DO ITEM 3', is_done: true },
-      { id: 4, content: 'TO DO ITEM 4', is_done: false },
-    ],
+    subject: '제목 없음',
+    to_do_list_item: [{ id: 1, content: '할 일 적어보기', is_done: false }],
   },
   {
     id: 2,
@@ -154,5 +172,37 @@ const MOCK_UP_DATA = [
       { id: 3, content: 'TO DO ITEM 3', is_done: true },
       { id: 4, content: 'TO DO ITEM 4', is_done: false },
     ],
+  },
+];
+
+const MOCK_UP_GROUP = [
+  {
+    id: 1,
+    is_master: true,
+    title: 'GROUP_NAME_A',
+    description: '함께 영어 공부 하실분, 꾸준히 오래 하실분만 들어와 주세요!!',
+    current_member: 2,
+    max_member: 4,
+    hashtag: ['TOEIC', 'TOEFL', '영어회화'],
+    rank: 1,
+  },
+  {
+    id: 2,
+    is_master: false,
+    title: 'GROUP_NAME_B',
+    description: '어쩌구 저쩌구 블라블라 이러쿵 저러쿵 솰라솰라 잉잉잉',
+    current_member: 1,
+    max_member: 4,
+    hashtag: ['해시태그는', '최대여섯글자'],
+    rank: 2,
+  },
+  {
+    id: 3,
+    is_master: true,
+    title: 'GROUP_NAME_C',
+    description: '어쩌구 저쩌구 블라블라 이러쿵 저러쿵 솰라솰라 잉잉잉',
+    current_member: 2,
+    max_member: 2,
+    hashtag: ['해시태그는', '최대여섯글자'],
   },
 ];

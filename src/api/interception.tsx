@@ -16,8 +16,10 @@ const onRequest = (config: AxiosRequestConfig): AxiosRequestConfig => {
     // if (toto) {
     // eslint-disable-next-line no-param-reassign
     config.headers = {
-      authorization: `Bearer ${localToken}`,
-      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localToken}`,
+      'Content-Type': 'application/json; charset=utf-8',
+      // 'X-Requested-With': 'XMLHttpRequest',
+      Accept: '*/*',
     };
   }
   return config;
