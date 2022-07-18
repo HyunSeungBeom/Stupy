@@ -19,7 +19,7 @@ const pc_config = {
     },
   ],
 };
-const SOCKET_SERVER_URL = 'https://stupy.shop';
+const SOCKET_SERVER_URL = 'https://stupy.shop:3000';
 
 function WebCam() {
   const socketRef = useRef<SocketIOClient.Socket>();
