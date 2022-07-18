@@ -17,11 +17,11 @@ axios.interceptors.request.use(async (config) => {
     config.params || '',
     config.data || '',
   );
-  if (token && config.url !== '/commons/app-version/') {
+  if (token && config.url) {
     // eslint-disable-next-line no-param-reassign
     config.headers = {
       ...config.headers,
-      Authorization: `Token ${token}`,
+      Authorization: `Bearer ${token}`,
     };
   }
   return config;
