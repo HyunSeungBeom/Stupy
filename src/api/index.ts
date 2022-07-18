@@ -1,6 +1,7 @@
 import instance from 'axios';
 
-export const BASE_URL = 'http://13.125.58.110:3000/';
+// export const BASE_URL = 'http://13.125.58.110:3000/';
+export const BASE_URL = 'https://stupy.shop:3000/';
 
 const axios = instance.create({
   baseURL: BASE_URL,
