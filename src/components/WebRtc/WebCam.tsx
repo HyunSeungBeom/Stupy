@@ -4,6 +4,7 @@ import io from 'socket.io-client';
 import styled from 'styled-components';
 import { RATIO } from 'src/constants';
 import { useQueryClient } from 'react-query';
+import { useParams } from 'react-router-dom';
 import Video from './Video/index';
 import { WebRTCUser } from '../../types/types';
 
@@ -22,7 +23,7 @@ const pc_config = {
 };
 const SOCKET_SERVER_URL = 'https://stupy.shop:3000';
 
-// eslint-disable-next-line react/no-unused-prop-types
+// eslint-disable-next-line react/no-unused-prop-types, @typescript-eslint/no-unused-vars
 function WebCam({ isroomid }: { isroomid: string }) {
   const socketRef = useRef<SocketIOClient.Socket>();
   const pcsRef = useRef<{ [socketId: string]: RTCPeerConnection }>({});
@@ -34,6 +35,8 @@ function WebCam({ isroomid }: { isroomid: string }) {
 
   const getLocalStream = useCallback(async () => {
     try {
+      const params = useParams();
+      console.log(params);
       const localStream = await navigator.mediaDevices.getUserMedia({
         audio: true,
         video: {
@@ -46,7 +49,7 @@ function WebCam({ isroomid }: { isroomid: string }) {
       if (!socketRef.current) return;
       socketRef.current.emit('join_room', {
         // roomId, userId 받아와야됨.
-        roomId: isroomid,
+        roomId: params,
         userId: localToken,
       });
     } catch (e) {
