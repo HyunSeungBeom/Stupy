@@ -33,7 +33,7 @@ function WebCam({ isroomid }: { isroomid: string }) {
   const localToken = localStorage.getItem('token');
   const query = useQueryClient();
   const params = useParams();
-  console.log(params);
+  console.log(params.id);
 
   const getLocalStream = useCallback(async () => {
     try {
@@ -49,7 +49,7 @@ function WebCam({ isroomid }: { isroomid: string }) {
       if (!socketRef.current) return;
       socketRef.current.emit('join_room', {
         // roomId, userId 받아와야됨.
-        roomId: isroomid,
+        roomId: params.id,
         userId: localToken,
       });
     } catch (e) {
