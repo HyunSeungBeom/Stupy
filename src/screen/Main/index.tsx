@@ -30,6 +30,7 @@ export default function Main() {
   // console.log(params.get('token'));
 
   const { data: todolistData } = useQuery(['todolistData'], getTodolist);
+  // eslint-disable-next-line no-console
   console.log('>>>>', todolistData);
 
   useEffect(() => {

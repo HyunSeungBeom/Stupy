@@ -9,6 +9,7 @@ const axios = instance.create({
 
 axios.interceptors.request.use(async (config) => {
   const token = localStorage.getItem('token');
+  // eslint-disable-next-line no-console
   console.log(
     '[REQUEST]: ',
     token,
