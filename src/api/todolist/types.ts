@@ -1,10 +1,11 @@
-export type GetMain = {
-  userId: string;
+export type GetTodolist = {
+  todoListId: string;
   title: string;
+  userId: string;
   todos: {
-    _id: string;
     content: string;
     status: boolean;
     createdAt: string;
+    _id: string;
   }[];
-};
+}[];
