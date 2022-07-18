@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FieldValues, useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { ImgSource } from './ImgSource';
 import PerSonnelButton from './PersonnelButton';
@@ -53,12 +53,23 @@ function MakeRoom({
 
   const MakeRoomdata = useMutation((data: FormData) => createRoomApi(data), {
     onSuccess: (v) => {
-      // eslint-disable-next-line no-console
+      //     nav(`/room/${v.data.id}`);
+      //   },
+      // });
       console.log(v.data.id);
-      nav(`/room/${v.data.id}`);
+      nav(`/room/${v.data.id}`, {
+        state: {
+          roomId: v.data.id,
+        },
+      });
     },
   });
   const modalClose = () => {
+    // nav(`/room/62ce17067c870b5e55487d00`, {
+    //   state: {
+    //     roomId: '62ce17067c870b5e55487d00',
+    //   },
+    // });
     modal(false);
   };
 

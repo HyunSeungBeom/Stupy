@@ -7,13 +7,9 @@ import {
 } from 'axios';
 
 const onRequest = (config: AxiosRequestConfig): AxiosRequestConfig => {
-  // console.info(`[request] [${JSON.stringify(config)}]`);
   const localToken = localStorage.getItem('token');
   console.log(localToken);
   if (localToken) {
-    // const toto = JSON.parse(localToken);
-    // console.log(toto.tokenState);
-    // if (toto) {
     // eslint-disable-next-line no-param-reassign
     config.headers = {
       authorization: `Bearer ${localToken}`,

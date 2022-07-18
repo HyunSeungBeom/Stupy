@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import icoSerch from 'src/assets/icons/list/icoSearch.svg';
 
 function SearchBox() {
-  const [serchKeyword, setSearchKeyword] = useState<string>(); // search 배포 때문에 뺌.
+  const [serchKeyword, setSearchKeyword] = useState<string>();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchKeyword(e.target.value);
   };
