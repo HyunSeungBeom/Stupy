@@ -119,7 +119,9 @@ function WebCam({ isparam }: { isparam: string }) {
     socketRef.current.on(
       'all_users',
       (
-        usersInThisRoom: Array<{ id: string; userid: string }>,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        datatoclient: any,
+        // usersInThisRoom: Array<{ id: string; userid: string }>,
         // chatInThisRoom: Array<{
         //   _id: string;
         //   roomId: string;
@@ -129,8 +131,8 @@ function WebCam({ isparam }: { isparam: string }) {
         //   __v: boolean;
         // }>,
       ) => {
-        console.log(usersInThisRoom);
-        [...usersInThisRoom].forEach(async (user) => {
+        console.log(datatoclient.usersInThisRoom);
+        [...datatoclient.usersInThisRoom].forEach(async (user) => {
           if (!localStreamRef.current) return;
           const pc = createPeerConnection(user.id, user.userid);
           if (!(pc && socketRef.current)) return;
