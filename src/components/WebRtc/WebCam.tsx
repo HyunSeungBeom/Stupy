@@ -120,7 +120,7 @@ function WebCam({ isparam }: { isparam: string }) {
     const socketCurrent = useSetRecoilState(sendSocket);
     socketRef.current = io.connect(SOCKET_SERVER_URL);
     socketCurrent(socketRef.current);
-    console.log(query.getQueryData('roomid'));
+    console.log(socketRef.current);
     getLocalStream();
 
     // 자신을 제외한 같은 방의 모든 user 목록을 받아온다.

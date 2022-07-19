@@ -26,6 +26,7 @@ function Chatting({ isparam }: { isparam: string }) {
 
   const sendMessage = () => {
     if (inputMessage.length > 0 && socketCurrent) {
+      console.log(socketCurrent);
       setInputMessage('');
       socketCurrent.emit('MessageFromClient', {
         // roomId, userId 받아와야됨.
