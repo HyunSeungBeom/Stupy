@@ -119,7 +119,7 @@ function WebCam({
   useEffect(() => {
     // eslint-disable-next-line no-param-reassign
     socketCurrent = io.connect('https://stupy.shop:3000');
-
+    console.log(socketCurrent);
     console.log(query.getQueryData('roomid'));
     getLocalStream();
 

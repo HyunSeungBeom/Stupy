@@ -16,6 +16,7 @@ function Chatting({
 }) {
   const [inputMessage, setInputMessage] = useState('');
   const [message, setMessage] = useState('');
+  // const [getWrite, setWirte] = useState([])
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputMessage(e.target.value);
   };
@@ -34,7 +35,7 @@ function Chatting({
         // roomId, userId 받아와야됨.
         roomId: isparam,
         content: message,
-        // userId: localToken,
+        userId: socketCurrent.socketid,
       });
       setMessage(inputMessage);
     }
@@ -42,6 +43,9 @@ function Chatting({
   useEffect(() => {
     // eslint-disable-next-line no-param-reassign
     socketCurrent = io.connect('https://stupy.shop:3000');
+    console.log(socketCurrent);
+    // socketCurrent.on()
+    // 서버에서 오는 메세지 데이터를 받음
   });
   return (
     <ChattingBox>

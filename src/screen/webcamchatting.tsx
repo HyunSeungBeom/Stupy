@@ -20,6 +20,7 @@ function Webcamchatting() {
   useEffect(() => {
     socketRef.current = io.connect(SOCKET_SERVER_URL);
   });
+
   return (
     <SetBackGround>
       <WebScreen>
