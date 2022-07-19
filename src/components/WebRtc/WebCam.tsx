@@ -4,7 +4,6 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import io from 'socket.io-client';
 import styled from 'styled-components';
 import { RATIO } from 'src/constants';
-import { useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { sendSocket } from 'src/recoil/store';
@@ -35,7 +34,6 @@ function WebCam({ isparam }: { isparam: string }) {
   const localStreamRef = useRef<MediaStream>();
   const [users, setUsers] = useState<WebRTCUser[]>([]);
   const localToken = localStorage.getItem('token');
-  const query = useQueryClient();
   const params = useParams();
   console.log(params.id);
 
