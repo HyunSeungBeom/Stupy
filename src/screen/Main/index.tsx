@@ -18,20 +18,29 @@ import 'swiper/scss';
 import 'swiper/scss/navigation';
 import 'swiper/scss/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { useQuery } from 'react-query';
-import { getTodolist } from 'src/api/todolist';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { getTodolist, postTodolist } from 'src/api/todolist';
 import MyGroup from './MyGroup';
 
 moment.locale('ko');
 
 export default function Main() {
+  const queryClient = useQueryClient();
   const [swiperIdx, setSwiperIdx] = useState(0);
   const [params] = useSearchParams();
   // console.log(params.get('token'));
 
   const { data: todolistData } = useQuery(['todolistData'], getTodolist);
   // eslint-disable-next-line no-console
-  console.log('>>>>', todolistData);
+
+  const { mutate: addCategory } = useMutation(postTodolist, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('todolistData');
+    },
+    onError: (err) => {
+      console.warn(err);
+    },
+  });
 
   useEffect(() => {
     const kakaotoken = params.get('token');
@@ -41,6 +50,10 @@ export default function Main() {
       window.location.replace('/main');
     }
   }, []);
+
+  const handleAddCategory = () => {
+    addCategory();
+  };
 
   return (
     <SetBackGround>
@@ -93,17 +106,18 @@ export default function Main() {
         <Divider />
         <TitleContainer>
           <Title>TO DO LIST</Title>
-          <AddButton>
+          <AddButton onClick={handleAddCategory}>
             카테고리 추가
             <PlusIcon src={icoPlus} alt="" />
           </AddButton>
         </TitleContainer>
-        {MOCK_UP_DATA.map((item) => {
+        {todolistData?.map((item) => {
           return (
             <TodoList
-              key={item.id}
-              subject={item.subject}
-              item={item.to_do_list_item}
+              key={item.todoListId}
+              id={item.todoListId}
+              subject={item.title}
+              item={item.todos}
             />
           );
         })}
