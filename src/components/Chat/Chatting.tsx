@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 /* eslint-disable react/button-has-type */
 import React, { useState } from 'react';
@@ -32,7 +33,7 @@ function Chatting({
         // roomId, userId 받아와야됨.
         roomId: isparam,
         content: message,
-        userId: localToken,
+        // userId: localToken,
       });
       setMessage(inputMessage);
     }
