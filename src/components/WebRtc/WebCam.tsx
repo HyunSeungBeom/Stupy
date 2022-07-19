@@ -129,6 +129,7 @@ function WebCam({ isparam }: { isparam: string }) {
         //   __v: boolean;
         // }>,
       ) => {
+        console.log(usersInThisRoom);
         usersInThisRoom.forEach(async (user) => {
           if (!localStreamRef.current) return;
           const pc = createPeerConnection(user.id, user.userid);
