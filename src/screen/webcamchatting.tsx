@@ -1,8 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { userInfo } from 'os';
+import { useEffect, useRef } from 'react';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { BiArrowBack, BiUser } from 'react-icons/bi';
 import { useParams } from 'react-router-dom';
+import io from 'socket.io-client';
 import Chatting from 'src/components/Chat/Chatting';
 import { SetBackGround } from 'src/components/Styled';
 import { RATIO } from 'src/constants';
@@ -11,13 +12,14 @@ import styled from 'styled-components';
 import WebCam from '../components/WebRtc/WebCam';
 
 function Webcamchatting() {
-  // const location = useLocation();
+  const socketRef = useRef<SocketIOClient.Socket>();
   const param = useParams();
   const paramid = param.id;
-  // const state = location.state as { roomId: string };
-  // eslint-disable-next-line no-console
-  // console.log(state.roomId);
+  const SOCKET_SERVER_URL = 'https://stupy.shop:3000';
 
+  useEffect(() => {
+    socketRef.current = io.connect(SOCKET_SERVER_URL);
+  });
   return (
     <SetBackGround>
       <WebScreen>
@@ -29,10 +31,16 @@ function Webcamchatting() {
             <RoomTitle>디자이너 스터디 </RoomTitle>
           </Block2>
         </UpperMenu>
-        <WebCambox>{paramid && <WebCam isparam={paramid} />}</WebCambox>
+        <WebCambox>
+          {paramid && (
+            <WebCam isparam={paramid} socketCurrent={socketRef.current} />
+          )}
+        </WebCambox>
         <ChattingMenu>
           <ChattingBox />
-          <Chatting />
+          {paramid && (
+            <Chatting isparam={paramid} socketCurrent={socketRef.current} />
+          )}
         </ChattingMenu>
       </WebScreen>
     </SetBackGround>

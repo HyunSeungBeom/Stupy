@@ -5,7 +5,13 @@ import { RATIO } from 'src/constants';
 import styled from 'styled-components';
 import { ReactComponent as ChattingButton } from 'src/assets/icons/webrtcroom/sendMessageButton.svg';
 
-function Chatting() {
+function Chatting({
+  isparam,
+  socketCurrent,
+}: {
+  isparam: string;
+  socketCurrent: any;
+}) {
   const [inputMessage, setInputMessage] = useState('');
   const [message, setMessage] = useState('');
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,6 +28,12 @@ function Chatting() {
   const sendMessage = () => {
     if (inputMessage.length > 0) {
       setInputMessage('');
+      socketCurrent.emit('MessageFromClient', {
+        // roomId, userId 받아와야됨.
+        roomId: isparam,
+        content: message,
+        userId: localToken,
+      });
       setMessage(inputMessage);
     }
   };
