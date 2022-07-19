@@ -6,6 +6,8 @@ import styled from 'styled-components';
 import { RATIO } from 'src/constants';
 import { useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+import { sendSocket } from 'src/recoil/store';
 import Video from './Video/index';
 import { WebRTCUser } from '../../types/types';
 
@@ -25,14 +27,9 @@ const pc_config = {
 // const SOCKET_SERVER_URL = 'https://stupy.shop:3000';
 
 // eslint-disable-next-line react/no-unused-prop-types, @typescript-eslint/no-unused-vars
-function WebCam({
-  isparam,
-  socketCurrent,
-}: {
-  isparam: string;
-  socketCurrent: any;
-}) {
+function WebCam({ isparam }: { isparam: string }) {
   // const socketRef = useRef<SocketIOClient.Socket>();
+  const socketRef = useRef<SocketIOClient.Socket>();
   const pcsRef = useRef<{ [socketId: string]: RTCPeerConnection }>({});
   const localVideoRef = useRef<HTMLVideoElement>(null);
   const localStreamRef = useRef<MediaStream>();
@@ -41,6 +38,8 @@ function WebCam({
   const query = useQueryClient();
   const params = useParams();
   console.log(params.id);
+
+  const SOCKET_SERVER_URL = 'https://stupy.shop:3000';
 
   const getLocalStream = useCallback(async () => {
     try {
@@ -53,9 +52,9 @@ function WebCam({
       });
       localStreamRef.current = localStream;
       if (localVideoRef.current) localVideoRef.current.srcObject = localStream;
-      if (!socketCurrent) return;
-      console.log(socketCurrent);
-      socketCurrent.emit('join_room', {
+      if (!socketRef.current) return;
+      console.log(socketRef.current);
+      socketRef.current.emit('join_room', {
         // roomId, userId 받아와야됨.
         roomId: isparam,
         userId: localToken,
@@ -71,11 +70,11 @@ function WebCam({
         const pc = new RTCPeerConnection(pc_config);
 
         pc.onicecandidate = (e) => {
-          if (!(socketCurrent && e.candidate)) return;
+          if (!(socketRef.current && e.candidate)) return;
           console.log('onicecandidate');
-          socketCurrent.emit('candidate', {
+          socketRef.current.emit('candidate', {
             candidate: e.candidate,
-            candidateSendID: socketCurrent.id,
+            candidateSendID: socketRef.current.id,
             candidateReceiveID: socketID,
           });
         };
@@ -118,14 +117,15 @@ function WebCam({
 
   useEffect(() => {
     // eslint-disable-next-line no-param-reassign
-    socketCurrent = io.connect('https://stupy.shop:3000');
-    console.log(socketCurrent);
+    const socketCurrent = useSetRecoilState(sendSocket);
+    socketRef.current = io.connect(SOCKET_SERVER_URL);
+    socketCurrent(socketRef.current);
     console.log(query.getQueryData('roomid'));
     getLocalStream();
 
     // 자신을 제외한 같은 방의 모든 user 목록을 받아온다.
     // 해당 user에게 offer signal을 보낸다(createOffer() 함수 호출).
-    socketCurrent.on(
+    socketRef.current.on(
       'all_users',
       (
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -144,7 +144,7 @@ function WebCam({
         [...datatoclient.usersInThisRoom].forEach(async (user) => {
           if (!localStreamRef.current) return;
           const pc = createPeerConnection(user.id, user.userid);
-          if (!(pc && socketCurrent)) return;
+          if (!(pc && socketRef.current)) return;
           pcsRef.current = { ...pcsRef.current, [user.id]: pc };
           try {
             const localSdp = await pc.createOffer({
@@ -153,9 +153,9 @@ function WebCam({
             });
             console.log('create offer success');
             await pc.setLocalDescription(new RTCSessionDescription(localSdp));
-            socketCurrent.emit('offer', {
+            socketRef.current.emit('offer', {
               sdp: localSdp,
-              offerSendID: socketCurrent.id,
+              offerSendID: socketRef.current.id,
               offerSendUserID: 'offerSendSample@sample.com',
               offerReceiveID: user.id,
             });
@@ -166,7 +166,7 @@ function WebCam({
       },
     );
 
-    socketCurrent.on(
+    socketRef.current.on(
       'getOffer',
       async (data: {
         sdp: RTCSessionDescription;
@@ -177,7 +177,7 @@ function WebCam({
         console.log('get offer');
         if (!localStreamRef.current) return;
         const pc = createPeerConnection(offerSendID, offerSendUserID);
-        if (!(pc && socketCurrent)) return;
+        if (!(pc && socketRef.current)) return;
         pcsRef.current = { ...pcsRef.current, [offerSendID]: pc };
         try {
           await pc.setRemoteDescription(new RTCSessionDescription(sdp));
@@ -187,9 +187,9 @@ function WebCam({
             offerToReceiveAudio: true,
           });
           await pc.setLocalDescription(new RTCSessionDescription(localSdp));
-          socketCurrent.emit('answer', {
+          socketRef.current.emit('answer', {
             sdp: localSdp,
-            answerSendID: socketCurrent.id,
+            answerSendID: socketRef.current.id,
             answerReceiveID: offerSendID,
           });
         } catch (e) {
@@ -198,7 +198,7 @@ function WebCam({
       },
     );
 
-    socketCurrent.on(
+    socketRef.current.on(
       'getAnswer',
       (data: { sdp: RTCSessionDescription; answerSendID: string }) => {
         const { sdp, answerSendID } = data;
@@ -209,7 +209,7 @@ function WebCam({
       },
     );
 
-    socketCurrent.on(
+    socketRef.current.on(
       'getCandidate',
       async (data: {
         candidate: RTCIceCandidateInit;
@@ -223,7 +223,7 @@ function WebCam({
       },
     );
 
-    socketCurrent.on('user_exit', (data: { id: string }) => {
+    socketRef.current.on('user_exit', (data: { id: string }) => {
       if (!pcsRef.current[data.id]) return;
       pcsRef.current[data.id].close();
       delete pcsRef.current[data.id];
@@ -231,8 +231,8 @@ function WebCam({
     });
 
     return () => {
-      if (socketCurrent) {
-        socketCurrent.disconnect();
+      if (socketRef.current) {
+        socketRef.current.disconnect();
       }
       users.forEach((user) => {
         if (!pcsRef.current[user.id]) return;

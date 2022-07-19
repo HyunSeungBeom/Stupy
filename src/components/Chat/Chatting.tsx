@@ -2,20 +2,16 @@
 /* eslint-disable no-console */
 /* eslint-disable react/button-has-type */
 import React, { useEffect, useState } from 'react';
-import io from 'socket.io-client';
 import { RATIO } from 'src/constants';
 import styled from 'styled-components';
 import { ReactComponent as ChattingButton } from 'src/assets/icons/webrtcroom/sendMessageButton.svg';
+import { sendSocket } from 'src/recoil/store';
+import { useRecoilValue } from 'recoil';
 
-function Chatting({
-  isparam,
-  socketCurrent,
-}: {
-  isparam: string;
-  socketCurrent: any;
-}) {
+function Chatting({ isparam }: { isparam: string }) {
   const [inputMessage, setInputMessage] = useState('');
   const [message, setMessage] = useState('');
+  const socketCurrent = useRecoilValue(sendSocket);
   // const [getWrite, setWirte] = useState([])
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputMessage(e.target.value);
@@ -29,22 +25,19 @@ function Chatting({
   };
 
   const sendMessage = () => {
-    if (inputMessage.length > 0) {
+    if (inputMessage.length > 0 && socketCurrent) {
       setInputMessage('');
       socketCurrent.emit('MessageFromClient', {
         // roomId, userId 받아와야됨.
         roomId: isparam,
         content: message,
-        userId: socketCurrent.socketid,
+        // userId: socketCurrent.socketid,
       });
       setMessage(inputMessage);
     }
   };
   useEffect(() => {
     // eslint-disable-next-line no-param-reassign
-    socketCurrent = io.connect('https://stupy.shop:3000');
-    console.log(socketCurrent);
-    // socketCurrent.on()
     // 서버에서 오는 메세지 데이터를 받음
   });
   return (
