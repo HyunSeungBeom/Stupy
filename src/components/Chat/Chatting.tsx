@@ -2,6 +2,7 @@
 /* eslint-disable no-console */
 /* eslint-disable react/button-has-type */
 import React, { useEffect, useState } from 'react';
+import io from 'socket.io-client';
 import { RATIO } from 'src/constants';
 import styled from 'styled-components';
 import { ReactComponent as ChattingButton } from 'src/assets/icons/webrtcroom/sendMessageButton.svg';
@@ -39,8 +40,8 @@ function Chatting({
     }
   };
   useEffect(() => {
-    // eslint-disable-next-line no-unused-expressions
-    socketCurrent;
+    // eslint-disable-next-line no-param-reassign
+    socketCurrent = io.connect('https://stupy.shop:3000');
   });
   return (
     <ChattingBox>

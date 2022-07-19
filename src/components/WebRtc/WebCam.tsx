@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-// import io from 'socket.io-client';
+import io from 'socket.io-client';
 import styled from 'styled-components';
 import { RATIO } from 'src/constants';
 import { useQueryClient } from 'react-query';
@@ -117,8 +117,8 @@ function WebCam({
   );
 
   useEffect(() => {
-    // eslint-disable-next-line no-param-reassign, no-unused-expressions
-    socketCurrent;
+    // eslint-disable-next-line no-param-reassign
+    socketCurrent = io.connect('https://stupy.shop:3000');
 
     console.log(query.getQueryData('roomid'));
     getLocalStream();
