@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 /* eslint-disable react/button-has-type */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { RATIO } from 'src/constants';
 import styled from 'styled-components';
 import { ReactComponent as ChattingButton } from 'src/assets/icons/webrtcroom/sendMessageButton.svg';
@@ -12,6 +12,7 @@ function Chatting({ isparam }: { isparam: string }) {
   const [inputMessage, setInputMessage] = useState('');
   const [message, setMessage] = useState('');
   const socketCurrent = useRecoilValue(sendSocket);
+  console.log(socketCurrent);
   // const [getWrite, setWirte] = useState([])
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputMessage(e.target.value);
@@ -25,22 +26,18 @@ function Chatting({ isparam }: { isparam: string }) {
   };
 
   const sendMessage = () => {
-    if (inputMessage.length > 0 && socketCurrent) {
+    if (inputMessage.length > 0) {
       console.log(socketCurrent);
       setInputMessage('');
       socketCurrent.emit('MessageFromClient', {
         // roomId, userId 받아와야됨.
         roomId: isparam,
         content: message,
-        // userId: socketCurrent.socketid,
+        userId: socketCurrent,
       });
       setMessage(inputMessage);
     }
   };
-  useEffect(() => {
-    // eslint-disable-next-line no-param-reassign
-    // 서버에서 오는 메세지 데이터를 받음
-  });
   return (
     <ChattingBox>
       <Chattinglist>{message}</Chattinglist>
