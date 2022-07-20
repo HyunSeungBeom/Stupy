@@ -3,36 +3,77 @@ import icoXbutton from 'src/assets/icons/main/icoXbutton.svg';
 import btnAdd from 'src/assets/icons/main/btnAdd.svg';
 import { useCallback, useEffect, useState } from 'react';
 import Checkbox from 'src/components/Checkbox';
+import { useMutation, useQueryClient } from 'react-query';
+import {
+  deleteTodolistId,
+  deleteTodolistIdTodoId,
+  postTodolistId,
+} from 'src/api/todolist';
 
 type Props = {
+  id: string;
   subject: string;
   item: {
-    id: number;
+    _id: string;
     content: string;
-    is_done: boolean;
+    status: boolean;
+    createdAt: string;
   }[];
 };
 
-let tempId = 0;
-
-export default function TodoList({ subject, item }: Props) {
+export default function TodoList({ id, subject, item }: Props) {
+  const queryClient = useQueryClient();
+  const todolistId = id;
   const [subjectData, setSubjectData] = useState<string>();
   const [itemData, setItemData] = useState<typeof item>([]);
+  const { mutate: postTodolistItem } = useMutation(
+    () => postTodolistId(todolistId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('todolistData');
+      },
+      onError: (err) => {
+        console.warn(err);
+      },
+    },
+  );
+  const { mutate: deleteTodolist } = useMutation(
+    () => deleteTodolistId(todolistId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('todolistData');
+      },
+      onError: (err) => {
+        console.warn(err);
+      },
+    },
+  );
+  const { mutate: deleteTodolistItem } = useMutation(
+    (todoId: string) => deleteTodolistIdTodoId(todolistId, todoId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('todolistData');
+      },
+      onError: (err) => {
+        console.warn(err);
+      },
+    },
+  );
 
   useEffect(() => {
     setSubjectData(subject);
     setItemData(item);
   }, [subject, item]);
 
-  const handleDeleteContent = useCallback((id: number) => {
-    setItemData((prev) => prev?.filter((e) => e.id !== id));
+  const handleDeleteContent = useCallback((id: string) => {
+    deleteTodolistItem(id);
   }, []);
 
   const handleAddContent = () => {
-    tempId += 1;
-    const tempArray = [];
-    tempArray.push({ id: tempId, content: '', is_done: false });
-    setItemData(itemData.concat(tempArray));
+    postTodolistItem();
+  };
+  const handleDelCategory = () => {
+    deleteTodolist();
   };
 
   return (
@@ -48,32 +89,36 @@ export default function TodoList({ subject, item }: Props) {
       {itemData?.map((item) => {
         return (
           <TodoItem
-            key={item.id}
-            id={item.id}
+            // eslint-disable-next-line no-underscore-dangle
+            key={item._id}
+            // eslint-disable-next-line no-underscore-dangle
+            id={item._id}
             contentProp={item.content}
-            isDoneProp={item.is_done}
+            isDoneProp={item.status}
             onDeleteContent={handleDeleteContent}
           />
         );
       })}
       <ItemAddBtn src={btnAdd} alt="" onClick={handleAddContent} />
-      <CartegoryDelBtn>카테고리 삭제</CartegoryDelBtn>
+      <CartegoryDelBtn onClick={handleDelCategory}>
+        카테고리 삭제
+      </CartegoryDelBtn>
     </Wrap>
   );
 }
 
 type ItemProps = {
-  id: number;
+  id: string;
   contentProp: string;
   isDoneProp: boolean;
-  onDeleteContent: (id: number) => void;
+  onDeleteContent: (id: string) => void;
 };
 
 function TodoItem({ id, contentProp, isDoneProp, onDeleteContent }: ItemProps) {
   const [content, setContent] = useState<typeof contentProp>();
   const [isDone, setIsDone] = useState(false);
 
-  const handleDelItemPress = (id: number) => {
+  const handleDelItemPress = (id: string) => {
     onDeleteContent(id);
   };
 
