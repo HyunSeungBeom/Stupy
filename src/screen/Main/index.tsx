@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import moment from 'moment';
@@ -163,33 +164,33 @@ const SwiperDotContainer = styled.div`
   margin-bottom: 18px;
 `;
 
-const MOCK_UP_DATA = [
-  {
-    id: 1,
-    subject: '제목 없음',
-    to_do_list_item: [{ id: 1, content: '할 일 적어보기', is_done: false }],
-  },
-  {
-    id: 2,
-    subject: 'TO_DO_LIST_TITLE_B',
-    to_do_list_item: [
-      { id: 1, content: 'TO DO ITEM 1', is_done: true },
-      { id: 2, content: 'TO DO ITEM 2', is_done: true },
-      { id: 3, content: 'TO DO ITEM 3', is_done: true },
-      { id: 4, content: 'TO DO ITEM 4', is_done: false },
-    ],
-  },
-  {
-    id: 3,
-    subject: 'TO_DO_LIST_TITLE_C',
-    to_do_list_item: [
-      { id: 1, content: 'TO DO ITEM 1', is_done: true },
-      { id: 2, content: 'TO DO ITEM 2', is_done: true },
-      { id: 3, content: 'TO DO ITEM 3', is_done: true },
-      { id: 4, content: 'TO DO ITEM 4', is_done: false },
-    ],
-  },
-];
+// const MOCK_UP_DATA = [
+//   {
+//     id: 1,
+//     subject: '제목 없음',
+//     to_do_list_item: [{ id: 1, content: '할 일 적어보기', is_done: false }],
+//   },
+//   {
+//     id: 2,
+//     subject: 'TO_DO_LIST_TITLE_B',
+//     to_do_list_item: [
+//       { id: 1, content: 'TO DO ITEM 1', is_done: true },
+//       { id: 2, content: 'TO DO ITEM 2', is_done: true },
+//       { id: 3, content: 'TO DO ITEM 3', is_done: true },
+//       { id: 4, content: 'TO DO ITEM 4', is_done: false },
+//     ],
+//   },
+//   {
+//     id: 3,
+//     subject: 'TO_DO_LIST_TITLE_C',
+//     to_do_list_item: [
+//       { id: 1, content: 'TO DO ITEM 1', is_done: true },
+//       { id: 2, content: 'TO DO ITEM 2', is_done: true },
+//       { id: 3, content: 'TO DO ITEM 3', is_done: true },
+//       { id: 4, content: 'TO DO ITEM 4', is_done: false },
+//     ],
+//   },
+// ];
 
 const MOCK_UP_GROUP = [
   {

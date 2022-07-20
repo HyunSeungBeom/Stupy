@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import styled from 'styled-components';
 import icoXbutton from 'src/assets/icons/main/icoXbutton.svg';
 import btnAdd from 'src/assets/icons/main/btnAdd.svg';
