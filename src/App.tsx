@@ -1,11 +1,11 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import List from './screen/List';
-import Login from './screen/login';
+import Login from './screen/Login';
 import Main from './screen/Main';
 import './App.css';
-import Mypage from './screen/mypage';
 import Webcamchatting from './screen/webcamchatting';
+import Setting from './screen/Setting';
 
 const GlobalStyle = createGlobalStyle`
 
@@ -42,7 +42,7 @@ function App() {
           <Route path="/main" element={<Main />} />
           <Route path="/list" element={<List />} />
           <Route path="/kakao/login" element={<Main />} />
-          <Route path="/mypage" element={<Mypage />} />
+          <Route path="/setting" element={<Setting />} />
           <Route path="/room/:id" element={<Webcamchatting />} />
         </Routes>
       </BrowserRouter>

@@ -5,10 +5,11 @@ import icoListOn from 'src/assets/icons/bottomTab/icoListOn.svg';
 import icoMain from 'src/assets/icons/bottomTab/icoMain.svg';
 import icoMainOn from 'src/assets/icons/bottomTab/icoMainOn.svg';
 import icoSetting from 'src/assets/icons/bottomTab/icoSetting.svg';
+import icoSettingOn from 'src/assets/icons/bottomTab/icoSettingOn.svg';
 import { CreateButton } from './Button';
 
 type Props = {
-  currentPage: 'List' | 'Main' | 'Mypage';
+  currentPage: 'List' | 'Main' | 'Setting';
 };
 
 export default function BottomBar({ currentPage }: Props) {
@@ -19,8 +20,8 @@ export default function BottomBar({ currentPage }: Props) {
   const ListClick = () => {
     nav('/list');
   };
-  const MypageClick = () => {
-    nav('/mypage');
+  const SettingClick = () => {
+    nav('/setting');
   };
 
   return (
@@ -37,9 +38,9 @@ export default function BottomBar({ currentPage }: Props) {
         onClick={MainClick}
       />
       <BottomNav
-        src={currentPage === 'Mypage' ? icoSetting : icoSetting}
+        src={currentPage === 'Setting' ? icoSettingOn : icoSetting}
         alt=""
-        onClick={MypageClick}
+        onClick={SettingClick}
       />
     </BottomBox>
   );
