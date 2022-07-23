@@ -1,46 +1,86 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 /* eslint-disable react/button-has-type */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RATIO } from 'src/constants';
 import styled from 'styled-components';
 import { ReactComponent as ChattingButton } from 'src/assets/icons/webrtcroom/sendMessageButton.svg';
-import { sendSocket } from 'src/recoil/store';
-import { useRecoilValue } from 'recoil';
+import { Socket } from 'socket.io-client';
+import { Buffer } from 'buffer';
+import Messages from './Messages';
 
-function Chatting({ isparam }: { isparam: string }) {
+export interface chattype {
+  content: string;
+  roomId: string;
+  userId: {
+    kakaouserId: string;
+    userNick: string | undefined;
+    _id: string;
+  };
+}
+
+function Chatting({ isparam, socket }: { isparam: string; socket: Socket }) {
   const [inputMessage, setInputMessage] = useState('');
-  const [message, setMessage] = useState('');
-  const socketCurrent = useRecoilValue(sendSocket);
-  console.log(socketCurrent);
-  // const [getWrite, setWirte] = useState([])
+  const [message, setMessage] = useState<Array<chattype>>([]);
+  const token = localStorage.getItem('token');
+  const base64Payload = token ? token.split('.')[1] : '';
+  const payload = Buffer.from(base64Payload, 'base64');
+  const userid = JSON.parse(payload.toString());
+
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputMessage(e.target.value);
   };
 
   const handleKeyPressed = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      e.preventDefault();
       sendMessage();
     }
   };
 
   const sendMessage = () => {
     if (inputMessage.length > 0) {
-      console.log(socketCurrent);
-      setInputMessage('');
-      socketCurrent.emit('MessageFromClient', {
-        // roomId, userId 받아와야됨.
+      // console.log(socket);
+      const sendMessage = {
         roomId: isparam,
-        content: message,
-        userId: socketCurrent,
+        content: inputMessage,
+        userId: {
+          kakaouserId: userid.userId,
+          userNick: '',
+          _id: '',
+        },
+      };
+      setMessage([...message, sendMessage]);
+
+      socket.emit('MessageFromClient', {
+        roomId: isparam,
+        content: inputMessage,
       });
-      setMessage(inputMessage);
     }
   };
+
+  useEffect(() => {
+    socket.on('chatForOther', (newChat) => {
+      console.log(message);
+      setMessage((message) => [...message, newChat]);
+      // console.log(newChat);
+    });
+  }, [socket]);
+
   return (
     <ChattingBox>
-      <Chattinglist>{message}</Chattinglist>
+      <Chattinglist>
+        {message.map((e, i) => {
+          // console.log(e);
+          return (
+            <Messages
+              // eslint-disable-next-line react/no-array-index-key
+              key={i}
+              currentId={userid.userId}
+              e={e}
+            />
+          );
+        })}
+      </Chattinglist>
       <ChattingBoxdiv>
         <ChatiingInput
           placeholder="입력해주세요"
@@ -54,15 +94,15 @@ function Chatting({ isparam }: { isparam: string }) {
     </ChattingBox>
   );
 }
+
 export default Chatting;
 
 const ChattingBox = styled.div`
   position: fixed;
   width: ${460 * RATIO}px;
   max-width: 460px;
-  bottom: 3%;
-  height: 30%;
-  background-color: white;
+  bottom: 50px;
+  height: 400px;
 `;
 
 const ChattingBoxdiv = styled.div`
@@ -72,9 +112,11 @@ const ChattingBoxdiv = styled.div`
 `;
 
 const Chattinglist = styled.div`
-  width: 100%;
-  height: 90%;
-  background-color: pink;
+  height: calc(100% - 50px);
+  overflow-y: auto; //스크롤바 없애기
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const ChatiingInput = styled.input`
