@@ -40,7 +40,37 @@ export const postTodolistId = async (todolistId: string) => {
     throw err;
   }
 };
+export const patchTodolistId = async (
+  todolistId: string,
+  categoryTitle: string,
+) => {
+  // eslint-disable-next-line no-useless-catch
+  try {
+    const res = await axios.patch<PostTodolistId>(`/todolist/${todolistId}`, {
+      title: categoryTitle,
+    });
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+};
 
+export const patchTodolistIdTodoId = async (
+  todolistId: string,
+  todoId: string,
+  todoContent: string,
+) => {
+  // eslint-disable-next-line no-useless-catch
+  try {
+    const res = await axios.patch<PostTodolistId>(
+      `/todolist/${todolistId}/${todoId}`,
+      { content: todoContent },
+    );
+    return res.data;
+  } catch (err) {
+    throw err;
+  }
+};
 export const deleteTodolistIdTodoId = async (
   todolistId: string,
   todoId: string,

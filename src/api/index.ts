@@ -11,12 +11,17 @@ axios.interceptors.request.use(async (config) => {
   const token = localStorage.getItem('token');
   // eslint-disable-next-line no-console
   console.log(
-    '[REQUEST]: ',
+    '[REQUEST_LOG]',
+    '\n>> TOKEN:',
     token,
+    '\n>> METHOD:',
     config.method,
+    '\n>> URL:',
     config.url,
-    config.params || '',
-    config.data || '',
+    '\n>> PARAMS:',
+    config.params || '-',
+    '\n>> DATA:',
+    config.data || '-',
   );
   if (token && config.url) {
     // eslint-disable-next-line no-param-reassign
