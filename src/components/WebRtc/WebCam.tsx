@@ -31,7 +31,6 @@ function WebCam({ isparam, socket }: { isparam: string; socket: Socket }) {
   const localVideoRef = useRef<HTMLVideoElement>(null);
   const localStreamRef = useRef<MediaStream>();
   const [users, setUsers] = useState<WebRTCUser[]>([]);
-  const localToken = localStorage.getItem('token');
   const params = useParams();
   console.log(params.id);
 
@@ -40,8 +39,8 @@ function WebCam({ isparam, socket }: { isparam: string; socket: Socket }) {
       const localStream = await navigator.mediaDevices.getUserMedia({
         audio: true,
         video: {
-          width: 43,
-          height: 80,
+          width: 200,
+          height: 400,
         },
       });
       localStreamRef.current = localStream;
@@ -236,14 +235,6 @@ function WebCam({ isparam, socket }: { isparam: string; socket: Socket }) {
     };
   }, [createPeerConnection, getLocalStream]);
 
-  // //자기 채팅 append한 채팅
-
-  // socketRef.current.emit("MessageFromClient", (data: {roomId: string, content: string, userId: string})
-  // socketRef.current.on("chatForOther", (data: {roomId: string, content: string, userId: string, createdAt: Date}) => {
-
-  //   //다른 사람채팅목록 append 시켜주기
-  // } )
-
   return (
     <Contanier>
       <VideoBox muted ref={localVideoRef} autoPlay />
@@ -258,8 +249,8 @@ export default WebCam;
 
 const Contanier = styled.div`
   display: flex;
-  height: 50vh;
-  justify-content: start;
+  flex-wrap: wrap;
+  max-width: 460px;
 `;
 
 const VideoBox = styled.video`

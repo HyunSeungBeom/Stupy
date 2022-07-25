@@ -5,6 +5,9 @@ import React, { useEffect, useState } from 'react';
 import { RATIO } from 'src/constants';
 import styled from 'styled-components';
 import { ReactComponent as ChattingButton } from 'src/assets/icons/webrtcroom/sendMessageButton.svg';
+import { ReactComponent as ChattingAudioButton } from 'src/assets/icons/webrtcroom/cameraaudiobutton.svg';
+import { ReactComponent as CameraButton } from 'src/assets/icons/webrtcroom/camera.svg';
+import { ReactComponent as MicButton } from 'src/assets/icons/webrtcroom/mic.svg';
 import { Socket } from 'socket.io-client';
 import { Buffer } from 'buffer';
 import Messages from './Messages';
@@ -26,6 +29,7 @@ function Chatting({ isparam, socket }: { isparam: string; socket: Socket }) {
   const base64Payload = token ? token.split('.')[1] : '';
   const payload = Buffer.from(base64Payload, 'base64');
   const userid = JSON.parse(payload.toString());
+  const [dropdownVisible, setDropdownVisible] = useState(false);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputMessage(e.target.value);
@@ -35,6 +39,10 @@ function Chatting({ isparam, socket }: { isparam: string; socket: Socket }) {
     if (e.key === 'Enter') {
       sendMessage();
     }
+  };
+
+  const handleDropdownPress = () => {
+    setDropdownVisible(!dropdownVisible);
   };
 
   const sendMessage = () => {
@@ -90,6 +98,22 @@ function Chatting({ isparam, socket }: { isparam: string; socket: Socket }) {
         <ChattingBtn>
           <ChattingButton onClick={sendMessage} />
         </ChattingBtn>
+
+        <ChattingAudioButton
+          onClick={handleDropdownPress}
+          style={{ cursor: 'pointer' }}
+        />
+        {dropdownVisible && (
+          <DropdownBox>
+            <DropdownItem>
+              아아
+              {/* <CameraButton /> */}
+            </DropdownItem>
+            <DropdownItem>
+              <MicButton />
+            </DropdownItem>
+          </DropdownBox>
+        )}
       </ChattingBoxdiv>
     </ChattingBox>
   );
@@ -143,4 +167,24 @@ const ChattingBtn = styled.div`
   max-height: 44px;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
+`;
+
+const DropdownBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 265px;
+  right: 10px;
+  border-radius: 10px;
+  background-color: white;
+  width: 80px;
+  max-width: ${148 * RATIO}px;
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
+`;
+
+const DropdownItem = styled.div`
+  box-sizing: border-box;
+  border-bottom: #f5f5f5 1px solid;
+  padding: 7px 10px;
+  cursor: pointer;
 `;
