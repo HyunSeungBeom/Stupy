@@ -2,14 +2,17 @@
 import styled from 'styled-components';
 import icoXbutton from 'src/assets/icons/main/icoXbutton.svg';
 import btnAdd from 'src/assets/icons/main/btnAdd.svg';
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Checkbox from 'src/components/Checkbox';
 import { useMutation, useQueryClient } from 'react-query';
 import {
   deleteTodolistId,
   deleteTodolistIdTodoId,
+  patchTodolistId,
+  patchTodolistIdTodoId,
   postTodolistId,
 } from 'src/api/todolist';
+import { postStatusToFalse, postStatusToTrue } from 'src/api/todolist/status';
 
 type Props = {
   id: string;
@@ -25,14 +28,63 @@ type Props = {
 export default function TodoList({ id, subject, item }: Props) {
   const queryClient = useQueryClient();
   const todolistId = id;
-  const [subjectData, setSubjectData] = useState<string>();
+  const [subjectData, setSubjectData] = useState('');
   const [itemData, setItemData] = useState<typeof item>([]);
+
   const { mutate: postTodolistItem } = useMutation(
     () => postTodolistId(todolistId),
     {
       onSuccess: () => {
         queryClient.invalidateQueries('todolistData');
       },
+      onError: (err) => {
+        console.warn(err);
+      },
+    },
+  );
+
+  const { mutate: patchTodolist } = useMutation(
+    () => patchTodolistId(todolistId, subjectData),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('todolistData');
+      },
+      onError: (err) => {
+        console.warn(err);
+      },
+    },
+  );
+
+  const { mutate: changeStatusToTrue } = useMutation(
+    (todoId: string) => postStatusToTrue(todolistId, todoId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('todolistData');
+      },
+      onError: (err) => {
+        console.warn(err);
+      },
+    },
+  );
+  const { mutate: changeStatusToFalse } = useMutation(
+    (todoId: string) => postStatusToFalse(todolistId, todoId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('todolistData');
+      },
+      onError: (err) => {
+        console.warn(err);
+      },
+    },
+  );
+
+  const { mutate: deleteTodolistItem } = useMutation(
+    (todoId: string) => deleteTodolistIdTodoId(todolistId, todoId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('todolistData');
+      },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       onError: (err) => {
         console.warn(err);
       },
@@ -49,30 +101,30 @@ export default function TodoList({ id, subject, item }: Props) {
       },
     },
   );
-  const { mutate: deleteTodolistItem } = useMutation(
-    (todoId: string) => deleteTodolistIdTodoId(todolistId, todoId),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('todolistData');
-      },
-      onError: (err) => {
-        console.warn(err);
-      },
-    },
-  );
-
   useEffect(() => {
     setSubjectData(subject);
     setItemData(item);
   }, [subject, item]);
 
+  const handleAddContent = () => {
+    postTodolistItem();
+  };
+  const handleChangeContentStatus = useCallback(
+    (id: string, status: boolean) => {
+      if (status) {
+        changeStatusToTrue(id);
+      } else changeStatusToFalse(id);
+    },
+    [],
+  );
   const handleDeleteContent = useCallback((id: string) => {
     deleteTodolistItem(id);
   }, []);
 
-  const handleAddContent = () => {
-    postTodolistItem();
+  const handleEditCategory = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.code === 'Enter') patchTodolist();
   };
+
   const handleDelCategory = () => {
     deleteTodolist();
   };
@@ -85,6 +137,7 @@ export default function TodoList({ id, subject, item }: Props) {
           onChange={(e) => {
             setSubjectData(e.target.value);
           }}
+          onKeyUp={handleEditCategory}
         />
       </SubjectRow>
       {itemData?.map((item) => {
@@ -92,11 +145,13 @@ export default function TodoList({ id, subject, item }: Props) {
           <TodoItem
             // eslint-disable-next-line no-underscore-dangle
             key={item._id}
+            categoryId={id}
             // eslint-disable-next-line no-underscore-dangle
             id={item._id}
             contentProp={item.content}
             isDoneProp={item.status}
             onDeleteContent={handleDeleteContent}
+            onChangeContentStatus={handleChangeContentStatus}
           />
         );
       })}
@@ -109,18 +164,46 @@ export default function TodoList({ id, subject, item }: Props) {
 }
 
 type ItemProps = {
+  categoryId: string;
   id: string;
   contentProp: string;
   isDoneProp: boolean;
   onDeleteContent: (id: string) => void;
+  onChangeContentStatus: (id: string, status: boolean) => void;
 };
 
-function TodoItem({ id, contentProp, isDoneProp, onDeleteContent }: ItemProps) {
-  const [content, setContent] = useState<typeof contentProp>();
+function TodoItem({
+  categoryId,
+  id,
+  contentProp,
+  isDoneProp,
+  onDeleteContent,
+  onChangeContentStatus,
+}: ItemProps) {
+  const [content, setContent] = useState('');
   const [isDone, setIsDone] = useState(false);
+  const queryClient = useQueryClient();
+
+  const { mutate: patchTodolistItem } = useMutation(
+    () => patchTodolistIdTodoId(categoryId, id, content),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('todolistData');
+      },
+      onError: (err) => {
+        console.warn(err);
+      },
+    },
+  );
 
   const handleDelItemPress = (id: string) => {
     onDeleteContent(id);
+  };
+  const handleChangeStatus = (id: string, status: boolean) => {
+    onChangeContentStatus(id, status);
+  };
+  const handleEditItem = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.code === 'Enter') patchTodolistItem();
   };
 
   useEffect(() => {
@@ -131,8 +214,18 @@ function TodoItem({ id, contentProp, isDoneProp, onDeleteContent }: ItemProps) {
   return (
     <ItemRow>
       <div>
-        <Checkbox isCheckedProp={isDone} />
-        <Input value={content} onChange={(e) => setContent(e.target.value)} />
+        <Checkbox
+          isCheckedProp={isDone}
+          onChangeChecked={(e) => {
+            setIsDone(e);
+            handleChangeStatus(id, e);
+          }}
+        />
+        <Input
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          onKeyUp={handleEditItem}
+        />
       </div>
       <ItemDelBtn
         src={icoXbutton}

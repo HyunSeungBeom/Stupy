@@ -33,7 +33,7 @@ function Mypage() {
         <SettingBox>설정</SettingBox>
         <Withdrawal>회원탈퇴</Withdrawal>
       </SettingMenu>
-      <BottomBar currentPage="Mypage" />
+      <BottomBar currentPage="Setting" />
     </Background>
   );
 }
