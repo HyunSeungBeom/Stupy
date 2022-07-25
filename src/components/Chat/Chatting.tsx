@@ -88,7 +88,6 @@ function Chatting({ isparam, socket }: { isparam: string; socket: Socket }) {
             <Messages
               // eslint-disable-next-line react/no-array-index-key
               key={i}
-              currentId={userid.userId}
               e={e}
             />
           );

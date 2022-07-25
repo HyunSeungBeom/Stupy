@@ -3,17 +3,10 @@ import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { chattype } from './Chatting';
 
-export default function Messages({
-  currentId,
-  e,
-}: {
-  currentId: string | undefined;
-  e: chattype;
-}) {
+export default function Messages({ e }: { e: chattype }) {
   const chatRef = useRef<HTMLDivElement>(null);
   // eslint-disable-next-line prefer-destructuring
   // console.log(e);
-  const id = e.userId.kakaouserId;
 
   // console.log(e);
   // console.log(currentId, id);

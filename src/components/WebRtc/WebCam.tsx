@@ -2,7 +2,6 @@
 /* eslint-disable no-console */
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
-import { RATIO } from 'src/constants';
 import { useParams } from 'react-router-dom';
 import { Socket } from 'socket.io-client';
 import Video from './Video/index';

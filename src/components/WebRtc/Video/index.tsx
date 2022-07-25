@@ -8,6 +8,7 @@ interface Props {
   muted?: boolean;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function Video({ userid, stream, muted }: Props) {
   const ref = useRef<HTMLVideoElement>(null);
   const [isMuted, setIsMuted] = useState<boolean>(false);
@@ -35,6 +36,7 @@ const VideoContainer = styled.video`
   background-color: black;
 `;
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const UserLabel = styled.p`
   position: absolute;
   left: 0px;
