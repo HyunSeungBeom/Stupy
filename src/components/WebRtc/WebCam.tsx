@@ -39,7 +39,7 @@ function WebCam({ isparam, socket }: { isparam: string; socket: Socket }) {
       const localStream = await navigator.mediaDevices.getUserMedia({
         audio: true,
         video: {
-          width: 200,
+          width: 230,
           height: 400,
         },
       });
@@ -253,6 +253,4 @@ const Contanier = styled.div`
   max-width: 460px;
 `;
 
-const VideoBox = styled.video`
-  display: flex;
-`;
+const VideoBox = styled.video``;

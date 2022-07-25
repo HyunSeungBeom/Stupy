@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { BiArrowBack, BiUser } from 'react-icons/bi';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Chatting from 'src/components/Chat/Chatting';
 import { SetBackGround } from 'src/components/Styled';
 import WebCam from 'src/components/WebRtc/WebCam';
@@ -28,12 +28,16 @@ function Webcamchatting() {
     setModalOpen(!modalOpen);
   };
 
+  const backClick = () => {
+    nav(-1);
+  };
+  const nav = useNavigate();
   return (
     <>
       <SetBackGround>
         <WebScreen>
           <UpperMenu>
-            <Block>
+            <Block onClick={backClick}>
               <BackIcon />
             </Block>
             <Block2>
@@ -63,7 +67,7 @@ const WebScreen = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 10px;
-  background-color: white;
+  background-color: #e5e5e5;
   height: 800px;
   width: ${460 * RATIO}px;
   max-width: 460px;
@@ -103,7 +107,6 @@ const Block2 = styled.div`
   width: 300px;
   height: 25px;
   padding-left: 4%;
-
   color: white;
 `;
 
@@ -117,17 +120,18 @@ const ChattingMenu = styled.div``;
 const ChattingBox = styled.div``;
 
 const RankButton = styled.div`
-  box-sizing: border-box;
   margin-left: 10px;
   margin-right: 10px;
-  padding-left: 6px;
   height: 40px;
   border-radius: 5px;
   width: 82px;
   text-align: center;
   align-items: center;
   color: white;
-  background: gray;
+  box-sizing: border-box;
   display: flex;
   cursor: pointer;
+  background: rgba(87, 87, 87, 0.55);
+  gap: 4px;
+  padding-left: 10px;
 `;

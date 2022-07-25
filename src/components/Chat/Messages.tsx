@@ -15,8 +15,8 @@ export default function Messages({
   // console.log(e);
   const id = e.userId.kakaouserId;
 
-  console.log(e);
-  console.log(currentId, id);
+  // console.log(e);
+  // console.log(currentId, id);
   const scrollToBottom = () => {
     if (chatRef.current) {
       chatRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -24,38 +24,35 @@ export default function Messages({
   };
 
   useEffect(scrollToBottom, [e.content]);
+
   return (
-    <OneChat isMe={id === currentId}>
-      {id !== currentId ? (
-        <Chatid isMe={id === currentId}>{e.userId.userNick}</Chatid>
-      ) : null}
-      <Chatword isMe={id === currentId}>{e.content}</Chatword>
+    <OneChat>
+      <Chatid>{e.userId.userNick}</Chatid>
+      <Chatword>{e.content}</Chatword>
       <div ref={chatRef} />
     </OneChat>
   );
 }
 
-const Chatid = styled.div<{ isMe: boolean }>`
-  text-align: ${(props) => (props.isMe ? 'right' : 'left')};
+const Chatid = styled.div`
   position: relative;
-  right: ${(props) => (props.isMe ? '2%' : '-2%')};
-  color: black;
-  font-size: 15px;
-  margin-bottom: 5px;
+  left: 2%;
+  color: #717171;
+  font-size: 17px;
+  text-align: center;
 `;
-const Chatword = styled.div<{ isMe: boolean }>`
-  text-align: ${(props) => (props.isMe ? 'right' : 'left')};
+const Chatword = styled.div`
   position: relative;
-  background: ${(props) => (props.isMe ? '#FFEE59' : 'white')};
   border-radius: 5px;
-  border: 1px solid black;
-  padding: 10px;
+  font-size: 17px;
   display: inline-block;
-  right: ${(props) => (props.isMe ? '2%' : '-2%')};
+  left: 2%;
+  color: white;
 `;
 
-const OneChat = styled.div<{ isMe: boolean }>`
+const OneChat = styled.div`
   width: 100%;
-  margin-top: ${(props) => (props.isMe ? '10px' : '22px')};
-  text-align: ${(props) => (props.isMe ? 'right' : 'left')};
+  display: flex;
+  margin-top: 10px;
+  gap: 5px;
 `;

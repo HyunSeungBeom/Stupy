@@ -10,6 +10,8 @@ import { ReactComponent as CameraButton } from 'src/assets/icons/webrtcroom/came
 import { ReactComponent as MicButton } from 'src/assets/icons/webrtcroom/mic.svg';
 import { Socket } from 'socket.io-client';
 import { Buffer } from 'buffer';
+import { userIdApi } from 'src/api/webcam';
+import { useQuery } from 'react-query';
 import Messages from './Messages';
 
 export interface chattype {
@@ -31,6 +33,11 @@ function Chatting({ isparam, socket }: { isparam: string; socket: Socket }) {
   const userid = JSON.parse(payload.toString());
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
+  const { isSuccess, data } = useQuery('userinfo', () =>
+    userIdApi(userid.userId),
+  );
+  // console.log(isSuccess && data.data.user.userNick);
+
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputMessage(e.target.value);
   };
@@ -46,31 +53,30 @@ function Chatting({ isparam, socket }: { isparam: string; socket: Socket }) {
   };
 
   const sendMessage = () => {
-    if (inputMessage.length > 0) {
-      // console.log(socket);
+    if (inputMessage.length > 0 && isSuccess) {
+      console.log(userid);
       const sendMessage = {
         roomId: isparam,
         content: inputMessage,
         userId: {
           kakaouserId: userid.userId,
-          userNick: '',
+          userNick: data.data.user.userNick,
           _id: '',
         },
       };
       setMessage([...message, sendMessage]);
-
       socket.emit('MessageFromClient', {
         roomId: isparam,
         content: inputMessage,
       });
+      setInputMessage('');
     }
   };
 
   useEffect(() => {
     socket.on('chatForOther', (newChat) => {
-      console.log(message);
+      console.log(newChat);
       setMessage((message) => [...message, newChat]);
-      // console.log(newChat);
     });
   }, [socket]);
 
@@ -78,7 +84,6 @@ function Chatting({ isparam, socket }: { isparam: string; socket: Socket }) {
     <ChattingBox>
       <Chattinglist>
         {message.map((e, i) => {
-          // console.log(e);
           return (
             <Messages
               // eslint-disable-next-line react/no-array-index-key
@@ -90,29 +95,40 @@ function Chatting({ isparam, socket }: { isparam: string; socket: Socket }) {
         })}
       </Chattinglist>
       <ChattingBoxdiv>
-        <ChatiingInput
-          placeholder="입력해주세요"
-          onChange={handleInput}
-          onKeyDown={handleKeyPressed}
-        />
-        <ChattingBtn>
-          <ChattingButton onClick={sendMessage} />
-        </ChattingBtn>
-
+        <InputbuttonBox>
+          <ChatiingInput
+            placeholder="입력해주세요"
+            onChange={handleInput}
+            onKeyDown={handleKeyPressed}
+            value={inputMessage}
+          />
+          <ChattingButton
+            style={{
+              position: 'absolute',
+              top: '10',
+              right: '0',
+              cursor: 'pointer',
+            }}
+            onClick={sendMessage}
+          />
+        </InputbuttonBox>
         <ChattingAudioButton
           onClick={handleDropdownPress}
-          style={{ cursor: 'pointer' }}
+          style={{ cursor: 'pointer', right: '20', position: 'absolute' }}
         />
         {dropdownVisible && (
-          <DropdownBox>
-            <DropdownItem>
-              아아
-              {/* <CameraButton /> */}
-            </DropdownItem>
-            <DropdownItem>
-              <MicButton />
-            </DropdownItem>
-          </DropdownBox>
+          <div>
+            <DropdownBox>
+              <DropdownItem>
+                <CameraButton />
+              </DropdownItem>
+            </DropdownBox>
+            <DropdownBox2>
+              <DropdownItem>
+                <MicButton />
+              </DropdownItem>
+            </DropdownBox2>
+          </div>
         )}
       </ChattingBoxdiv>
     </ChattingBox>
@@ -126,7 +142,7 @@ const ChattingBox = styled.div`
   width: ${460 * RATIO}px;
   max-width: 460px;
   bottom: 50px;
-  height: 400px;
+  height: 250px;
 `;
 
 const ChattingBoxdiv = styled.div`
@@ -144,7 +160,7 @@ const Chattinglist = styled.div`
 `;
 
 const ChatiingInput = styled.input`
-  width: 70%;
+  width: 100%;
   height: ${44 * RATIO}px;
   max-height: 44px;
   background: #ffffff;
@@ -153,38 +169,41 @@ const ChatiingInput = styled.input`
   border-width: 0px;
   padding-left: 10px;
   margin-left: 20px;
-  border: 1px solid black;
-`;
-
-const ChattingBtn = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  width: ${44 * RATIO}px;
-  height: ${44 * RATIO}px;
-  max-width: 44px;
-  max-height: 44px;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
 `;
 
 const DropdownBox = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 265px;
-  right: 10px;
+  top: 100px;
+  right: 20px;
   border-radius: 10px;
   background-color: white;
-  width: 80px;
+  width: 54px;
+  max-width: ${148 * RATIO}px;
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
+`;
+
+const DropdownBox2 = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 150px;
+  right: 20px;
+  border-radius: 10px;
+  background-color: white;
+  width: 54px;
   max-width: ${148 * RATIO}px;
   box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 
 const DropdownItem = styled.div`
-  box-sizing: border-box;
-  border-bottom: #f5f5f5 1px solid;
   padding: 7px 10px;
+  text-align: center;
   cursor: pointer;
+`;
+
+const InputbuttonBox = styled.div`
+  position: relative;
+  width: 76%;
 `;

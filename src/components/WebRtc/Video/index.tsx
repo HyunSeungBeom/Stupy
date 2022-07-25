@@ -1,21 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
-const Container = styled.div`
-  position: relative;
-
-  margin: 5px;
-`;
-
-const VideoContainer = styled.video`
-  background-color: black;
-`;
-
-const UserLabel = styled.p`
-  position: absolute;
-  left: 0px;
-`;
-
 interface Props {
   userid: string;
   stream: MediaStream;
@@ -41,3 +26,16 @@ function Video({ userid, stream, muted }: Props) {
 }
 
 export default Video;
+
+const Container = styled.div`
+  position: flex;
+`;
+
+const VideoContainer = styled.video`
+  background-color: black;
+`;
+
+const UserLabel = styled.p`
+  position: absolute;
+  left: 0px;
+`;
