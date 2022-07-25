@@ -1,68 +1,148 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 /* eslint-disable react/button-has-type */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RATIO } from 'src/constants';
 import styled from 'styled-components';
 import { ReactComponent as ChattingButton } from 'src/assets/icons/webrtcroom/sendMessageButton.svg';
-import { sendSocket } from 'src/recoil/store';
-import { useRecoilValue } from 'recoil';
+import { ReactComponent as ChattingAudioButton } from 'src/assets/icons/webrtcroom/cameraaudiobutton.svg';
+import { ReactComponent as CameraButton } from 'src/assets/icons/webrtcroom/camera.svg';
+import { ReactComponent as MicButton } from 'src/assets/icons/webrtcroom/mic.svg';
+import { Socket } from 'socket.io-client';
+import { Buffer } from 'buffer';
+import { userIdApi } from 'src/api/webcam';
+import { useQuery } from 'react-query';
+import Messages from './Messages';
 
-function Chatting({ isparam }: { isparam: string }) {
+export interface chattype {
+  content: string;
+  roomId: string;
+  userId: {
+    kakaouserId: string;
+    userNick: string | undefined;
+    _id: string;
+  };
+}
+
+function Chatting({ isparam, socket }: { isparam: string; socket: Socket }) {
   const [inputMessage, setInputMessage] = useState('');
-  const [message, setMessage] = useState('');
-  const socketCurrent = useRecoilValue(sendSocket);
-  console.log(socketCurrent);
-  // const [getWrite, setWirte] = useState([])
+  const [message, setMessage] = useState<Array<chattype>>([]);
+  const token = localStorage.getItem('token');
+  const base64Payload = token ? token.split('.')[1] : '';
+  const payload = Buffer.from(base64Payload, 'base64');
+  const userid = JSON.parse(payload.toString());
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+
+  const { isSuccess, data } = useQuery('userinfo', () =>
+    userIdApi(userid.userId),
+  );
+  // console.log(isSuccess && data.data.user.userNick);
+
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputMessage(e.target.value);
   };
 
   const handleKeyPressed = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      e.preventDefault();
       sendMessage();
     }
   };
 
+  const handleDropdownPress = () => {
+    setDropdownVisible(!dropdownVisible);
+  };
+
   const sendMessage = () => {
-    if (inputMessage.length > 0) {
-      console.log(socketCurrent);
-      setInputMessage('');
-      socketCurrent.emit('MessageFromClient', {
-        // roomId, userId 받아와야됨.
+    if (inputMessage.length > 0 && isSuccess) {
+      console.log(userid);
+      const sendMessage = {
         roomId: isparam,
-        content: message,
-        userId: socketCurrent,
+        content: inputMessage,
+        userId: {
+          kakaouserId: userid.userId,
+          userNick: data.data.user.userNick,
+          _id: '',
+        },
+      };
+      setMessage([...message, sendMessage]);
+      socket.emit('MessageFromClient', {
+        roomId: isparam,
+        content: inputMessage,
       });
-      setMessage(inputMessage);
+      setInputMessage('');
     }
   };
+
+  useEffect(() => {
+    socket.on('chatForOther', (newChat) => {
+      console.log(newChat);
+      setMessage((message) => [...message, newChat]);
+    });
+  }, [socket]);
+
   return (
     <ChattingBox>
-      <Chattinglist>{message}</Chattinglist>
+      <Chattinglist>
+        {message.map((e, i) => {
+          return (
+            <Messages
+              // eslint-disable-next-line react/no-array-index-key
+              key={i}
+              currentId={userid.userId}
+              e={e}
+            />
+          );
+        })}
+      </Chattinglist>
       <ChattingBoxdiv>
-        <ChatiingInput
-          placeholder="입력해주세요"
-          onChange={handleInput}
-          onKeyDown={handleKeyPressed}
+        <InputbuttonBox>
+          <ChatiingInput
+            placeholder="입력해주세요"
+            onChange={handleInput}
+            onKeyDown={handleKeyPressed}
+            value={inputMessage}
+          />
+          <ChattingButton
+            style={{
+              position: 'absolute',
+              top: '10',
+              right: '0',
+              cursor: 'pointer',
+            }}
+            onClick={sendMessage}
+          />
+        </InputbuttonBox>
+        <ChattingAudioButton
+          onClick={handleDropdownPress}
+          style={{ cursor: 'pointer', right: '20', position: 'absolute' }}
         />
-        <ChattingBtn>
-          <ChattingButton onClick={sendMessage} />
-        </ChattingBtn>
+        {dropdownVisible && (
+          <div>
+            <DropdownBox>
+              <DropdownItem>
+                <CameraButton />
+              </DropdownItem>
+            </DropdownBox>
+            <DropdownBox2>
+              <DropdownItem>
+                <MicButton />
+              </DropdownItem>
+            </DropdownBox2>
+          </div>
+        )}
       </ChattingBoxdiv>
     </ChattingBox>
   );
 }
+
 export default Chatting;
 
 const ChattingBox = styled.div`
   position: fixed;
   width: ${460 * RATIO}px;
   max-width: 460px;
-  bottom: 3%;
-  height: 30%;
-  background-color: white;
+  bottom: 50px;
+  height: 250px;
 `;
 
 const ChattingBoxdiv = styled.div`
@@ -72,13 +152,15 @@ const ChattingBoxdiv = styled.div`
 `;
 
 const Chattinglist = styled.div`
-  width: 100%;
-  height: 90%;
-  background-color: pink;
+  height: calc(100% - 50px);
+  overflow-y: auto; //스크롤바 없애기
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const ChatiingInput = styled.input`
-  width: 70%;
+  width: 100%;
   height: ${44 * RATIO}px;
   max-height: 44px;
   background: #ffffff;
@@ -87,18 +169,41 @@ const ChatiingInput = styled.input`
   border-width: 0px;
   padding-left: 10px;
   margin-left: 20px;
-  border: 1px solid black;
 `;
 
-const ChattingBtn = styled.div`
+const DropdownBox = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  position: absolute;
+  top: 100px;
+  right: 20px;
+  border-radius: 10px;
   background-color: white;
-  width: ${44 * RATIO}px;
-  height: ${44 * RATIO}px;
-  max-width: 44px;
-  max-height: 44px;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
+  width: 54px;
+  max-width: ${148 * RATIO}px;
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
+`;
+
+const DropdownBox2 = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 150px;
+  right: 20px;
+  border-radius: 10px;
+  background-color: white;
+  width: 54px;
+  max-width: ${148 * RATIO}px;
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
+`;
+
+const DropdownItem = styled.div`
+  padding: 7px 10px;
+  text-align: center;
+  cursor: pointer;
+`;
+
+const InputbuttonBox = styled.div`
+  position: relative;
+  width: 76%;
 `;

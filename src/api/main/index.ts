@@ -3,7 +3,7 @@ import setupInterceptorsTo from '../interception';
 import { GetMain } from './types';
 
 const baseApi = axios.create({
-  baseURL: 'https://stupy.shop:3000',
+  baseURL: 'https://stupy.shop',
   timeout: 3000,
 });
 
