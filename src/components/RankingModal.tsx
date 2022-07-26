@@ -1,15 +1,28 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as CloseButton } from 'src/assets/icons/webrtcroom/closebutton.svg';
+import { Socket } from 'socket.io-client';
 
-export default function RankingModal({
+function RankingModal({
   modal,
+  socket,
 }: {
   modal: React.Dispatch<React.SetStateAction<boolean>>;
+  socket: Socket;
 }) {
   const modalClose = () => {
     modal(false);
   };
+
+  useEffect(() => {
+    socket.emit('timertoggleon', () => {
+      console.log('준호님이랑 같이');
+    });
+    socket.on('timeinfos', (data) => {
+      // data: [... {profilepic,nickName,currentrecord,accumrecord}]
+      console.log(data);
+    });
+  }, []);
 
   useEffect(() => {
     document.body.style.cssText = `
@@ -45,6 +58,7 @@ export default function RankingModal({
     </ModalContainer>
   );
 }
+export default RankingModal;
 
 const ModalContainer = styled.div`
   top: 0;

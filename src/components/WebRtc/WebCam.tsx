@@ -1,8 +1,9 @@
+/* eslint-disable no-return-assign */
+/* eslint-disable no-param-reassign */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
 import { Socket } from 'socket.io-client';
 import Video from './Video/index';
 import { WebRTCUser } from '../../types/types';
@@ -28,38 +29,37 @@ function WebCam({ isparam, socket }: { isparam: string; socket: Socket }) {
   const [users, setUsers] = useState<WebRTCUser[]>([]);
   const [cameraOn, setCameraOn] = React.useState(true);
   const [audioOn, setAudioOn] = React.useState(true);
-  const params = useParams();
 
-  // 카메라 온오프
+  // // 카메라 온오프
   // const VideoHandler = () => {
   //   if (cameraOn) {
-  //     localVideoRef
+  //     myVideo.current.srcObject
   //       .getVideoTracks()
-  //       .forEach((track : ) => (track.enabled = false))
-  //     setCameraOn(false)
-  //     const src = document.querySelector('.video_non_src')
-  //     src.style.display = 'block'
+  //       .forEach((track: any) => (track.enabled = false));
+  //     setCameraOn(false);
+  //     const src = document.querySelector('.video_non_src');
+  //     src.style.display = 'block';
   //   } else {
   //     myVideo.current.srcObject
   //       .getVideoTracks()
-  //       .forEach((track) => (track.enabled = true))
-  //     setCameraOn(true)
-  //     const src = document.querySelector('.video_non_src')
-  //     src.style.display = 'none'
+  //       .forEach((track: any) => (track.enabled = true));
+  //     setCameraOn(true);
+  //     const src = document.querySelector('.video_non_src');
+  //     src.style.display = 'none';
   //   }
-  // }
+  // };
 
-  //  // 오디오 온오프
-  //  const AudioHandler = () => {
+  // // 오디오 온오프
+  // const AudioHandler = () => {
   //   myVideo.current.srcObject
   //     .getAudioTracks()
-  //     .forEach((track) => (track.enabled = !track.enabled))
+  //     .forEach((track: any) => (track.enabled = !track.enabled));
   //   if (audioOn) {
-  //     setAudioOn(false)
+  //     setAudioOn(false);
   //   } else {
-  //     setAudioOn(true)
+  //     setAudioOn(true);
   //   }
-  // }
+  // };
 
   const getLocalStream = useCallback(async () => {
     try {
@@ -135,14 +135,12 @@ function WebCam({ isparam, socket }: { isparam: string; socket: Socket }) {
 
   useEffect(() => {
     getLocalStream();
-    // console.log(socket);
     // 자신을 제외한 같은 방의 모든 user 목록을 받아온다.
     // 해당 user에게 offer signal을 보낸다(createOffer() 함수 호출).
     socket.on(
       'all_users',
       (
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        datatoclient: any,
+        datatoclient,
         // usersInThisRoom: Array<{ id: string; userid: string }>,
         // chatInThisRoom: Array<{
         //   _id: string;

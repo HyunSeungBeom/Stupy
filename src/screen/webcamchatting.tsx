@@ -8,21 +8,14 @@ import { SetBackGround } from 'src/components/Styled';
 import WebCam from 'src/components/WebRtc/WebCam';
 import { RATIO } from 'src/constants';
 import styled from 'styled-components';
-import { io } from 'socket.io-client';
 import { ReactComponent as RankingButton } from 'src/assets/icons/webrtcroom/ranking.svg';
 import RankingModal from 'src/components/RankingModal';
+import { Socket } from 'socket.io-client';
 
-function Webcamchatting() {
+function Webcamchatting({ socket }: { socket: Socket }) {
   const param = useParams();
   const paramid = param.id;
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const localToken = localStorage.getItem('token');
-  // const socket = io('http://stupy.shop:3000', {
-  const socket = io('http://localhost:3001', {
-    auth: {
-      token: localToken,
-    },
-  });
 
   const handleModalOpen = () => {
     setModalOpen(!modalOpen);
@@ -32,6 +25,7 @@ function Webcamchatting() {
     nav(-1);
   };
   const nav = useNavigate();
+
   return (
     <>
       <SetBackGround>
@@ -56,7 +50,7 @@ function Webcamchatting() {
           </ChattingMenu>
         </WebScreen>
       </SetBackGround>
-      {modalOpen && <RankingModal modal={setModalOpen} />}
+      {modalOpen && <RankingModal modal={setModalOpen} socket={socket} />}
     </>
   );
 }

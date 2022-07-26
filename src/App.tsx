@@ -6,6 +6,8 @@ import Main from './screen/Main';
 import './App.css';
 import Webcamchatting from './screen/webcamchatting';
 import Setting from './screen/Setting';
+// eslint-disable-next-line import/order
+import { io } from 'socket.io-client';
 
 const GlobalStyle = createGlobalStyle`
 
@@ -25,6 +27,13 @@ function App() {
     },
     true,
   );
+  const localToken = localStorage.getItem('token');
+  // const socket = io('http://stupy.shop:3000', {
+  const socket = io('http://localhost:3001', {
+    auth: {
+      token: localToken,
+    },
+  });
   return (
     <div
       style={{
@@ -43,7 +52,10 @@ function App() {
           <Route path="/list" element={<List />} />
           <Route path="/kakao/login" element={<Main />} />
           <Route path="/setting" element={<Setting />} />
-          <Route path="/room/:id" element={<Webcamchatting />} />
+          <Route
+            path="/room/:id"
+            element={<Webcamchatting socket={socket} />}
+          />
         </Routes>
       </BrowserRouter>
     </div>
