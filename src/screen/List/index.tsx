@@ -141,6 +141,8 @@ const AlignBtn = styled.div`
   gap: 6px;
   font-size: 18px;
   color: black;
+  align-items: center;
+  cursor: pointer;
 `;
 
 const MOCK_UP_DATA = [
