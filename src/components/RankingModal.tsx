@@ -28,7 +28,17 @@ export default function RankingModal({
           <CloseButton />
         </CloseButtonBox>
         <RankingBox>
-          <div />
+          <Menual>
+            <RankingMenu>순위</RankingMenu>
+            <NicknameMenu>닉네임</NicknameMenu>
+            <TimeMenu>기록/누적시간</TimeMenu>
+          </Menual>
+          <UserBox>
+            <NumberBox>1</NumberBox>
+          </UserBox>
+          <UserBox>2</UserBox>
+          <UserBox>3</UserBox>
+          <UserBox>4</UserBox>
         </RankingBox>
       </ModalInner>
       <Zindex onClick={modalClose} />
@@ -106,4 +116,51 @@ const RankingBox = styled.div`
   top: 72px;
   left: 20px;
   border-radius: 9px;
+`;
+
+const Menual = styled.div`
+  display: flex;
+  width: 348px;
+  height: 52px;
+  border-bottom: 1px solid #d8d8d8;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+`;
+
+const RankingMenu = styled.div`
+  position: absolute;
+  font-weight: 500;
+  width: 40px;
+  height: 24px;
+  left: 18px;
+  top: 14px;
+`;
+const TimeMenu = styled.div`
+  position: absolute;
+  width: 110px;
+  height: 24px;
+  left: 223px;
+  top: 14px;
+`;
+const NicknameMenu = styled.div`
+  position: absolute;
+  width: 50px;
+  height: 24px;
+  left: 133px;
+  top: 14px;
+`;
+
+const UserBox = styled.div`
+  box-sizing: border-box;
+  position: flex;
+  width: 348px;
+  height: 104px;
+  left: 20px;
+  border-bottom: 1px solid #efefef;
+`;
+
+const NumberBox = styled.div`
+  position: flex;
 `;

@@ -71,7 +71,7 @@ const WebScreen = styled.div`
   height: 800px;
   width: ${460 * RATIO}px;
   max-width: 460px;
-  overflow-y: hidden;
+  overflow: hidden;
 `;
 
 const UpperMenu = styled.div`

@@ -20,26 +20,54 @@ const pc_config = {
     },
   ],
 };
-// const SOCKET_SERVER_URL = 'https://stupy.shop:3000';
 
-// eslint-disable-next-line react/no-unused-prop-types, @typescript-eslint/no-unused-vars
 function WebCam({ isparam, socket }: { isparam: string; socket: Socket }) {
-  console.log('bye');
-  // const socketRef = useRef<SocketIOClient.Socket>();
   const pcsRef = useRef<{ [socketId: string]: RTCPeerConnection }>({});
   const localVideoRef = useRef<HTMLVideoElement>(null);
   const localStreamRef = useRef<MediaStream>();
   const [users, setUsers] = useState<WebRTCUser[]>([]);
+  const [cameraOn, setCameraOn] = React.useState(true);
+  const [audioOn, setAudioOn] = React.useState(true);
   const params = useParams();
-  console.log(params.id);
+
+  // 카메라 온오프
+  // const VideoHandler = () => {
+  //   if (cameraOn) {
+  //     localVideoRef
+  //       .getVideoTracks()
+  //       .forEach((track : ) => (track.enabled = false))
+  //     setCameraOn(false)
+  //     const src = document.querySelector('.video_non_src')
+  //     src.style.display = 'block'
+  //   } else {
+  //     myVideo.current.srcObject
+  //       .getVideoTracks()
+  //       .forEach((track) => (track.enabled = true))
+  //     setCameraOn(true)
+  //     const src = document.querySelector('.video_non_src')
+  //     src.style.display = 'none'
+  //   }
+  // }
+
+  //  // 오디오 온오프
+  //  const AudioHandler = () => {
+  //   myVideo.current.srcObject
+  //     .getAudioTracks()
+  //     .forEach((track) => (track.enabled = !track.enabled))
+  //   if (audioOn) {
+  //     setAudioOn(false)
+  //   } else {
+  //     setAudioOn(true)
+  //   }
+  // }
 
   const getLocalStream = useCallback(async () => {
     try {
       const localStream = await navigator.mediaDevices.getUserMedia({
         audio: true,
         video: {
-          width: 230,
-          height: 400,
+          width: 228,
+          height: 398,
         },
       });
       localStreamRef.current = localStream;
@@ -47,9 +75,7 @@ function WebCam({ isparam, socket }: { isparam: string; socket: Socket }) {
       if (!socket) return;
       console.log(socket);
       socket.emit('join_room', {
-        // roomId, userId 받아와야됨.
         roomId: isparam,
-        // userId: localToken,
       });
     } catch (e) {
       console.log(`getUserMedia error: ${e}`);
@@ -108,9 +134,6 @@ function WebCam({ isparam, socket }: { isparam: string; socket: Socket }) {
   );
 
   useEffect(() => {
-    // socketRef.current = io.connect(SOCKET_SERVER_URL);
-    // socket(socketRef.current);
-
     getLocalStream();
     // console.log(socket);
     // 자신을 제외한 같은 방의 모든 user 목록을 받아온다.
@@ -238,8 +261,12 @@ function WebCam({ isparam, socket }: { isparam: string; socket: Socket }) {
     <Contanier>
       <VideoBox muted ref={localVideoRef} autoPlay />
       {users.map((user, index) => (
-        // eslint-disable-next-line react/no-array-index-key
-        <Video key={index} userid={user.userid} stream={user.stream} />
+        <Video
+          // eslint-disable-next-line react/no-array-index-key
+          key={index}
+          userid={user.userid}
+          stream={user.stream}
+        />
       ))}
     </Contanier>
   );
@@ -250,6 +277,12 @@ const Contanier = styled.div`
   display: flex;
   flex-wrap: wrap;
   max-width: 460px;
+  width: 100%;
+  justify-content: space-between;
 `;
 
-const VideoBox = styled.video``;
+const VideoBox = styled.video`
+  display: flex;
+  box-sizing: border-box;
+  padding-bottom: 4px;
+`;
