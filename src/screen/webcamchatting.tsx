@@ -17,8 +17,8 @@ function Webcamchatting() {
   const paramid = param.id;
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const localToken = localStorage.getItem('token');
-  const socket = io('http://stupy.shop:3000', {
-    // const socket = io('http://localhost:3001', {
+  // const socket = io('http://stupy.shop:3000', {
+  const socket = io('http://localhost:3001', {
     auth: {
       token: localToken,
     },
