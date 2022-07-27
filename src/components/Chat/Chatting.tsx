@@ -78,7 +78,7 @@ function Chatting({ isparam, socket }: { isparam: string; socket: Socket }) {
       console.log(datatoclient.chatInThisRoom);
       setBeforeMessage(datatoclient.chatInThisRoom);
     });
-  });
+  }, []);
 
   useEffect(() => {
     socket.on('chatForOther', (newChat) => {

@@ -27,8 +27,8 @@ function WebCam({ isparam, socket }: { isparam: string; socket: Socket }) {
   const localVideoRef = useRef<HTMLVideoElement>(null);
   const localStreamRef = useRef<MediaStream>();
   const [users, setUsers] = useState<WebRTCUser[]>([]);
-  const [cameraOn, setCameraOn] = React.useState(true);
-  const [audioOn, setAudioOn] = React.useState(true);
+  // const [cameraOn, setCameraOn] = React.useState(true);
+  // const [audioOn, setAudioOn] = React.useState(true);
 
   // // 카메라 온오프
   // const VideoHandler = () => {

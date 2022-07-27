@@ -45,7 +45,6 @@ function Webcamchatting({ socket }: { socket: Socket }) {
             {paramid && <WebCam isparam={paramid} socket={socket} />}
           </WebCambox>
           <ChattingMenu>
-            <ChattingBox />
             {paramid && <Chatting isparam={paramid} socket={socket} />}
           </ChattingMenu>
         </WebScreen>
@@ -109,9 +108,20 @@ const WebCambox = styled.div`
   display: flex;
 `;
 
-const ChattingMenu = styled.div``;
+const ChattingMenu = styled.div`
+  position: absolute;
+  width: 460px;
+  height: 222px;
+  border-radius: 10px;
+  top: 604px;
 
-const ChattingBox = styled.div``;
+  background: linear-gradient(
+    360deg,
+    rgba(0, 0, 0, 0.408) 0%,
+    rgba(0, 0, 0, 0.208) 72.92%,
+    rgba(67, 67, 67, 0) 100%
+  );
+`;
 
 const RankButton = styled.div`
   margin-left: 10px;

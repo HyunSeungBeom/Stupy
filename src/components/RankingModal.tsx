@@ -1,7 +1,38 @@
-import React, { useEffect } from 'react';
+/* eslint-disable no-console */
+/* eslint-disable jsx-a11y/alt-text */
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as CloseButton } from 'src/assets/icons/webrtcroom/closebutton.svg';
+import { ReactComponent as FirstClass } from 'src/assets/icons/rankingmodal/firstclass.svg';
 import { Socket } from 'socket.io-client';
+
+interface timedatatype {
+  accumrecord: number;
+  currentrecord: number;
+  nickName: string;
+  profilepic: string;
+}
+
+function padTo2Digits(num: number) {
+  return num.toString().padStart(2, '0');
+}
+
+function convertMsToTime(milliseconds: number) {
+  let seconds = Math.floor(milliseconds / 1000);
+  let minutes = Math.floor(seconds / 60);
+  let hours = Math.floor(minutes / 60);
+
+  seconds %= 60;
+  minutes %= 60;
+
+  // 👇️ If you don't want to roll hours over, e.g. 24 to 00
+  // 👇️ comment (or remove) the line below
+  // commenting next line gets you `24:00:00` instead of `00:00:00`
+  // or `36:15:31` instead of `12:15:31`, etc.
+  hours %= 24;
+
+  return `${padTo2Digits(hours)}:${padTo2Digits(minutes)}`;
+}
 
 function RankingModal({
   modal,
@@ -10,17 +41,18 @@ function RankingModal({
   modal: React.Dispatch<React.SetStateAction<boolean>>;
   socket: Socket;
 }) {
+  const [timedata, setTimedata] = useState<Array<timedatatype>>([]);
+
   const modalClose = () => {
     modal(false);
   };
 
   useEffect(() => {
     socket.emit('timertoggleon', () => {
-      console.log('준호님이랑 같이');
+      console.log('');
     });
     socket.on('timeinfos', (data) => {
-      // data: [... {profilepic,nickName,currentrecord,accumrecord}]
-      console.log(data);
+      setTimedata(data);
     });
   }, []);
 
@@ -32,6 +64,8 @@ function RankingModal({
       document.body.style.cssText = '';
     };
   }, []);
+
+  console.log('여기야', timedata);
 
   return (
     <ModalContainer>
@@ -47,11 +81,84 @@ function RankingModal({
             <TimeMenu>기록/누적시간</TimeMenu>
           </Menual>
           <UserBox>
+            <FirstBox>
+              <FirstClass />
+            </FirstBox>
             <NumberBox>1</NumberBox>
+            {timedata[0] ? (
+              <div>
+                <DetailBox>
+                  <Imageheigth>
+                    <ImageBox src={timedata[0].profilepic} />
+                  </Imageheigth>
+                  <NicknameBox>{timedata[0].nickName}</NicknameBox>
+                  <TimeBox>
+                    <span>{convertMsToTime(timedata[0].currentrecord)}</span>/
+                    {convertMsToTime(timedata[0].accumrecord)}
+                  </TimeBox>
+                </DetailBox>
+              </div>
+            ) : (
+              <div />
+            )}
           </UserBox>
-          <UserBox>2</UserBox>
-          <UserBox>3</UserBox>
-          <UserBox>4</UserBox>
+          <UserBox>
+            <NumberBox>2</NumberBox>
+            {timedata[1] ? (
+              <div>
+                <DetailBox>
+                  <Imageheigth>
+                    <ImageBox src={timedata[1].profilepic} />
+                  </Imageheigth>
+                  <NicknameBox>{timedata[1].nickName}</NicknameBox>
+                  <TimeBox>
+                    {convertMsToTime(timedata[1].currentrecord)}/
+                    {convertMsToTime(timedata[1].accumrecord)}
+                  </TimeBox>
+                </DetailBox>
+              </div>
+            ) : (
+              <div />
+            )}
+          </UserBox>
+          <UserBox>
+            <NumberBox>3</NumberBox>
+            {timedata[2] ? (
+              <div>
+                <DetailBox>
+                  <Imageheigth>
+                    <ImageBox src={timedata[2].profilepic} />
+                  </Imageheigth>
+                  <NicknameBox>{timedata[2].nickName}</NicknameBox>
+                  <TimeBox>
+                    {convertMsToTime(timedata[2].currentrecord)}/
+                    {convertMsToTime(timedata[2].accumrecord)}
+                  </TimeBox>
+                </DetailBox>
+              </div>
+            ) : (
+              <div />
+            )}
+          </UserBox>
+          <UserBox>
+            <NumberBox>4</NumberBox>
+            {timedata[3] ? (
+              <div>
+                <DetailBox>
+                  <Imageheigth>
+                    <ImageBox src={timedata[3].profilepic} />
+                  </Imageheigth>
+                  <NicknameBox>{timedata[3].nickName}</NicknameBox>
+                  <TimeBox>
+                    {convertMsToTime(timedata[3].currentrecord)}/
+                    {convertMsToTime(timedata[3].accumrecord)}
+                  </TimeBox>
+                </DetailBox>
+              </div>
+            ) : (
+              <div />
+            )}
+          </UserBox>
         </RankingBox>
       </ModalInner>
       <Zindex onClick={modalClose} />
@@ -148,7 +255,7 @@ const RankingMenu = styled.div`
   font-weight: 500;
   width: 40px;
   height: 24px;
-  left: 18px;
+  left: 13px;
   top: 14px;
 `;
 const TimeMenu = styled.div`
@@ -162,13 +269,13 @@ const NicknameMenu = styled.div`
   position: absolute;
   width: 50px;
   height: 24px;
-  left: 133px;
+  left: 128px;
   top: 14px;
 `;
 
 const UserBox = styled.div`
   box-sizing: border-box;
-  position: flex;
+  display: flex;
   width: 348px;
   height: 104px;
   left: 20px;
@@ -176,5 +283,58 @@ const UserBox = styled.div`
 `;
 
 const NumberBox = styled.div`
-  position: flex;
+  font-weight: 600;
+  font-size: 18px;
+  letter-spacing: -0.28px;
+  height: 100%;
+  margin-left: 28px;
+  text-align: center;
+  line-height: 100px;
+`;
+
+const FirstBox = styled.div`
+  position: absolute;
+  left: 28px;
+  top: 74px;
+`;
+
+const DetailBox = styled.div`
+  line-height: 100px;
+  display: flex;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+`;
+
+const Imageheigth = styled.div`
+  display: flex;
+  padding-top: 24px;
+  padding-right: 20px;
+  padding-left: 20px;
+`;
+
+const ImageBox = styled.img`
+  box-sizing: border-box;
+  display: flex;
+  width: 48px;
+  height: 48px;
+  border-radius: 48px;
+`;
+
+const NicknameBox = styled.div`
+  display: flex;
+  padding-left: 2px;
+  padding-right: 35px;
+`;
+
+const TimeBox = styled.div`
+  font-weight: 500;
+  font-size: 16px;
+  color: #7a7a7a;
+  span {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    color: #ff9052;
+  }
 `;
