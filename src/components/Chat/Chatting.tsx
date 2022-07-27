@@ -32,11 +32,11 @@ function Chatting({ isparam, socket }: { isparam: string; socket: Socket }) {
   const payload = Buffer.from(base64Payload, 'base64');
   const userid = JSON.parse(payload.toString());
   const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [beforeMessage, setBeforeMessage] = useState([]);
 
   const { isSuccess, data } = useQuery('userinfo', () =>
     userIdApi(userid.userId),
   );
-  // console.log(isSuccess && data.data.user.userNick);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputMessage(e.target.value);
@@ -54,7 +54,6 @@ function Chatting({ isparam, socket }: { isparam: string; socket: Socket }) {
 
   const sendMessage = () => {
     if (inputMessage.length > 0 && isSuccess) {
-      console.log(userid);
       const sendMessage = {
         roomId: isparam,
         content: inputMessage,
@@ -70,8 +69,16 @@ function Chatting({ isparam, socket }: { isparam: string; socket: Socket }) {
         content: inputMessage,
       });
       setInputMessage('');
+      console.log(socket);
     }
   };
+
+  useEffect(() => {
+    socket.on('all_users', (datatoclient) => {
+      console.log(datatoclient.chatInThisRoom);
+      setBeforeMessage(datatoclient.chatInThisRoom);
+    });
+  }, []);
 
   useEffect(() => {
     socket.on('chatForOther', (newChat) => {
@@ -83,6 +90,10 @@ function Chatting({ isparam, socket }: { isparam: string; socket: Socket }) {
   return (
     <ChattingBox>
       <Chattinglist>
+        {beforeMessage.map((e, i) => {
+          // eslint-disable-next-line no-useless-return, react/no-array-index-key
+          return <Messages key={i} e={e} />;
+        })}
         {message.map((e, i) => {
           return (
             <Messages
@@ -154,8 +165,10 @@ const Chattinglist = styled.div`
   height: calc(100% - 50px);
   overflow-y: auto; //스크롤바 없애기
   ::-webkit-scrollbar {
-    display: none;
+    display: flex;
   }
+  padding-bottom: 10px;
+  box-sizing: border-box;
 `;
 
 const ChatiingInput = styled.input`

@@ -8,21 +8,14 @@ import { SetBackGround } from 'src/components/Styled';
 import WebCam from 'src/components/WebRtc/WebCam';
 import { RATIO } from 'src/constants';
 import styled from 'styled-components';
-import { io } from 'socket.io-client';
 import { ReactComponent as RankingButton } from 'src/assets/icons/webrtcroom/ranking.svg';
 import RankingModal from 'src/components/RankingModal';
+import { Socket } from 'socket.io-client';
 
-function Webcamchatting() {
+function Webcamchatting({ socket }: { socket: Socket }) {
   const param = useParams();
   const paramid = param.id;
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const localToken = localStorage.getItem('token');
-  const socket = io('http://stupy.shop', {
-    // const socket = io('http://localhost:3001', {
-    auth: {
-      token: localToken,
-    },
-  });
 
   const handleModalOpen = () => {
     setModalOpen(!modalOpen);
@@ -32,6 +25,7 @@ function Webcamchatting() {
     nav(-1);
   };
   const nav = useNavigate();
+
   return (
     <>
       <SetBackGround>
@@ -51,12 +45,11 @@ function Webcamchatting() {
             {paramid && <WebCam isparam={paramid} socket={socket} />}
           </WebCambox>
           <ChattingMenu>
-            <ChattingBox />
             {paramid && <Chatting isparam={paramid} socket={socket} />}
           </ChattingMenu>
         </WebScreen>
       </SetBackGround>
-      {modalOpen && <RankingModal modal={setModalOpen} />}
+      {modalOpen && <RankingModal modal={setModalOpen} socket={socket} />}
     </>
   );
 }
@@ -71,7 +64,7 @@ const WebScreen = styled.div`
   height: 800px;
   width: ${460 * RATIO}px;
   max-width: 460px;
-  overflow-y: hidden;
+  overflow: hidden;
 `;
 
 const UpperMenu = styled.div`
@@ -115,9 +108,20 @@ const WebCambox = styled.div`
   display: flex;
 `;
 
-const ChattingMenu = styled.div``;
+const ChattingMenu = styled.div`
+  position: absolute;
+  width: 460px;
+  height: 222px;
+  border-radius: 10px;
+  top: 604px;
 
-const ChattingBox = styled.div``;
+  background: linear-gradient(
+    360deg,
+    rgba(0, 0, 0, 0.408) 0%,
+    rgba(0, 0, 0, 0.208) 72.92%,
+    rgba(67, 67, 67, 0) 100%
+  );
+`;
 
 const RankButton = styled.div`
   margin-left: 10px;
