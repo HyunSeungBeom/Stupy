@@ -50,10 +50,10 @@ function List() {
               }}
             >
               <Title>{filter}</Title>
-              <RiEqualizerLine
-                style={{ cursor: 'pointer' }}
-                onClick={handleDropdownPress}
-              />
+              <AlignBtn onClick={handleDropdownPress}>
+                <RiEqualizerLine style={{ cursor: 'pointer' }} />
+                정렬
+              </AlignBtn>
             </div>
             {dropdownVisible && (
               <DropdownBox>
@@ -134,6 +134,13 @@ const DropdownItem = styled.div`
   border-bottom: #f5f5f5 1px solid;
   padding: 7px 10px;
   cursor: pointer;
+`;
+
+const AlignBtn = styled.div`
+  display: flex;
+  gap: 6px;
+  font-size: 18px;
+  color: black;
 `;
 
 const MOCK_UP_DATA = [
