@@ -15,6 +15,7 @@ function Webcamchatting({ socket }: { socket: Socket }) {
   const param = useParams();
   const paramid = param.id;
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const nav = useNavigate();
 
   const handleModalOpen = () => {
     setModalOpen(!modalOpen);
@@ -23,7 +24,6 @@ function Webcamchatting({ socket }: { socket: Socket }) {
   const backClick = () => {
     nav(-1);
   };
-  const nav = useNavigate();
 
   return (
     <>
