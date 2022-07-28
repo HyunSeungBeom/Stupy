@@ -44,9 +44,6 @@ function Webcamchatting({ socket }: { socket: Socket }) {
           <WebCambox>
             {paramid && <WebCam isparam={paramid} socket={socket} />}
           </WebCambox>
-          <ChattingMenu>
-            {paramid && <Chatting isparam={paramid} socket={socket} />}
-          </ChattingMenu>
         </WebScreen>
       </SetBackGround>
       {modalOpen && <RankingModal modal={setModalOpen} socket={socket} />}

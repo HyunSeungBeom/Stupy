@@ -7,15 +7,11 @@ import styled from 'styled-components';
 import { Socket } from 'socket.io-client';
 import Video from './Video/index';
 import { WebRTCUser } from '../../types/types';
+import Chatting from '../Chat/Chatting';
 
 // eslint-disable-next-line camelcase
 const pc_config = {
   iceServers: [
-    // {
-    //   urls: 'stun:[STUN_IP]:[PORT]',
-    //   'credentials': '[YOR CREDENTIALS]',
-    //   'username': '[USERNAME]'
-    // },
     {
       urls: 'stun:stun.l.google.com:19302',
     },
@@ -27,39 +23,41 @@ function WebCam({ isparam, socket }: { isparam: string; socket: Socket }) {
   const localVideoRef = useRef<HTMLVideoElement>(null);
   const localStreamRef = useRef<MediaStream>();
   const [users, setUsers] = useState<WebRTCUser[]>([]);
-  // const [cameraOn, setCameraOn] = React.useState(true);
-  // const [audioOn, setAudioOn] = React.useState(true);
+  const [cameraOn, setCameraOn] = useState(true);
+  const [audioOn, setAudioOn] = useState(true);
 
-  // // 카메라 온오프
-  // const VideoHandler = () => {
-  //   if (cameraOn) {
-  //     myVideo.current.srcObject
-  //       .getVideoTracks()
-  //       .forEach((track: any) => (track.enabled = false));
-  //     setCameraOn(false);
-  //     const src = document.querySelector('.video_non_src');
-  //     src.style.display = 'block';
-  //   } else {
-  //     myVideo.current.srcObject
-  //       .getVideoTracks()
-  //       .forEach((track: any) => (track.enabled = true));
-  //     setCameraOn(true);
-  //     const src = document.querySelector('.video_non_src');
-  //     src.style.display = 'none';
-  //   }
-  // };
+  // 카메라 온오프
+  const VideoHandler = () => {
+    if (localStreamRef.current) {
+      if (cameraOn) {
+        localStreamRef.current
+          .getVideoTracks()
+          .forEach((track: { enabled: boolean }) => (track.enabled = false));
+        setCameraOn(false);
+      } else {
+        localStreamRef.current
+          .getVideoTracks()
+          .forEach((track: { enabled: boolean }) => (track.enabled = true));
+        setCameraOn(true);
+      }
+    }
+  };
 
-  // // 오디오 온오프
-  // const AudioHandler = () => {
-  //   myVideo.current.srcObject
-  //     .getAudioTracks()
-  //     .forEach((track: any) => (track.enabled = !track.enabled));
-  //   if (audioOn) {
-  //     setAudioOn(false);
-  //   } else {
-  //     setAudioOn(true);
-  //   }
-  // };
+  // 오디오 온오프
+  const AudioHandler = () => {
+    if (localStreamRef.current) {
+      localStreamRef.current
+        .getAudioTracks()
+        .forEach(
+          (track: { enabled: boolean }) => (track.enabled = !track.enabled),
+        );
+      if (audioOn) {
+        setAudioOn(false);
+      } else {
+        setAudioOn(true);
+      }
+    }
+  };
 
   const getLocalStream = useCallback(async () => {
     try {
@@ -151,8 +149,6 @@ function WebCam({ isparam, socket }: { isparam: string; socket: Socket }) {
         //   __v: boolean;
         // }>,
       ) => {
-        console.log(datatoclient.chatInThisRoom);
-        console.log(datatoclient.usersInThisRoom);
         // console.log(datatoclient.chatInThisRoom.userId.userNick);
         [...datatoclient.usersInThisRoom].forEach(async (user) => {
           if (!localStreamRef.current) return;
@@ -266,6 +262,16 @@ function WebCam({ isparam, socket }: { isparam: string; socket: Socket }) {
           stream={user.stream}
         />
       ))}
+      <ChattingMenu>
+        {isparam && (
+          <Chatting
+            isparam={isparam}
+            socket={socket}
+            VideoHandler={VideoHandler}
+            AudioHandler={AudioHandler}
+          />
+        )}
+      </ChattingMenu>
     </Contanier>
   );
 }
@@ -283,4 +289,19 @@ const VideoBox = styled.video`
   display: flex;
   box-sizing: border-box;
   padding-bottom: 4px;
+`;
+
+const ChattingMenu = styled.div`
+  position: absolute;
+  width: 460px;
+  height: 222px;
+  border-radius: 10px;
+  top: 604px;
+
+  background: linear-gradient(
+    360deg,
+    rgba(0, 0, 0, 0.408) 0%,
+    rgba(0, 0, 0, 0.208) 72.92%,
+    rgba(67, 67, 67, 0) 100%
+  );
 `;

@@ -7,7 +7,9 @@ import styled from 'styled-components';
 import { ReactComponent as ChattingButton } from 'src/assets/icons/webrtcroom/sendMessageButton.svg';
 import { ReactComponent as ChattingAudioButton } from 'src/assets/icons/webrtcroom/cameraaudiobutton.svg';
 import { ReactComponent as CameraButton } from 'src/assets/icons/webrtcroom/camera.svg';
+import { ReactComponent as CameraOffButton } from 'src/assets/icons/webrtcroom/cameraOff.svg';
 import { ReactComponent as MicButton } from 'src/assets/icons/webrtcroom/mic.svg';
+import { ReactComponent as MicOffButton } from 'src/assets/icons/webrtcroom/micOff.svg';
 import { Socket } from 'socket.io-client';
 import { Buffer } from 'buffer';
 import { userIdApi } from 'src/api/webcam';
@@ -24,7 +26,17 @@ export interface chattype {
   };
 }
 
-function Chatting({ isparam, socket }: { isparam: string; socket: Socket }) {
+function Chatting({
+  isparam,
+  socket,
+  VideoHandler,
+  AudioHandler,
+}: {
+  isparam: string;
+  socket: Socket;
+  VideoHandler: () => void;
+  AudioHandler: () => void;
+}) {
   const [inputMessage, setInputMessage] = useState('');
   const [message, setMessage] = useState<Array<chattype>>([]);
   const token = localStorage.getItem('token');
@@ -33,6 +45,8 @@ function Chatting({ isparam, socket }: { isparam: string; socket: Socket }) {
   const userid = JSON.parse(payload.toString());
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [beforeMessage, setBeforeMessage] = useState([]);
+  const [micButtonClick, setMicButtonClick] = useState<boolean>(true);
+  const [audioButtonClick, setAudioButtonClick] = useState<boolean>(true);
 
   const { isSuccess, data } = useQuery('userinfo', () =>
     userIdApi(userid.userId),
@@ -46,6 +60,15 @@ function Chatting({ isparam, socket }: { isparam: string; socket: Socket }) {
     if (e.key === 'Enter') {
       sendMessage();
     }
+  };
+  const MiconButton = () => {
+    setMicButtonClick(!micButtonClick);
+    VideoHandler();
+  };
+
+  const AudioButton = () => {
+    setAudioButtonClick(!audioButtonClick);
+    AudioHandler();
   };
 
   const handleDropdownPress = () => {
@@ -128,16 +151,32 @@ function Chatting({ isparam, socket }: { isparam: string; socket: Socket }) {
         />
         {dropdownVisible && (
           <div>
-            <DropdownBox>
-              <DropdownItem>
-                <CameraButton />
-              </DropdownItem>
-            </DropdownBox>
-            <DropdownBox2>
-              <DropdownItem>
-                <MicButton />
-              </DropdownItem>
-            </DropdownBox2>
+            {micButtonClick ? (
+              <DropdownBox onClick={MiconButton}>
+                <DropdownItem>
+                  <CameraButton />
+                </DropdownItem>
+              </DropdownBox>
+            ) : (
+              <DropdownBox onClick={MiconButton}>
+                <DropdownItem>
+                  <CameraOffButton />
+                </DropdownItem>
+              </DropdownBox>
+            )}
+            {audioButtonClick ? (
+              <DropdownBox2>
+                <DropdownItem>
+                  <MicButton onClick={AudioButton} />
+                </DropdownItem>
+              </DropdownBox2>
+            ) : (
+              <DropdownBox2>
+                <DropdownItem>
+                  <MicOffButton onClick={AudioButton} />
+                </DropdownItem>
+              </DropdownBox2>
+            )}
           </div>
         )}
       </ChattingBoxdiv>
