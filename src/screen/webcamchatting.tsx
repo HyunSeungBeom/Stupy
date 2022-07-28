@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from 'react';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { BiArrowBack, BiUser } from 'react-icons/bi';
 import { useNavigate, useParams } from 'react-router-dom';
-import Chatting from 'src/components/Chat/Chatting';
 import { SetBackGround } from 'src/components/Styled';
 import WebCam from 'src/components/WebRtc/WebCam';
 import { RATIO } from 'src/constants';
@@ -103,21 +102,6 @@ const Block2 = styled.div`
 const WebCambox = styled.div`
   max-width: 460px;
   display: flex;
-`;
-
-const ChattingMenu = styled.div`
-  position: absolute;
-  width: 460px;
-  height: 222px;
-  border-radius: 10px;
-  top: 604px;
-
-  background: linear-gradient(
-    360deg,
-    rgba(0, 0, 0, 0.408) 0%,
-    rgba(0, 0, 0, 0.208) 72.92%,
-    rgba(67, 67, 67, 0) 100%
-  );
 `;
 
 const RankButton = styled.div`
