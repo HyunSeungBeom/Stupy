@@ -8,8 +8,6 @@ import { Socket } from 'socket.io-client';
 // import { useNavigate } from 'react-router-dom';
 
 interface kickdatatype {
-  accumrecord: number;
-  currentrecord: number;
   nickName: string;
   profilepic: string;
   userId: string;
@@ -37,7 +35,6 @@ function KickModal({
     };
     socket.emit('addblacklist', data);
     modalClose();
-    // nav('/list');
   };
 
   const whoKick2 = () => {
@@ -47,7 +44,6 @@ function KickModal({
     };
     socket.emit('addblacklist', data);
     modalClose();
-    // nav('/list');
   };
 
   const whoKick3 = () => {
@@ -57,14 +53,13 @@ function KickModal({
     };
     socket.emit('addblacklist', data);
     modalClose();
-    // nav('/list');
   };
 
   useEffect(() => {
-    socket.emit('timertoggleon', () => {
+    socket.emit('kicktoggleon', () => {
       console.log('');
     });
-    socket.on('timeinfos', (data) => {
+    socket.on('userInfos', (data) => {
       setkickdata(data);
     });
   }, []);
