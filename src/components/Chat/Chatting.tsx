@@ -200,7 +200,9 @@ function Chatting({
           )}
         </ChattingBoxdiv>
       </ChattingBox>
-      {modalOpen && <KickModal modal={setModalOpen} socket={socket} />}
+      {modalOpen && (
+        <KickModal modal={setModalOpen} socket={socket} isparam={isparam} />
+      )}
     </>
   );
 }

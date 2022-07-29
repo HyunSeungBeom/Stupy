@@ -5,28 +5,55 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as CloseButton } from 'src/assets/icons/webrtcroom/closebutton.svg';
 import { Socket } from 'socket.io-client';
+// import { useNavigate } from 'react-router-dom';
 
 interface kickdatatype {
   accumrecord: number;
   currentrecord: number;
   nickName: string;
   profilepic: string;
+  userId: string;
 }
 
 function KickModal({
   modal,
   socket,
+  isparam,
 }: {
   modal: React.Dispatch<React.SetStateAction<boolean>>;
   socket: Socket;
+  isparam: string;
 }) {
   const [kickdata, setkickdata] = useState<Array<kickdatatype>>([]);
-
+  //   const nav = useNavigate();
   const modalClose = () => {
     modal(false);
   };
 
-  //   const whoKick = () => {};
+  const whoKick = () => {
+    const data = {
+      roomId: isparam,
+      targetId: kickdata[1].userId,
+    };
+    socket.emit('addblacklist', data);
+    // nav('/list');
+  };
+  const whoKick2 = () => {
+    const data = {
+      roomId: isparam,
+      targetId: kickdata[2].userId,
+    };
+    socket.emit('addblacklist', data);
+    // nav('/list');
+  };
+  const whoKick3 = () => {
+    const data = {
+      roomId: isparam,
+      targetId: kickdata[3].userId,
+    };
+    socket.emit('addblacklist', data);
+    // nav('/list');
+  };
 
   useEffect(() => {
     socket.emit('timertoggleon', () => {
@@ -34,9 +61,6 @@ function KickModal({
     });
     socket.on('timeinfos', (data) => {
       setkickdata(data);
-    });
-    socket.emit('addblacklist', () => {
-      console.log('');
     });
   }, []);
 
@@ -74,7 +98,7 @@ function KickModal({
                   </Imageheigth>
                   <NicknameBox>{kickdata[0].nickName}</NicknameBox>
                 </DetailBox>
-                <KickBox>{/* <button onClick={}> 추방 </button> */}</KickBox>
+                <KickBox>방장</KickBox>
               </div>
             ) : (
               <div />
@@ -90,6 +114,9 @@ function KickModal({
                   </Imageheigth>
                   <NicknameBox>{kickdata[1].nickName}</NicknameBox>
                 </DetailBox>
+                <KickBox>
+                  <button onClick={whoKick}> 추방 </button>
+                </KickBox>
               </div>
             ) : (
               <div />
@@ -105,6 +132,9 @@ function KickModal({
                   </Imageheigth>
                   <NicknameBox>{kickdata[2].nickName}</NicknameBox>
                 </DetailBox>
+                <KickBox>
+                  <button onClick={whoKick2}> 추방 </button>
+                </KickBox>
               </div>
             ) : (
               <div />
@@ -120,6 +150,9 @@ function KickModal({
                   </Imageheigth>
                   <NicknameBox>{kickdata[3].nickName}</NicknameBox>
                 </DetailBox>
+                <KickBox>
+                  <button onClick={whoKick3}> 추방 </button>
+                </KickBox>
               </div>
             ) : (
               <div />
