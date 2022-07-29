@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 /* eslint-disable react/button-has-type */
 import React, { useEffect, useState } from 'react';
-import { RATIO } from 'src/constants';
+import { RATIO, RATIO_H } from 'src/constants';
 import styled from 'styled-components';
 import { ReactComponent as ChattingButton } from 'src/assets/icons/webrtcroom/sendMessageButton.svg';
 import { ReactComponent as ChattingAudioButton } from 'src/assets/icons/webrtcroom/cameraaudiobutton.svg';
@@ -120,7 +120,7 @@ function Chatting({
 
   console.log(roomOwner);
   return (
-    <>
+    <ChatBackGround>
       <ChattingBox>
         <Chattinglist>
           {beforeMessage.map((e, i) => {
@@ -203,18 +203,29 @@ function Chatting({
       {modalOpen && (
         <KickModal modal={setModalOpen} socket={socket} isparam={isparam} />
       )}
-    </>
+    </ChatBackGround>
   );
 }
 
 export default Chatting;
 
+const ChatBackGround = styled.div`
+  width: ${460 * RATIO}px;
+  height: ${800 * RATIO_H}px;
+`;
+
 const ChattingBox = styled.div`
   position: fixed;
+  bottom: 0px;
   width: ${460 * RATIO}px;
+  height: ${250 * RATIO_H}px;
   max-width: 460px;
-  bottom: 50px;
-  height: 250px;
+  background: linear-gradient(
+    360deg,
+    rgba(0, 0, 0, 0.408) 0%,
+    rgba(0, 0, 0, 0.208) 72.92%,
+    rgba(67, 67, 67, 0) 100%
+  );
 `;
 
 const ChattingBoxdiv = styled.div`
@@ -249,7 +260,7 @@ const DropdownBox = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 100px;
+  top: 110px;
   right: 20px;
   border-radius: 10px;
   background-color: white;
@@ -262,7 +273,7 @@ const DropdownBox2 = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 150px;
+  top: 160px;
   right: 20px;
   border-radius: 10px;
   background-color: white;
@@ -275,7 +286,7 @@ const DropdownBox3 = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 50px;
+  top: 60px;
   right: 20px;
   border-radius: 10px;
   background-color: white;

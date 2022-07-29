@@ -8,17 +8,13 @@ export default function WebCam() {
   const paramid = param.id;
   // 소켓연결
   const localToken = localStorage.getItem('token');
-  const socket = io('http://stupy.shop', {
-    // const socket = io('http://localhost:3001', {
+  // const socket = io('http://stupy.shop', {
+  const socket = io('http://localhost:3001', {
     auth: {
       token: localToken,
       roomId: paramid,
     },
   });
 
-  return (
-    <>
-      <Webcamchatting socket={socket} />;
-    </>
-  );
+  return <Webcamchatting socket={socket} />;
 }

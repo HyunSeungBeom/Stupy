@@ -6,6 +6,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { Socket } from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
+// import { RATIO, RATIO_H } from 'src/constants';
 import Video from './Video/index';
 import { WebRTCUser } from '../../types/types';
 import Chatting from '../Chat/Chatting';
@@ -68,13 +69,13 @@ function WebCam({
       }
     }
   };
-
+  // 228, 398
   const getLocalStream = useCallback(async () => {
     try {
       const localStream = await navigator.mediaDevices.getUserMedia({
         audio: true,
         video: {
-          width: 228,
+          width: { max: 228 },
           height: 398,
         },
       });
@@ -281,28 +282,24 @@ export default WebCam;
 const Contanier = styled.div`
   display: flex;
   flex-wrap: wrap;
-  max-width: 460px;
   width: 100%;
+  max-width: 460px;
   justify-content: space-between;
 `;
 
 const VideoBox = styled.video`
-  display: flex;
   box-sizing: border-box;
   padding-bottom: 4px;
 `;
 
 const ChattingMenu = styled.div`
-  position: absolute;
+  display: flex;
   width: 460px;
-  height: 222px;
-  border-radius: 10px;
-  top: 604px;
-
-  background: linear-gradient(
-    360deg,
-    rgba(0, 0, 0, 0.408) 0%,
-    rgba(0, 0, 0, 0.208) 72.92%,
-    rgba(67, 67, 67, 0) 100%
-  );
 `;
+
+// const MyVideo = styled.video`
+//   width: ${RATIO * 228};
+//   max-width: 228;
+//   height: ${RATIO_H * 398};
+//   max-height: 398;
+// `;
