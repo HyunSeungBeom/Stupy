@@ -20,7 +20,7 @@ function Video({ userid, stream, muted }: Props) {
 
   return (
     <Container>
-      <VideoContainer ref={ref} muted={isMuted} autoPlay />
+      <VideoContainer className="webVideo" ref={ref} muted={isMuted} autoPlay />
       {/* <UserLabel>{userid}</UserLabel> */}
     </Container>
   );

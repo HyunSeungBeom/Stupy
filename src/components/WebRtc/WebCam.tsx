@@ -75,7 +75,7 @@ function WebCam({
       const localStream = await navigator.mediaDevices.getUserMedia({
         audio: true,
         video: {
-          width: { max: 228 },
+          width: 228,
           height: 398,
         },
       });
@@ -144,6 +144,7 @@ function WebCam({
 
   useEffect(() => {
     getLocalStream();
+    console.log(navigator.mediaDevices.enumerateDevices());
     // 자신을 제외한 같은 방의 모든 user 목록을 받아온다.
     // 해당 user에게 offer signal을 보낸다(createOffer() 함수 호출).
     socket.on('all_users', (datatoclient) => {
@@ -254,7 +255,13 @@ function WebCam({
 
   return (
     <Contanier>
-      <VideoBox muted ref={localVideoRef} autoPlay playsInline />
+      <VideoBox
+        className="hiVideo"
+        muted
+        ref={localVideoRef}
+        autoPlay
+        playsInline
+      />
       {users.map((user, index) => (
         <Video
           // eslint-disable-next-line react/no-array-index-key
