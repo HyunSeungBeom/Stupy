@@ -10,8 +10,8 @@ import styled from 'styled-components';
 import { ReactComponent as RankingButton } from 'src/assets/icons/webrtcroom/ranking.svg';
 import RankingModal from 'src/components/RankingModal';
 import { Socket } from 'socket.io-client';
-// import { useQuery } from 'react-query';
-// import { roomTitleApi } from 'src/api/webcam';
+import { useQuery } from 'react-query';
+import { roomTitleApi } from 'src/api/webcam';
 
 function Webcamchatting({ socket }: { socket: Socket }) {
   const param = useParams();
@@ -20,9 +20,9 @@ function Webcamchatting({ socket }: { socket: Socket }) {
   const [roomOwner, setRoomOwner] = useState<boolean>();
   const nav = useNavigate();
 
-  // const { isSuccess, data } = useQuery('roomTitle', () =>
-  //   roomTitleApi(paramid),
-  // );
+  const { isSuccess, data } = useQuery('roomTitle', () =>
+    roomTitleApi(paramid),
+  );
 
   const handleModalOpen = () => {
     setModalOpen(!modalOpen);
@@ -46,9 +46,7 @@ function Webcamchatting({ socket }: { socket: Socket }) {
             <Block onClick={backClick}>
               <BackIcon />
             </Block>
-            <Block2>
-              <RoomTitle> 제발되라 </RoomTitle>
-            </Block2>
+            <Block2>{isSuccess && <RoomTitle> {data.data} </RoomTitle>}</Block2>
             <RankButton onClick={handleModalOpen}>
               랭킹 <RankingButton />
             </RankButton>
