@@ -1,4 +1,10 @@
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  Outlet,
+  Navigate,
+} from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import List from './screen/List';
 import Login from './screen/Login';
@@ -14,8 +20,14 @@ body{
   /* background: '#efefef'; */
 }
 `;
+
+const localToken = localStorage.getItem('token');
 function ProtectedRoute({ redirectPath = '/' }) {
-  return <Navigate to={redirectPath} replace />;
+  if (!localToken) {
+    return <Navigate to={redirectPath} replace />;
+  }
+
+  return <Outlet />;
 }
 
 function App() {
@@ -36,7 +48,7 @@ function App() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'white',
+        backgroundColor: 'gray',
         minHeight: window.innerHeight,
       }}
     >
