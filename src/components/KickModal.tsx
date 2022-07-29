@@ -114,9 +114,9 @@ function KickModal({
                   </Imageheigth>
                   <NicknameBox>{kickdata[1].nickName}</NicknameBox>
                 </DetailBox>
-                <KickBox>
+                <KickBox1>
                   <button onClick={whoKick}> 추방 </button>
-                </KickBox>
+                </KickBox1>
               </div>
             ) : (
               <div />
@@ -132,9 +132,9 @@ function KickModal({
                   </Imageheigth>
                   <NicknameBox>{kickdata[2].nickName}</NicknameBox>
                 </DetailBox>
-                <KickBox>
+                <KickBox2>
                   <button onClick={whoKick2}> 추방 </button>
-                </KickBox>
+                </KickBox2>
               </div>
             ) : (
               <div />
@@ -150,9 +150,9 @@ function KickModal({
                   </Imageheigth>
                   <NicknameBox>{kickdata[3].nickName}</NicknameBox>
                 </DetailBox>
-                <KickBox>
+                <KickBox3>
                   <button onClick={whoKick3}> 추방 </button>
-                </KickBox>
+                </KickBox3>
               </div>
             ) : (
               <div />
@@ -324,4 +324,28 @@ const ImageBox = styled.img`
 const NicknameBox = styled.div`
   display: flex;
   padding-left: 2px;
+`;
+
+const KickBox1 = styled.div`
+  position: absolute;
+  width: 100px;
+  height: 24px;
+  left: 230px;
+  top: 140px;
+`;
+
+const KickBox2 = styled.div`
+  position: absolute;
+  width: 100px;
+  height: 24px;
+  left: 230px;
+  top: 190px;
+`;
+
+const KickBox3 = styled.div`
+  position: absolute;
+  width: 100px;
+  height: 24px;
+  left: 230px;
+  top: 240px;
 `;
