@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import List from './screen/List';
 import Login from './screen/Login';
@@ -14,6 +14,9 @@ body{
   /* background: '#efefef'; */
 }
 `;
+function ProtectedRoute({ redirectPath = '/' }) {
+  return <Navigate to={redirectPath} replace />;
+}
 
 function App() {
   document.addEventListener(
@@ -33,7 +36,7 @@ function App() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'gray',
+        backgroundColor: 'white',
         minHeight: window.innerHeight,
       }}
     >
@@ -41,11 +44,13 @@ function App() {
         <GlobalStyle />
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/main" element={<Main />} />
-          <Route path="/list" element={<List />} />
-          <Route path="/kakao/login" element={<Main />} />
-          <Route path="/setting" element={<Setting />} />
-          <Route path="/room/:id" element={<WebCam />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/main" element={<Main />} />
+            <Route path="/list" element={<List />} />
+            <Route path="/kakao/login" element={<Main />} />
+            <Route path="/setting" element={<Setting />} />
+            <Route path="/room/:id" element={<WebCam />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </div>

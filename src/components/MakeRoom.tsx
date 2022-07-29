@@ -39,15 +39,6 @@ function MakeRoom({
     formData.append('openKakao', data.open_kakao);
     formData.append('maxPeople', count.toString());
 
-    // console.log(formData.get('image'));
-    // console.log(formData.get('title'));
-    // console.log(formData.get('content'));
-    // console.log(typeof formData.get('hashtag[]'));
-    // console.log(formData.getAll('hashtag[]'));
-    // console.log(formData.get('password'));
-    // console.log(formData.get('openKakao'));
-    // console.log(formData.get('maxPeople'));
-
     MakeRoomdata.mutate(formData);
   };
 
