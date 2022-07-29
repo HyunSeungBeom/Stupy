@@ -36,6 +36,7 @@ function KickModal({
       targetId: kickdata[1].userId,
     };
     socket.emit('addblacklist', data);
+    modalClose();
     // nav('/list');
   };
 
@@ -45,6 +46,7 @@ function KickModal({
       targetId: kickdata[2].userId,
     };
     socket.emit('addblacklist', data);
+    modalClose();
     // nav('/list');
   };
 
@@ -54,6 +56,7 @@ function KickModal({
       targetId: kickdata[3].userId,
     };
     socket.emit('addblacklist', data);
+    modalClose();
     // nav('/list');
   };
 
