@@ -135,45 +135,30 @@ function WebCam({ isparam, socket }: { isparam: string; socket: Socket }) {
     getLocalStream();
     // 자신을 제외한 같은 방의 모든 user 목록을 받아온다.
     // 해당 user에게 offer signal을 보낸다(createOffer() 함수 호출).
-    socket.on(
-      'all_users',
-      (
-        datatoclient,
-        // usersInThisRoom: Array<{ id: string; userid: string }>,
-        // chatInThisRoom: Array<{
-        //   _id: string;
-        //   roomId: string;
-        //   content: string;
-        //   userId: string;
-        //   createdAt: Date;
-        //   __v: boolean;
-        // }>,
-      ) => {
-        // console.log(datatoclient.chatInThisRoom.userId.userNick);
-        [...datatoclient.usersInThisRoom].forEach(async (user) => {
-          if (!localStreamRef.current) return;
-          const pc = createPeerConnection(user.id, user.userid);
-          if (!(pc && socket)) return;
-          pcsRef.current = { ...pcsRef.current, [user.id]: pc };
-          try {
-            const localSdp = await pc.createOffer({
-              offerToReceiveAudio: true,
-              offerToReceiveVideo: true,
-            });
-            console.log('create offer success');
-            await pc.setLocalDescription(new RTCSessionDescription(localSdp));
-            socket.emit('offer', {
-              sdp: localSdp,
-              offerSendID: socket.id,
-              offerSendUserID: 'offerSendSample@sample.com',
-              offerReceiveID: user.id,
-            });
-          } catch (e) {
-            console.error(e);
-          }
-        });
-      },
-    );
+    socket.on('all_users', (datatoclient) => {
+      [...datatoclient.usersInThisRoom].forEach(async (user) => {
+        if (!localStreamRef.current) return;
+        const pc = createPeerConnection(user.id, user.userid);
+        if (!(pc && socket)) return;
+        pcsRef.current = { ...pcsRef.current, [user.id]: pc };
+        try {
+          const localSdp = await pc.createOffer({
+            offerToReceiveAudio: true,
+            offerToReceiveVideo: true,
+          });
+          console.log('create offer success');
+          await pc.setLocalDescription(new RTCSessionDescription(localSdp));
+          socket.emit('offer', {
+            sdp: localSdp,
+            offerSendID: socket.id,
+            offerSendUserID: 'offerSendSample@sample.com',
+            offerReceiveID: user.id,
+          });
+        } catch (e) {
+          console.error(e);
+        }
+      });
+    });
 
     socket.on(
       'getOffer',

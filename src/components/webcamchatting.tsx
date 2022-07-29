@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { BiArrowBack, BiUser } from 'react-icons/bi';
+import { BiArrowBack } from 'react-icons/bi';
 import { useNavigate, useParams } from 'react-router-dom';
 import { SetBackGround } from 'src/components/Styled';
 import WebCam from 'src/components/WebRtc/WebCam';
@@ -10,12 +10,18 @@ import styled from 'styled-components';
 import { ReactComponent as RankingButton } from 'src/assets/icons/webrtcroom/ranking.svg';
 import RankingModal from 'src/components/RankingModal';
 import { Socket } from 'socket.io-client';
+import { useQuery } from 'react-query';
+import { roomTitleApi } from 'src/api/webcam';
 
 function Webcamchatting({ socket }: { socket: Socket }) {
   const param = useParams();
   const paramid = param.id;
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const nav = useNavigate();
+
+  const { isSuccess, data } = useQuery('roomTitle', () =>
+    roomTitleApi(paramid),
+  );
 
   const handleModalOpen = () => {
     setModalOpen(!modalOpen);
@@ -25,6 +31,13 @@ function Webcamchatting({ socket }: { socket: Socket }) {
     nav(-1);
   };
 
+  useEffect(() => {
+    socket.on('disconnectuser', (errormessage) => {
+      // eslint-disable-next-line no-unused-expressions, no-sequences, no-alert
+      nav('/list'), alert(errormessage);
+    });
+  });
+
   return (
     <>
       <SetBackGround>
@@ -33,9 +46,7 @@ function Webcamchatting({ socket }: { socket: Socket }) {
             <Block onClick={backClick}>
               <BackIcon />
             </Block>
-            <Block2>
-              <RoomTitle>디자이너 스터디 </RoomTitle>
-            </Block2>
+            <Block2>{isSuccess && <RoomTitle> {data.data} </RoomTitle>}</Block2>
             <RankButton onClick={handleModalOpen}>
               랭킹 <RankingButton />
             </RankButton>

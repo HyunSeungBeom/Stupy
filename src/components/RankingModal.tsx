@@ -324,13 +324,15 @@ const ImageBox = styled.img`
 const NicknameBox = styled.div`
   display: flex;
   padding-left: 2px;
-  padding-right: 35px;
 `;
 
 const TimeBox = styled.div`
+  position: absolute;
   font-weight: 500;
   font-size: 16px;
   color: #7a7a7a;
+  right: 20px;
+
   span {
     font-style: normal;
     font-weight: 600;

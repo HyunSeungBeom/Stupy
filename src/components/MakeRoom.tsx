@@ -138,12 +138,12 @@ function MakeRoom({
             </InputText>
             <OrangeInput
               type="password"
-              placeholder="비밀번호를 입력하세요 (숫자 4글자)"
+              placeholder="(영문 + 숫자 4자리 이상 10이하)"
               {...register('password', {
                 required: true,
-                maxLength: 4,
+                maxLength: 10,
                 minLength: 4,
-                pattern: /^[0-9]*$/,
+                pattern: /^[a-zA-Z0-9]*$/,
               })}
             />
             {errors.password && errors.password.type === 'required' && (

@@ -10,6 +10,11 @@ const baseApi = axios.create({
 const callApi = setupInterceptorsTo(baseApi);
 
 export const userIdApi = async (id: string) => {
-  const uia = await callApi.get(`/api/users/${id}`);
-  return uia;
+  const userIdApi = await callApi.get(`/api/users/${id}`);
+  return userIdApi;
+};
+
+export const roomTitleApi = async (roomId: string | undefined) => {
+  const roomTitleApi = await callApi.get(`/room/${roomId}`);
+  return roomTitleApi;
 };
