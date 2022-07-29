@@ -18,7 +18,15 @@ const pc_config = {
   ],
 };
 
-function WebCam({ isparam, socket }: { isparam: string; socket: Socket }) {
+function WebCam({
+  isparam,
+  socket,
+  roomOwner,
+}: {
+  isparam: string;
+  socket: Socket;
+  roomOwner: boolean | undefined;
+}) {
   const pcsRef = useRef<{ [socketId: string]: RTCPeerConnection }>({});
   const localVideoRef = useRef<HTMLVideoElement>(null);
   const localStreamRef = useRef<MediaStream>();
@@ -254,6 +262,7 @@ function WebCam({ isparam, socket }: { isparam: string; socket: Socket }) {
             socket={socket}
             VideoHandler={VideoHandler}
             AudioHandler={AudioHandler}
+            roomOwner={roomOwner}
           />
         )}
       </ChattingMenu>

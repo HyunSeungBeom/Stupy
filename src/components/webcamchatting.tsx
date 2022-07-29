@@ -17,6 +17,7 @@ function Webcamchatting({ socket }: { socket: Socket }) {
   const param = useParams();
   const paramid = param.id;
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [roomOwner, setRoomOwner] = useState<boolean>();
   const nav = useNavigate();
 
   const { isSuccess, data } = useQuery('roomTitle', () =>
@@ -36,6 +37,9 @@ function Webcamchatting({ socket }: { socket: Socket }) {
       // eslint-disable-next-line no-unused-expressions, no-sequences, no-alert
       nav('/list'), alert(errormessage);
     });
+    socket.on('all_users', (datatoclient) => {
+      setRoomOwner(datatoclient.roomOwner);
+    });
   });
 
   return (
@@ -52,7 +56,9 @@ function Webcamchatting({ socket }: { socket: Socket }) {
             </RankButton>
           </UpperMenu>
           <WebCambox>
-            {paramid && <WebCam isparam={paramid} socket={socket} />}
+            {paramid && (
+              <WebCam isparam={paramid} socket={socket} roomOwner={roomOwner} />
+            )}
           </WebCambox>
         </WebScreen>
       </SetBackGround>

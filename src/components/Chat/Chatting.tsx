@@ -15,6 +15,7 @@ import { Buffer } from 'buffer';
 import { userIdApi } from 'src/api/webcam';
 import { useQuery } from 'react-query';
 import Messages from './Messages';
+import KickModal from '../KickModal';
 
 export interface chattype {
   content: string;
@@ -31,11 +32,13 @@ function Chatting({
   socket,
   VideoHandler,
   AudioHandler,
+  roomOwner,
 }: {
   isparam: string;
   socket: Socket;
   VideoHandler: () => void;
   AudioHandler: () => void;
+  roomOwner: boolean | undefined;
 }) {
   const [inputMessage, setInputMessage] = useState('');
   const [message, setMessage] = useState<Array<chattype>>([]);
@@ -47,6 +50,7 @@ function Chatting({
   const [beforeMessage, setBeforeMessage] = useState([]);
   const [micButtonClick, setMicButtonClick] = useState<boolean>(true);
   const [audioButtonClick, setAudioButtonClick] = useState<boolean>(true);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const { isSuccess, data } = useQuery('userinfo', () =>
     userIdApi(userid.userId),
@@ -73,6 +77,10 @@ function Chatting({
 
   const handleDropdownPress = () => {
     setDropdownVisible(!dropdownVisible);
+  };
+
+  const handleModalOpen = () => {
+    setModalOpen(!modalOpen);
   };
 
   const sendMessage = () => {
@@ -110,77 +118,90 @@ function Chatting({
     });
   }, [socket]);
 
+  console.log(roomOwner);
   return (
-    <ChattingBox>
-      <Chattinglist>
-        {beforeMessage.map((e, i) => {
-          // eslint-disable-next-line no-useless-return, react/no-array-index-key
-          return <Messages key={i} e={e} />;
-        })}
-        {message.map((e, i) => {
-          return (
-            <Messages
-              // eslint-disable-next-line react/no-array-index-key
-              key={i}
-              e={e}
+    <>
+      <ChattingBox>
+        <Chattinglist>
+          {beforeMessage.map((e, i) => {
+            // eslint-disable-next-line no-useless-return, react/no-array-index-key
+            return <Messages key={i} e={e} />;
+          })}
+          {message.map((e, i) => {
+            return (
+              <Messages
+                // eslint-disable-next-line react/no-array-index-key
+                key={i}
+                e={e}
+              />
+            );
+          })}
+        </Chattinglist>
+        <ChattingBoxdiv>
+          <InputbuttonBox>
+            <ChatiingInput
+              placeholder="입력해주세요"
+              onChange={handleInput}
+              onKeyDown={handleKeyPressed}
+              value={inputMessage}
             />
-          );
-        })}
-      </Chattinglist>
-      <ChattingBoxdiv>
-        <InputbuttonBox>
-          <ChatiingInput
-            placeholder="입력해주세요"
-            onChange={handleInput}
-            onKeyDown={handleKeyPressed}
-            value={inputMessage}
+            <ChattingButton
+              style={{
+                position: 'absolute',
+                top: '10',
+                right: '0',
+                cursor: 'pointer',
+              }}
+              onClick={sendMessage}
+            />
+          </InputbuttonBox>
+          <ChattingAudioButton
+            onClick={handleDropdownPress}
+            style={{ cursor: 'pointer', right: '20', position: 'absolute' }}
           />
-          <ChattingButton
-            style={{
-              position: 'absolute',
-              top: '10',
-              right: '0',
-              cursor: 'pointer',
-            }}
-            onClick={sendMessage}
-          />
-        </InputbuttonBox>
-        <ChattingAudioButton
-          onClick={handleDropdownPress}
-          style={{ cursor: 'pointer', right: '20', position: 'absolute' }}
-        />
-        {dropdownVisible && (
-          <div>
-            {micButtonClick ? (
-              <DropdownBox onClick={MiconButton}>
-                <DropdownItem>
-                  <CameraButton />
-                </DropdownItem>
-              </DropdownBox>
-            ) : (
-              <DropdownBox onClick={MiconButton}>
-                <DropdownItem>
-                  <CameraOffButton />
-                </DropdownItem>
-              </DropdownBox>
-            )}
-            {audioButtonClick ? (
-              <DropdownBox2>
-                <DropdownItem>
-                  <MicButton onClick={AudioButton} />
-                </DropdownItem>
-              </DropdownBox2>
-            ) : (
-              <DropdownBox2>
-                <DropdownItem>
-                  <MicOffButton onClick={AudioButton} />
-                </DropdownItem>
-              </DropdownBox2>
-            )}
-          </div>
-        )}
-      </ChattingBoxdiv>
-    </ChattingBox>
+          {dropdownVisible && (
+            <div>
+              {micButtonClick ? (
+                <DropdownBox onClick={MiconButton}>
+                  <DropdownItem>
+                    <CameraButton />
+                  </DropdownItem>
+                </DropdownBox>
+              ) : (
+                <DropdownBox onClick={MiconButton}>
+                  <DropdownItem>
+                    <CameraOffButton />
+                  </DropdownItem>
+                </DropdownBox>
+              )}
+              {audioButtonClick ? (
+                <DropdownBox2 onClick={AudioButton}>
+                  <DropdownItem>
+                    <MicButton />
+                  </DropdownItem>
+                </DropdownBox2>
+              ) : (
+                <DropdownBox2 onClick={AudioButton}>
+                  <DropdownItem>
+                    <MicOffButton />
+                  </DropdownItem>
+                </DropdownBox2>
+              )}
+              {roomOwner === true ? (
+                <DropdownBox3 onClick={handleModalOpen}>
+                  <DropdownItem>
+                    <Kick>추방</Kick>
+                  </DropdownItem>
+                </DropdownBox3>
+              ) : (
+                <div />
+              )}
+            </div>
+          )}
+        </ChattingBoxdiv>
+      </ChattingBox>
+      {modalOpen && <KickModal modal={setModalOpen} socket={socket} />}
+    </>
   );
 }
 
@@ -248,6 +269,19 @@ const DropdownBox2 = styled.div`
   box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 
+const DropdownBox3 = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 50px;
+  right: 20px;
+  border-radius: 10px;
+  background-color: white;
+  width: 54px;
+  max-width: ${148 * RATIO}px;
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
+`;
+
 const DropdownItem = styled.div`
   padding: 7px 10px;
   text-align: center;
@@ -257,4 +291,8 @@ const DropdownItem = styled.div`
 const InputbuttonBox = styled.div`
   position: relative;
   width: 76%;
+`;
+
+const Kick = styled.span`
+  color: red;
 `;
