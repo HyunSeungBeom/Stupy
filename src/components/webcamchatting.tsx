@@ -32,10 +32,6 @@ function Webcamchatting({ socket }: { socket: Socket }) {
     nav(-1);
   };
 
-  socket.on('disconnectuser', (errormessage) => {
-    // eslint-disable-next-line no-unused-expressions, no-sequences, no-alert
-    nav('/list'), alert(errormessage);
-  });
   useEffect(() => {
     socket.on('all_users', (datatoclient) => {
       setRoomOwner(datatoclient.roomOwner);

@@ -5,6 +5,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { Socket } from 'socket.io-client';
+import { useNavigate } from 'react-router-dom';
 import Video from './Video/index';
 import { WebRTCUser } from '../../types/types';
 import Chatting from '../Chat/Chatting';
@@ -33,6 +34,7 @@ function WebCam({
   const [users, setUsers] = useState<WebRTCUser[]>([]);
   const [cameraOn, setCameraOn] = useState(true);
   const [audioOn, setAudioOn] = useState(true);
+  const nav = useNavigate();
 
   // 카메라 온오프
   const VideoHandler = () => {
@@ -224,6 +226,10 @@ function WebCam({
         console.log('candidate add success');
       },
     );
+    socket.on('disconnectuser', (errormessage) => {
+      // eslint-disable-next-line no-unused-expressions, no-sequences, no-alert
+      nav('/list'), alert(errormessage);
+    });
 
     socket.on('user_exit', (data: { id: string }) => {
       if (!pcsRef.current[data.id]) return;
@@ -236,6 +242,7 @@ function WebCam({
       if (socket) {
         socket.disconnect();
       }
+
       users.forEach((user) => {
         if (!pcsRef.current[user.id]) return;
         pcsRef.current[user.id].close();
