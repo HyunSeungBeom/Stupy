@@ -56,10 +56,11 @@ function App() {
         <GlobalStyle />
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route path="/kakao/login" element={<Main />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/main" element={<Main />} />
             <Route path="/list" element={<List />} />
-            <Route path="/kakao/login" element={<Main />} />
+
             <Route path="/setting" element={<Setting />} />
             <Route path="/room/:id" element={<WebCam />} />
           </Route>
