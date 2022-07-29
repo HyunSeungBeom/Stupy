@@ -25,7 +25,7 @@ function KickModal({
   isparam: string;
 }) {
   const [kickdata, setkickdata] = useState<Array<kickdatatype>>([]);
-  //   const nav = useNavigate();
+  // const nav = useNavigate();
   const modalClose = () => {
     modal(false);
   };
@@ -38,6 +38,7 @@ function KickModal({
     socket.emit('addblacklist', data);
     // nav('/list');
   };
+
   const whoKick2 = () => {
     const data = {
       roomId: isparam,
@@ -46,6 +47,7 @@ function KickModal({
     socket.emit('addblacklist', data);
     // nav('/list');
   };
+
   const whoKick3 = () => {
     const data = {
       roomId: isparam,
@@ -331,7 +333,7 @@ const KickBox1 = styled.div`
   width: 100px;
   height: 24px;
   left: 230px;
-  top: 140px;
+  top: 200px;
 `;
 
 const KickBox2 = styled.div`
@@ -339,7 +341,7 @@ const KickBox2 = styled.div`
   width: 100px;
   height: 24px;
   left: 230px;
-  top: 190px;
+  top: 305px;
 `;
 
 const KickBox3 = styled.div`
@@ -347,5 +349,5 @@ const KickBox3 = styled.div`
   width: 100px;
   height: 24px;
   left: 230px;
-  top: 240px;
+  top: 405px;
 `;
