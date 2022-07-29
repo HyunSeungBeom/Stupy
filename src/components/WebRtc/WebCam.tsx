@@ -253,7 +253,7 @@ function WebCam({
 
   return (
     <Contanier>
-      <VideoBox muted ref={localVideoRef} autoPlay />
+      <VideoBox muted ref={localVideoRef} autoPlay playsInline />
       {users.map((user, index) => (
         <Video
           // eslint-disable-next-line react/no-array-index-key
