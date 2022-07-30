@@ -24,7 +24,6 @@ export default function WebCamscreen() {
   console.log(data);
   console.log(data?.data);
   if (data?.data === true) {
-    alert('정상 접근');
     socket = io('http://stupy.shop', {
       // socket = io('http://localhost:3001', {
       auth: {
