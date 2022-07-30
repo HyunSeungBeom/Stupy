@@ -70,7 +70,7 @@ const WebScreen = styled.div`
   flex-direction: column;
   background-color: #e5e5e5;
   overflow: hidden;
-  width: 100%;
+
   width: ${460 * RATIO}px;
   height: 100vh;
   max-width: 460px;

@@ -6,8 +6,8 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { Socket } from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
-// import { RATIO, RATIO_H } from 'src/constants';
-import { RATIO, RATIO_H } from 'src/constants';
+
+import { RATIO } from 'src/constants';
 import Video from './Video/index';
 import { WebRTCUser } from '../../types/types';
 import Chatting from '../Chat/Chatting';
@@ -70,7 +70,7 @@ function WebCam({
       }
     }
   };
-  // 228, 398
+
   const getLocalStream = useCallback(async () => {
     try {
       const localStream = await navigator.mediaDevices.getUserMedia({
@@ -289,7 +289,7 @@ export default WebCam;
 const Contanier = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
+  width: ${460 * RATIO}px;
   max-width: 460px;
   justify-content: space-between;
 `;
@@ -303,10 +303,4 @@ const ChattingMenu = styled.div`
   width: 460px;
 `;
 
-const VideoAll = styled.div`
-  //   width: ${RATIO * 228};
-  //   max-width: 228px;
-  //   height: ${RATIO_H * 398};
-  //   max-height: 398;
-  //   object-fit: cover;
-`;
+const VideoAll = styled.div``;
