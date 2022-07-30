@@ -7,6 +7,7 @@ import { useCallback, useState } from 'react';
 import { useMutation } from 'react-query';
 import { ResigiterOutApi } from 'src/api/mypage';
 import { useNavigate } from 'react-router-dom';
+import { Buffer } from 'buffer';
 import ProfileImg from './ProfileImg';
 
 export default function Setting() {
