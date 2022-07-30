@@ -7,8 +7,8 @@
 video {
     max-width: 49%;
     width: 49%;
-    height: 49%;
-    max-height: 49%;
+    height: 398px;
+    max-height: 398px;
     object-fit: cover;
 }
 
