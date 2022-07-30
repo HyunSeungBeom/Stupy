@@ -27,7 +27,7 @@ export default function Setting() {
     const base64Payload = token ? token.split('.')[1] : '';
     const payload = Buffer.from(base64Payload, 'base64');
     const userId = JSON.parse(payload.toString());
-    Deleteuserdata.mutate(userId);
+    Deleteuserdata.mutate(userId.userId);
   };
 
   const Deleteuserdata = useMutation(
