@@ -11,7 +11,7 @@ import Webcamchatting from '../components/webcamchatting';
 export default function WebCamscreen() {
   const param = useParams();
   const paramid = param.id;
-  let socket;
+  let socket = null;
   const nav = useNavigate();
 
   const { data } = useQuery('enterRoom', () => enterRoomApi(paramid), {
@@ -35,9 +35,7 @@ export default function WebCamscreen() {
       },
     });
   }
-  if (!socket) {
-    alert('비정상 접근입니다.');
-    nav(-1);
+  if (socket === null) {
     return null;
   }
   return <Webcamchatting socket={socket} />;
