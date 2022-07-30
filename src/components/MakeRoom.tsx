@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { FieldValues, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
+import { ReactComponent as CloseButton } from 'src/assets/icons/webrtcroom/closebutton.svg';
 import { ImgSource } from './ImgSource';
 import PerSonnelButton from './PersonnelButton';
 import HashInput from './HashInput';
@@ -67,6 +68,9 @@ function MakeRoom({
           <ModalHeader>
             <ImgSource set={setImagePreview} />
           </ModalHeader>
+          <CloseButtonBox onClick={modalClose}>
+            <CloseButton />
+          </CloseButtonBox>
           <ModalMiddle>
             <PerSonnelButton set={setCount} count={count} />
             <InputText>
@@ -273,4 +277,11 @@ const ModalBtn = styled.button`
   color: white;
   border: none;
   font-weight: bold;
+`;
+
+const CloseButtonBox = styled.div`
+  position: absolute;
+  right: 25.73px;
+  top: 25.73px;
+  cursor: pointer;
 `;

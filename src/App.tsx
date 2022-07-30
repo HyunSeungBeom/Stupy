@@ -60,7 +60,6 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/main" element={<Main />} />
             <Route path="/list" element={<List />} />
-
             <Route path="/setting" element={<Setting />} />
             <Route path="/room/:id" element={<WebCam />} />
           </Route>

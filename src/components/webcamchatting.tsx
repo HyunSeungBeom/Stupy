@@ -73,7 +73,6 @@ const WebScreen = styled.div`
   width: 100%;
   width: ${460 * RATIO}px;
   height: 100vh;
-
   max-width: 460px;
 `;
 
