@@ -18,10 +18,6 @@ export default function WebCamscreen() {
     onSuccess: () => {
       console.log('joinRoomSuccess');
     },
-    onError: (errormessge) => {
-      // eslint-disable-next-line no-unused-expressions, no-sequences, no-alert
-      nav(-1), alert(errormessge);
-    },
   });
   // 소켓연결
   const localToken = localStorage.getItem('token');
@@ -38,6 +34,7 @@ export default function WebCamscreen() {
   }
   if (data?.data === undefined) {
     alert('비정상 접근입니다.');
+    nav(-1);
   }
   if (!socket) {
     console.log('소켓이없어');
