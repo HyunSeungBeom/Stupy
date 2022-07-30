@@ -10,6 +10,6 @@ const baseApi = axios.create({
 const callApi = setupInterceptorsTo(baseApi);
 
 export const ResigiterOutApi = async (userId: string) => {
-  const ResigiterOutApi = await callApi.delete(`api/users/delete/${userId}`);
+  const ResigiterOutApi = await callApi.delete(`api/users/${userId}`);
   return ResigiterOutApi;
 };
