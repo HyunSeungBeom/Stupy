@@ -145,13 +145,13 @@ function MakeRoom({
               <ErrorText>필수 입력입니다.</ErrorText>
             )}
             {errors.password && errors.password.type === 'maxLength' && (
-              <ErrorText>4자리 입력해주세요.</ErrorText>
+              <ErrorText>10자리를 넘지 말아주세요.</ErrorText>
             )}
             {errors.password && errors.password.type === 'pattern' && (
-              <ErrorText>숫자만 입력해주세요.</ErrorText>
+              <ErrorText>영문 + 숫자로 해주세요.</ErrorText>
             )}
             {errors.password && errors.password.type === 'minLength' && (
-              <ErrorText>4자리 입력해주세요.</ErrorText>
+              <ErrorText>4자리를 넘겨주세요.</ErrorText>
             )}
             <InputText>해시태그</InputText>
             <HashInput set={setHashArr} hashArr2={hashArr} />

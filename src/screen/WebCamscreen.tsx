@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable no-console */
 /* eslint-disable prefer-const */
 /* eslint-disable react/button-has-type */
@@ -35,7 +36,11 @@ export default function WebCamscreen() {
       },
     });
   }
+  if (data?.data === undefined) {
+    alert('비정상 접근입니다.');
+  }
   if (!socket) {
+    console.log('소켓이없어');
     return null;
   }
   return <Webcamchatting socket={socket} />;
