@@ -2,21 +2,25 @@
 /* eslint-disable no-console */
 /* eslint-disable prefer-const */
 /* eslint-disable react/button-has-type */
-import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { useParams, useNavigate } from 'react-router-dom';
-import { io, Socket } from 'socket.io-client';
+import { io } from 'socket.io-client';
 import { enterRoomApi } from 'src/api/webcam';
 import Webcamchatting from '../components/webcamchatting';
 
-let socket: Socket | null = null;
+// let socket: Socket | null = null;
 export default function WebCamscreen() {
   const param = useParams();
   const paramid = param.id;
 
   const nav = useNavigate();
   const localToken = localStorage.getItem('token');
-
+  const socket = io('https://stupy.shop', {
+    auth: {
+      token: localToken,
+      roomId: paramid,
+    },
+  });
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data } = useQuery('enterRoom', () => enterRoomApi(paramid), {
     onError: () => {
@@ -24,22 +28,21 @@ export default function WebCamscreen() {
       nav(-1);
     },
   });
-  // 소켓연결
 
-  useEffect(() => {
-    if (data) {
-      socket = io('https://stupy.shop', {
-        // socket = io('https://localhost:3001', {
-        auth: {
-          token: localToken,
-          roomId: paramid,
-        },
-      });
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data) {
+  //     socket = io('https://stupy.shop', {
+  //       // socket = io('https://localhost:3001', {
+  //       auth: {
+  //         token: localToken,
+  //         roomId: paramid,
+  //       },
+  //     });
+  //   }
+  // }, [data]);
 
-  if (socket === null) {
-    return null;
-  }
+  // if (socket === null) {
+  //   return null;
+  // }
   return <Webcamchatting socket={socket} />;
 }
