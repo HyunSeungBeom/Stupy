@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import { Socket } from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
 // import { RATIO, RATIO_H } from 'src/constants';
+import { RATIO, RATIO_H } from 'src/constants';
 import Video from './Video/index';
 import { WebRTCUser } from '../../types/types';
 import Chatting from '../Chat/Chatting';
@@ -74,10 +75,7 @@ function WebCam({
     try {
       const localStream = await navigator.mediaDevices.getUserMedia({
         audio: true,
-        video: {
-          width: 228,
-          height: 398,
-        },
+        video: true,
       });
       localStreamRef.current = localStream;
       if (localVideoRef.current) localVideoRef.current.srcObject = localStream;
@@ -255,13 +253,15 @@ function WebCam({
 
   return (
     <Contanier>
-      <VideoBox
-        className="hiVideo"
-        muted
-        ref={localVideoRef}
-        autoPlay
-        playsInline
-      />
+      <VideoAll>
+        <VideoBox
+          className="hiVideo"
+          muted
+          ref={localVideoRef}
+          autoPlay
+          playsInline
+        />
+      </VideoAll>
       {users.map((user, index) => (
         <Video
           // eslint-disable-next-line react/no-array-index-key
@@ -296,7 +296,6 @@ const Contanier = styled.div`
 
 const VideoBox = styled.video`
   box-sizing: border-box;
-  padding-bottom: 4px;
 `;
 
 const ChattingMenu = styled.div`
@@ -304,9 +303,10 @@ const ChattingMenu = styled.div`
   width: 460px;
 `;
 
-// const MyVideo = styled.video`
-//   width: ${RATIO * 228};
-//   max-width: 228;
-//   height: ${RATIO_H * 398};
-//   max-height: 398;
-// `;
+const VideoAll = styled.div`
+  //   width: ${RATIO * 228};
+  //   max-width: 228px;
+  //   height: ${RATIO_H * 398};
+  //   max-height: 398;
+  //   object-fit: cover;
+`;

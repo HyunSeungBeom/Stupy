@@ -12,7 +12,7 @@ import Main from './screen/Main';
 import './App.css';
 import Setting from './screen/Setting';
 // eslint-disable-next-line import/order
-import WebCam from './screen/WebCam';
+import WebCam from './screen/WebCamscreen';
 
 const GlobalStyle = createGlobalStyle`
 

@@ -4,10 +4,18 @@
     overflow: hidden
 } */
 
-/* video {
-    width: 49%;
-} */
-
-.hiVideo {
-    width: 50%;
+video {
+    max-width: 228px;
+    width: 228px;
+    height: 398px;
+    max-height: 398px;
+    object-fit: cover;
 }
+
+/* .hiVideo {
+    max-width: 228px;
+    width: 228px;
+    height: 398px;
+    max-height: 398px;
+    object-fit: cover;
+} */
