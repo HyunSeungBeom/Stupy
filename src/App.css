@@ -5,10 +5,10 @@
 } */
 
 video {
-    max-width: 228px;
-    width: 228px;
-    height: 398px;
-    max-height: 398px;
+    max-width: 49%;
+    width: 49%;
+    height: 49%;
+    max-height: 49%;
     object-fit: cover;
 }
 

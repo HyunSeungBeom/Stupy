@@ -13,7 +13,7 @@ export default function WebCamscreen() {
   let socket;
   const nav = useNavigate();
 
-  const { data } = useQuery('roomTitle', () => enterRoomApi(paramid), {
+  const { data } = useQuery('enterRoom', () => enterRoomApi(paramid), {
     onSuccess: () => {
       console.log('joinRoomSuccess');
     },
@@ -25,9 +25,10 @@ export default function WebCamscreen() {
   // 소켓연결
   const localToken = localStorage.getItem('token');
   console.log(data);
+  console.log(data?.data);
   if (data?.data === true) {
     socket = io('http://stupy.shop', {
-      // const socket = io('http://localhost:3001', {
+      // socket = io('http://localhost:3001', {
       auth: {
         token: localToken,
         roomId: paramid,
