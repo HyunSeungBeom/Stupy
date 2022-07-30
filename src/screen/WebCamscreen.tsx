@@ -14,20 +14,18 @@ export default function WebCamscreen() {
   let socket;
   const nav = useNavigate();
 
-  const { isSuccess, data } = useQuery(
-    'enterRoom',
-    () => enterRoomApi(paramid),
-    {
-      onSuccess: () => {
-        console.log('joinRoomSuccess');
-      },
+  const { data } = useQuery('enterRoom', () => enterRoomApi(paramid), {
+    onSuccess: () => {
+      console.log('joinRoomSuccess');
     },
-  );
+    onError: () => {
+      alert('비정상 접근입니다.');
+      nav(-1);
+    },
+  });
   // 소켓연결
-  console.log(isSuccess);
+
   const localToken = localStorage.getItem('token');
-  console.log(data);
-  console.log(data?.data);
   if (data?.data === true) {
     socket = io('http://stupy.shop', {
       // socket = io('http://localhost:3001', {
@@ -37,13 +35,9 @@ export default function WebCamscreen() {
       },
     });
   }
-  if (data?.data === false) {
-    alert('비정상 접근입니다.');
-    return null;
-  }
   if (!socket) {
     alert('비정상 접근입니다.');
-    nav('/');
+    nav(-1);
     return null;
   }
   return <Webcamchatting socket={socket} />;
