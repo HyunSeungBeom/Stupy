@@ -14,12 +14,17 @@ export default function WebCamscreen() {
   let socket;
   const nav = useNavigate();
 
-  const { data } = useQuery('enterRoom', () => enterRoomApi(paramid), {
-    onSuccess: () => {
-      console.log('joinRoomSuccess');
+  const { isSuccess, data } = useQuery(
+    'enterRoom',
+    () => enterRoomApi(paramid),
+    {
+      onSuccess: () => {
+        console.log('joinRoomSuccess');
+      },
     },
-  });
+  );
   // 소켓연결
+  console.log(isSuccess);
   const localToken = localStorage.getItem('token');
   console.log(data);
   console.log(data?.data);
