@@ -2,7 +2,6 @@
 /* eslint-disable no-console */
 /* eslint-disable prefer-const */
 /* eslint-disable react/button-has-type */
-import { DefaultEventsMap } from '@socket.io/component-emitter';
 import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -10,7 +9,7 @@ import { io, Socket } from 'socket.io-client';
 import { enterRoomApi } from 'src/api/webcam';
 import Webcamchatting from '../components/webcamchatting';
 
-let socket: Socket<DefaultEventsMap, DefaultEventsMap> | null = null;
+let socket: Socket | null = null;
 export default function WebCamscreen() {
   const param = useParams();
   const paramid = param.id;
@@ -29,8 +28,8 @@ export default function WebCamscreen() {
 
   useEffect(() => {
     if (data) {
-      socket = io('http://stupy.shop', {
-        // socket = io('http://localhost:3001', {
+      socket = io('https://stupy.shop', {
+        // socket = io('https://localhost:3001', {
         auth: {
           token: localToken,
           roomId: paramid,
