@@ -25,7 +25,7 @@ export default function WebCamscreen() {
   // 소켓연결
   const localToken = localStorage.getItem('token');
   console.log(data);
-  if (data?.status) {
+  if (data?.data === true) {
     socket = io('http://stupy.shop', {
       // const socket = io('http://localhost:3001', {
       auth: {
