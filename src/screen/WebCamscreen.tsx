@@ -5,11 +5,11 @@
 import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { useParams, useNavigate } from 'react-router-dom';
-import { io } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 import { enterRoomApi } from 'src/api/webcam';
 import Webcamchatting from '../components/webcamchatting';
 
-// let socket: Socket | null = null;
+let socket: Socket | null = null;
 export default function WebCamscreen() {
   const param = useParams();
   const paramid = param.id;
@@ -42,16 +42,17 @@ export default function WebCamscreen() {
   useEffect(() => {
     console.log('useEffect 사용됨!');
     if (isSuccess) {
-      const socket = io('https://stupy.shop', {
+      socket = io('https://stupy.shop', {
         // socket = io('https://localhost:3001', {
         auth: {
           token: localToken,
           roomId: paramid,
         },
       });
-      <Webcamchatting socket={socket} />;
     }
   }, [isSuccess]);
-
-  return <div>정상 접근인지 확인 Loading...</div>;
+  if (socket === null) {
+    return <div>로딩중입니당!</div>;
+  }
+  return <Webcamchatting socket={socket} />;
 }
