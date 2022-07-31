@@ -10,10 +10,13 @@ import {
 import BottomBar from 'src/components/BottomBar';
 import { useState } from 'react';
 import { RATIO } from 'src/constants';
+import { getRoom } from 'src/api/room';
+import { useQuery } from 'react-query';
 import Room from './Room';
 import SearchBox from './SerchBox';
 
 function List() {
+  const { data: rooms } = useQuery(['rooms'], () => getRoom({ params: {} }));
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [filter, setFilter] = useState('전체');
 
@@ -74,17 +77,18 @@ function List() {
           </div>
         </TitleContainer>
         <RoomListContainer>
-          {MOCK_UP_DATA.map((item) => {
+          {rooms?.map((item) => {
             return (
               <Room
-                key={item.id}
-                isOn={item.is_on}
+                key={item.roomId}
                 title={item.title}
-                desc={item.description}
-                currentMember={item.current_member}
-                maxMember={item.max_member}
-                hashtag={item.hashtag}
-                rank={item.rank}
+                desc={item.content}
+                currentMember={item.usersNum}
+                maxMember={item.maxPeople}
+                hashtag={item.hashtags}
+                // rank={item.}
+                openKakao={item.openKakao}
+                image={item.image}
               />
             );
           })}

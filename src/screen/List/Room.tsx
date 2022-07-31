@@ -1,33 +1,39 @@
 import { useState } from 'react';
 import { RATIO } from 'src/constants';
 import styled from 'styled-components';
-import icoOn from 'src/assets/icons/icoOn.svg';
-import icoOff from 'src/assets/icons/icoOff.svg';
-import ico1st from 'src/assets/icons/ico1st.svg';
-import ico2nd from 'src/assets/icons/ico2nd.svg';
-import ico3rd from 'src/assets/icons/ico3rd.svg';
+// import icoOn from 'src/assets/icons/icoOn.svg';
+// import icoOff from 'src/assets/icons/icoOff.svg';
+// import ico1st from 'src/assets/icons/ico1st.svg';
+// import ico2nd from 'src/assets/icons/ico2nd.svg';
+// import ico3rd from 'src/assets/icons/ico3rd.svg';
 import imgSample from 'src/assets/images/imgSample.png';
 import OpenChetModal from 'src/components/OpenChetModal';
 
 type Props = {
-  isOn: boolean;
+  // isOn: boolean;
   title: string;
   desc: string;
   currentMember: number;
   maxMember: number;
   hashtag: string[];
   // eslint-disable-next-line react/require-default-props
-  rank?: number;
+  // rank?: number;
+  // eslint-disable-next-line react/require-default-props
+  openKakao?: string;
+  // eslint-disable-next-line react/require-default-props
+  image?: string;
 };
 
 export default function RoomBox({
-  isOn,
+  // isOn,
+  // rank,
+  openKakao,
+  image,
   title,
   desc,
   currentMember,
   maxMember,
   hashtag,
-  rank,
 }: Props) {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const handleModalOpen = () => {
@@ -36,24 +42,27 @@ export default function RoomBox({
     else alert('정원이 가득찬 그룹입니다.');
   };
 
-  function rankIcon() {
-    if (rank === 1) return ico1st;
-    if (rank === 2) return ico2nd;
-    if (rank === 3) return ico3rd;
-    return undefined;
-  }
+  // function rankIcon() {
+  //   if (rank === 1) return ico1st;
+  //   if (rank === 2) return ico2nd;
+  //   if (rank === 3) return ico3rd;
+  //   return undefined;
+  // }
 
   return (
     <>
       <Container onClick={handleModalOpen}>
         <ImgContainer
-          style={{ background: `url(${imgSample})`, backgroundSize: 'cover' }}
+          style={{
+            background: image ? `url(${image})` : `url(${imgSample})`,
+            backgroundSize: 'cover',
+          }}
         >
-          <img
+          {/* <img
             src={isOn ? icoOn : icoOff}
             alt=""
             style={{ width: 45, height: 22 }}
-          />
+          /> */}
           {desc}
           <br />
           {hashtag.map((item) => {
@@ -67,9 +76,9 @@ export default function RoomBox({
               +{currentMember}/{maxMember}
             </MemberCount>
           </div>
-          {!!rank && (
+          {/* {!!rank && (
             <img src={rankIcon()} alt="" style={{ width: 34, height: 46 }} />
-          )}
+          )} */}
         </GroupNameRow>
       </Container>
       {modalOpen && <OpenChetModal modal={setModalOpen} />}
@@ -86,6 +95,7 @@ const Container = styled.div`
   overflow: hidden;
   margin: 0px 20px;
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.17);
+  cursor: pointer;
 `;
 
 const ImgContainer = styled.div`
