@@ -149,6 +149,7 @@ const AlignBtn = styled.div`
   cursor: pointer;
 `;
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const MOCK_UP_DATA = [
   {
     id: 1,

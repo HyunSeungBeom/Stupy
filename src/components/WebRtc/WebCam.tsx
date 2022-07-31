@@ -254,7 +254,7 @@ function WebCam({
   return (
     <Contanier>
       <VideoBox
-        className="hiVideo"
+        className="MyVideo"
         muted
         ref={localVideoRef}
         autoPlay
@@ -294,9 +294,12 @@ const Contanier = styled.div`
 
 const VideoBox = styled.video`
   box-sizing: border-box;
+  width: 215px;
+  height: 420px;
+  object-fit: cover;
 `;
 
 const ChattingMenu = styled.div`
   display: flex;
-  width: 460px;
+  width: 428px;
 `;

@@ -27,6 +27,7 @@ type Props = {
 export default function RoomBox({
   // isOn,
   // rank,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   openKakao,
   image,
   title,
