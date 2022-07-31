@@ -55,8 +55,6 @@ export default function WebCamscreen() {
           roomId: paramid,
         },
       });
-    } else {
-      nav(-1);
     }
   }, [isSuccess]);
 
