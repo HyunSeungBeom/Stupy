@@ -1,7 +1,7 @@
 export type GetRoomPayload = {
   params: {
     text?: string;
-    sort?: 'latest’| ‘open’| ‘popularity';
+    sort?: 'latest' | 'open' | 'popularity';
   };
 };
 

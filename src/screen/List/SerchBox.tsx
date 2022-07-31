@@ -3,10 +3,18 @@ import { RATIO } from 'src/constants';
 import styled from 'styled-components';
 import icoSerch from 'src/assets/icons/list/icoSearch.svg';
 
-function SearchBox() {
+type Props = {
+  onChangeSearchKeywords: (e: string | undefined) => void;
+};
+
+function SearchBox({ onChangeSearchKeywords }: Props) {
   const [serchKeyword, setSearchKeyword] = useState<string>();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchKeyword(e.target.value);
+  };
+  const handleSearchClick = () => {
+    console.log('[SEARCH_KEYWORD]:', serchKeyword);
+    onChangeSearchKeywords(serchKeyword);
   };
   return (
     <SearchBoxdiv>
@@ -19,7 +27,7 @@ function SearchBox() {
           src={icoSerch}
           alt=""
           // eslint-disable-next-line no-console
-          onClick={() => console.log('[SEARCH_KEYWORD]:', serchKeyword)}
+          onClick={handleSearchClick}
         />
       </SearchBtn>
     </SearchBoxdiv>

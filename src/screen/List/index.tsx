@@ -8,7 +8,7 @@ import {
   Title,
 } from 'src/components/Styled';
 import BottomBar from 'src/components/BottomBar';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { RATIO } from 'src/constants';
 import { getRoom } from 'src/api/room';
 import { useQuery } from 'react-query';
@@ -16,23 +16,41 @@ import Room from './Room';
 import SearchBox from './SerchBox';
 
 function List() {
-  const { data: rooms } = useQuery(['rooms'], () => getRoom({ params: {} }));
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [filter, setFilter] = useState('전체');
+  const [filterParams, setFilterParams] = useState<
+    'latest' | 'open' | 'popularity' | undefined
+  >();
+  const [keywords, setKeywords] = useState<string>();
+
+  useEffect(() => {
+    if (filter === '전체') setFilterParams(undefined);
+    else if (filter === '최신순') setFilterParams('latest');
+    else if (filter === '인기순') setFilterParams('popularity');
+    else if (filter === '모집중') setFilterParams('open');
+  }, [filter]);
+
+  const { data: rooms } = useQuery(['rooms', keywords, filterParams], () =>
+    getRoom({ params: { text: keywords, sort: filterParams } }),
+  );
 
   const handleDropdownPress = () => {
     setDropdownVisible(!dropdownVisible);
   };
   const handleFilterChange = (selected: string) => {
     setFilter(selected);
+
     setDropdownVisible(false);
   };
+  const onChangeSearchKeywords = useCallback((e: string | undefined) => {
+    setKeywords(e);
+  }, []);
 
   return (
     <SetBackGround>
       <TopContainer>
         <SearchBoxBackGround>
-          <SearchBox />
+          <SearchBox onChangeSearchKeywords={onChangeSearchKeywords} />
         </SearchBoxBackGround>
       </TopContainer>
       <BodyContainer>
