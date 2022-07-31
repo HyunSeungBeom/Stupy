@@ -115,7 +115,7 @@ function KickModal({
                   <NicknameBox>{kickdata[1].nickName}</NicknameBox>
                 </DetailBox>
                 <KickBox1>
-                  <button onClick={whoKick}> 추방 </button>
+                  <KickButton onClick={whoKick}> 강퇴 </KickButton>
                 </KickBox1>
               </div>
             ) : (
@@ -133,7 +133,7 @@ function KickModal({
                   <NicknameBox>{kickdata[2].nickName}</NicknameBox>
                 </DetailBox>
                 <KickBox2>
-                  <button onClick={whoKick2}> 추방 </button>
+                  <KickButton onClick={whoKick2}> 강퇴 </KickButton>
                 </KickBox2>
               </div>
             ) : (
@@ -151,7 +151,7 @@ function KickModal({
                   <NicknameBox>{kickdata[3].nickName}</NicknameBox>
                 </DetailBox>
                 <KickBox3>
-                  <button onClick={whoKick3}> 추방 </button>
+                  <KickButton onClick={whoKick3}> 강퇴 </KickButton>
                 </KickBox3>
               </div>
             ) : (
@@ -348,4 +348,10 @@ const KickBox3 = styled.div`
   height: 24px;
   left: 230px;
   top: 405px;
+`;
+
+const KickButton = styled.button`
+  color: white;
+  font-weight: 600px;
+  background: #ff9052;
 `;

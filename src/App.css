@@ -6,10 +6,12 @@
 
 video {
     max-width: 49%;
-    width: 49%;
+    width: 100%;
     height: 49vh;
     max-height: 49vh;
     object-fit: cover;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 /* .hiVideo {

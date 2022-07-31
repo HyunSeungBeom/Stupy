@@ -190,7 +190,7 @@ function Chatting({
               {roomOwner === true ? (
                 <DropdownBox3 onClick={handleModalOpen}>
                   <DropdownItem>
-                    <Kick>추방</Kick>
+                    <Kick>강퇴</Kick>
                   </DropdownItem>
                 </DropdownBox3>
               ) : (
@@ -307,5 +307,6 @@ const InputbuttonBox = styled.div`
 `;
 
 const Kick = styled.span`
-  color: red;
+  font-weight: 700;
+  color: #ff9052;
 `;

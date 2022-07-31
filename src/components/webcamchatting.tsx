@@ -119,8 +119,10 @@ const Block2 = styled.div`
 `;
 
 const WebCambox = styled.div`
+  width: ${428 * RATIO}px;
   max-width: 428px;
   display: flex;
+  flex-wrap: wrap;
 `;
 
 const RankButton = styled.div`
