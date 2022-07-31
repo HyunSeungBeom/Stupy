@@ -3,7 +3,7 @@
 /* eslint-disable prefer-const */
 /* eslint-disable react/button-has-type */
 import { useEffect } from 'react';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { useParams, useNavigate } from 'react-router-dom';
 import { io, Socket } from 'socket.io-client';
 import { enterRoomApi } from 'src/api/webcam';
@@ -15,12 +15,16 @@ export default function WebCamscreen() {
   const paramid = param.id;
   const nav = useNavigate();
   const localToken = localStorage.getItem('token');
+  const queryClient = useQueryClient();
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { isSuccess, data } = useQuery(
     'enterRoom',
     () => enterRoomApi(paramid),
     {
+      onSuccess: () => {
+        queryClient.invalidateQueries('enterRoom');
+      },
       onError: () => {
         alert('비정상 접근입니다.');
         nav(-1);
