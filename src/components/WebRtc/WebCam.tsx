@@ -253,15 +253,14 @@ function WebCam({
 
   return (
     <Contanier>
-      <VideoAll>
-        <VideoBox
-          className="hiVideo"
-          muted
-          ref={localVideoRef}
-          autoPlay
-          playsInline
-        />
-      </VideoAll>
+      <VideoBox
+        className="hiVideo"
+        muted
+        ref={localVideoRef}
+        autoPlay
+        playsInline
+      />
+
       {users.map((user, index) => (
         <Video
           // eslint-disable-next-line react/no-array-index-key
@@ -302,5 +301,3 @@ const ChattingMenu = styled.div`
   display: flex;
   width: 460px;
 `;
-
-const VideoAll = styled.div``;

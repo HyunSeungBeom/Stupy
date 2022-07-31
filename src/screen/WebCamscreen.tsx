@@ -33,18 +33,6 @@ export default function WebCamscreen() {
     },
   );
 
-  // useEffect(() => {
-  //   if (data?.data === true) {
-  //     socket = io('https://stupy.shop', {
-  //       // socket = io('https://localhost:3001', {
-  //       auth: {
-  //         token: localToken,
-  //         roomId: paramid,
-  //       },
-  //     });
-  //   }
-  // }, [data?.data]);
-
   useEffect(() => {
     console.log('useEffect 사용됨!');
     if (isSuccess) {
