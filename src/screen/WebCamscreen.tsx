@@ -16,7 +16,6 @@ export default function WebCamscreen() {
   const localToken = localStorage.getItem('token');
 
   const { data } = useQuery('enterRoom', () => enterRoomApi(paramid), {
-    retry: 1,
     onError: () => {
       alert('비정상 접근입니다.');
       nav(-1);
