@@ -43,7 +43,7 @@ function Webcamchatting({ socket }: { socket: Socket }) {
       style={{
         overflowY: 'hidden',
         height: '100vh',
-        width: `${460 * RATIO}`,
+        width: `${428 * RATIO}`,
         maxWidth: '460px',
       }}
     >
