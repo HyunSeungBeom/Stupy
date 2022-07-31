@@ -210,16 +210,16 @@ function Chatting({
 export default Chatting;
 
 const ChatBackGround = styled.div`
-  width: ${460 * RATIO}px;
+  width: ${428 * RATIO}px;
   height: ${800 * RATIO_H}px;
 `;
 
 const ChattingBox = styled.div`
   position: fixed;
   bottom: 0px;
-  width: ${460 * RATIO}px;
+  width: ${428 * RATIO}px;
   height: ${250 * RATIO_H}px;
-  max-width: 460px;
+  max-width: 428px;
   background: linear-gradient(
     360deg,
     rgba(0, 0, 0, 0.408) 0%,
@@ -260,7 +260,7 @@ const DropdownBox = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 110px;
+  top: 140px;
   right: 20px;
   border-radius: 10px;
   background-color: white;
@@ -273,7 +273,7 @@ const DropdownBox2 = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 160px;
+  top: 190px;
   right: 20px;
   border-radius: 10px;
   background-color: white;
@@ -286,7 +286,7 @@ const DropdownBox3 = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 60px;
+  top: 90px;
   right: 20px;
   border-radius: 10px;
   background-color: white;

@@ -289,8 +289,8 @@ export default WebCam;
 const Contanier = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: ${460 * RATIO}px;
-  max-width: 460px;
+  width: ${428 * RATIO}px;
+  max-width: 428px;
   justify-content: space-between;
 `;
 
