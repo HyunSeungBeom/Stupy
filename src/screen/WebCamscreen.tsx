@@ -4,7 +4,6 @@
 /* eslint-disable react/button-has-type */
 import { useEffect } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
-import { Retryer } from 'react-query/types/core/retryer';
 import { useParams, useNavigate } from 'react-router-dom';
 import { io, Socket } from 'socket.io-client';
 import { enterRoomApi } from 'src/api/webcam';
@@ -45,6 +44,7 @@ export default function WebCamscreen() {
   //     });
   //   }
   // }, [data?.data]);
+
   useEffect(() => {
     console.log('useEffect 사용됨!');
     if (isSuccess) {
@@ -61,7 +61,7 @@ export default function WebCamscreen() {
   }, [isSuccess]);
 
   if (socket === null) {
-    return alert('비정상 접근입니다.');
+    return <div />;
   }
   return <Webcamchatting socket={socket} />;
 }
