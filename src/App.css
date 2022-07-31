@@ -10,6 +10,8 @@ video {
     height: 49vh;
     max-height: 49vh;
     object-fit: cover;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 /* .hiVideo {
