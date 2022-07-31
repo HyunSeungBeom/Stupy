@@ -1,5 +1,8 @@
 import styled from 'styled-components';
 import { ReactComponent as Logo } from 'src/assets/icons/socialLogin/logo.svg';
+import { ReactComponent as LogoLetter } from 'src/assets/icons/socialLogin/Stupyletter.svg';
+import { ReactComponent as SmallLogin } from 'src/assets/icons/socialLogin/smallLogin.svg';
+import { ReactComponent as BottomLetter } from 'src/assets/icons/socialLogin/bottomletter.svg';
 import { RATIO } from 'src/constants';
 
 import SocialSignIn from './SocialSignIn';
@@ -9,10 +12,17 @@ function Login() {
     <PageBackground>
       <LogoBox>
         <Logo />
-        <SocialSignBox>
-          <SocialSignIn />
-        </SocialSignBox>
+        <div>
+          <LogoLetter />
+        </div>
       </LogoBox>
+      <SmallLoginBox>
+        <SmallLogin />
+      </SmallLoginBox>
+      <SocialSignBox>
+        <SocialSignIn />
+      </SocialSignBox>
+      <BottomLetter />
     </PageBackground>
   );
 }
@@ -20,19 +30,29 @@ function Login() {
 export default Login;
 
 const PageBackground = styled.div`
-  width: ${460 * RATIO}px;
+  width: ${428 * RATIO}px;
+  max-width: 428px;
   height: 100vh;
-  max-width: 460px;
-  background-color: white;
+  background: #ff9052;
   align-items: center;
   text-align: center;
   margin-left: auto;
   margin-right: auto;
 `;
 const LogoBox = styled.div`
-  margin-top: 150px;
+  padding-top: 100px;
+  box-sizing: border-box;
+  height: 60vh;
+  border-radius: 0 0 40px 40px;
+  background: white;
 `;
 
 const SocialSignBox = styled.div`
-  margin-top: 200px;
+  margin-top: 46px;
+  background: #ff9052;
+  margin-bottom: 40px;
+`;
+
+const SmallLoginBox = styled.div`
+  margin-top: 46px; ;
 `;
