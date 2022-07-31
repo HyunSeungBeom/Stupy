@@ -38,6 +38,7 @@ const Container = styled.div`
   margin: 0px 20px;
   border-radius: 10px;
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.17);
+  cursor: pointer;
 `;
 
 const MasterIcon = styled.img`

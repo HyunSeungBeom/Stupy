@@ -21,7 +21,9 @@ import 'swiper/scss/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { getTodolist, postTodolist } from 'src/api/todolist';
+import { getMyRooms } from 'src/api/myRooms';
 import MyGroup from './MyGroup';
+import EmptyGroup from './EmptyGroup';
 
 moment.locale('ko');
 
@@ -31,6 +33,7 @@ export default function Main() {
   const [params] = useSearchParams();
   // console.log(params.get('token'));
 
+  const { data: myRoomData } = useQuery(['myRoomData'], getMyRooms);
   const { data: todolistData } = useQuery(['todolistData'], getTodolist);
   // eslint-disable-next-line no-console
 
@@ -66,44 +69,51 @@ export default function Main() {
         <TitleContainer>
           <Title>GROUP</Title>
         </TitleContainer>
-        <Swiper
-          style={{
-            paddingBottom: 27,
-          }}
-          spaceBetween={1}
-          slidesPerView={1}
-          pagination={{ clickable: true }}
-          onSlideChange={(e) => setSwiperIdx(e.snapIndex)}
-          // onSwiper={(swiper) => console.log(swiper.el)}
-        >
-          {MOCK_UP_GROUP.map((item) => {
-            return (
-              <SwiperSlide key={item.id}>
-                <MyGroup
-                  id={item.id.toString()}
-                  isMaster={item.is_master}
-                  title={item.title}
-                  desc={item.description}
-                />
-              </SwiperSlide>
-            );
-          })}
-        </Swiper>
-        <SwiperDotContainer>
-          {MOCK_UP_GROUP.map((item, index) => {
-            return (
-              <div
-                key={item.id}
-                style={{
-                  width: 8,
-                  height: 8,
-                  borderRadius: 4,
-                  backgroundColor: index === swiperIdx ? PRIMARY : '#d9d9d9',
-                }}
-              />
-            );
-          })}
-        </SwiperDotContainer>
+        {myRoomData?.length ? (
+          <>
+            <Swiper
+              style={{
+                paddingBottom: 27,
+              }}
+              spaceBetween={1}
+              slidesPerView={1}
+              pagination={{ clickable: true }}
+              onSlideChange={(e) => setSwiperIdx(e.snapIndex)}
+              // onSwiper={(swiper) => console.log(swiper.el)}
+            >
+              {myRoomData.map((item) => {
+                return (
+                  <SwiperSlide key={item.roomId}>
+                    <MyGroup
+                      id={item.roomId}
+                      isMaster={item.isMaster}
+                      title={item.title}
+                      desc={item.content}
+                    />
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
+            <SwiperDotContainer>
+              {myRoomData.map((item, index) => {
+                return (
+                  <div
+                    key={item.roomId}
+                    style={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: 4,
+                      backgroundColor:
+                        index === swiperIdx ? PRIMARY : '#d9d9d9',
+                    }}
+                  />
+                );
+              })}
+            </SwiperDotContainer>
+          </>
+        ) : (
+          <EmptyGroup />
+        )}
         <Divider />
         <TitleContainer>
           <Title>TO DO LIST</Title>
