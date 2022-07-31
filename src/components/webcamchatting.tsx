@@ -77,14 +77,14 @@ const WebScreen = styled.div`
   flex-direction: column;
   background-color: #e5e5e5;
   overflow: hidden;
-  width: ${460 * RATIO}px;
+  width: ${428 * RATIO}px;
   height: 100vh;
-  max-width: 460px;
+  max-width: 428px;
 `;
 
 const UpperMenu = styled.div`
-  width: ${460 * RATIO}px;
-  max-width: 460px;
+  width: ${428 * RATIO}px;
+  max-width: 428px;
   display: flex;
   position: fixed;
   padding-left: ${7 * RATIO}px;
@@ -119,7 +119,7 @@ const Block2 = styled.div`
 `;
 
 const WebCambox = styled.div`
-  max-width: 460px;
+  max-width: 428px;
   display: flex;
 `;
 
@@ -137,5 +137,5 @@ const RankButton = styled.div`
   cursor: pointer;
   background: rgba(87, 87, 87, 0.55);
   gap: 4px;
-  padding-left: 10px;
+  padding-left: 8px;
 `;
