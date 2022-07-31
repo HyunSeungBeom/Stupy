@@ -1,11 +1,18 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  Outlet,
+  Navigate,
+} from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import List from './screen/List';
 import Login from './screen/Login';
 import Main from './screen/Main';
 import './App.css';
-import Webcamchatting from './screen/webcamchatting';
 import Setting from './screen/Setting';
+// eslint-disable-next-line import/order
+import WebCam from './screen/WebCamscreen';
 
 const GlobalStyle = createGlobalStyle`
 
@@ -13,6 +20,15 @@ body{
   /* background: '#efefef'; */
 }
 `;
+
+const localToken = localStorage.getItem('token');
+function ProtectedRoute({ redirectPath = '/' }) {
+  if (!localToken) {
+    return <Navigate to={redirectPath} replace />;
+  }
+
+  return <Outlet />;
+}
 
 function App() {
   document.addEventListener(
@@ -25,6 +41,7 @@ function App() {
     },
     true,
   );
+
   return (
     <div
       style={{
@@ -32,18 +49,19 @@ function App() {
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'gray',
-        minHeight: window.innerHeight,
       }}
     >
       <BrowserRouter>
         <GlobalStyle />
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/main" element={<Main />} />
-          <Route path="/list" element={<List />} />
           <Route path="/kakao/login" element={<Main />} />
-          <Route path="/setting" element={<Setting />} />
-          <Route path="/room/:id" element={<Webcamchatting />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/main" element={<Main />} />
+            <Route path="/list" element={<List />} />
+            <Route path="/setting" element={<Setting />} />
+            <Route path="/room/:id" element={<WebCam />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </div>

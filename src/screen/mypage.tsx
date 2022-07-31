@@ -5,7 +5,6 @@ import BottomBar from '../components/BottomBar';
 function Mypage() {
   const LogoutClick = () => {
     localStorage.clear();
-    window.location.replace('/login');
   };
 
   return (

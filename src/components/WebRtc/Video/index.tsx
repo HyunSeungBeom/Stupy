@@ -20,7 +20,13 @@ function Video({ userid, stream, muted }: Props) {
 
   return (
     <Container>
-      <VideoContainer ref={ref} muted={isMuted} autoPlay />
+      <VideoContainer
+        className="webVideo"
+        ref={ref}
+        muted={isMuted}
+        autoPlay
+        playsInline
+      />
       {/* <UserLabel>{userid}</UserLabel> */}
     </Container>
   );
@@ -29,7 +35,8 @@ function Video({ userid, stream, muted }: Props) {
 export default Video;
 
 const Container = styled.div`
-  position: flex;
+  display: flex;
+  padding-bottom: 4px;
 `;
 
 const VideoContainer = styled.video`

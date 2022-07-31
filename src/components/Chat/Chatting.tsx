@@ -2,17 +2,20 @@
 /* eslint-disable no-console */
 /* eslint-disable react/button-has-type */
 import React, { useEffect, useState } from 'react';
-import { RATIO } from 'src/constants';
+import { RATIO, RATIO_H } from 'src/constants';
 import styled from 'styled-components';
 import { ReactComponent as ChattingButton } from 'src/assets/icons/webrtcroom/sendMessageButton.svg';
 import { ReactComponent as ChattingAudioButton } from 'src/assets/icons/webrtcroom/cameraaudiobutton.svg';
 import { ReactComponent as CameraButton } from 'src/assets/icons/webrtcroom/camera.svg';
+import { ReactComponent as CameraOffButton } from 'src/assets/icons/webrtcroom/cameraOff.svg';
 import { ReactComponent as MicButton } from 'src/assets/icons/webrtcroom/mic.svg';
+import { ReactComponent as MicOffButton } from 'src/assets/icons/webrtcroom/micOff.svg';
 import { Socket } from 'socket.io-client';
 import { Buffer } from 'buffer';
 import { userIdApi } from 'src/api/webcam';
 import { useQuery } from 'react-query';
 import Messages from './Messages';
+import KickModal from '../KickModal';
 
 export interface chattype {
   content: string;
@@ -24,7 +27,19 @@ export interface chattype {
   };
 }
 
-function Chatting({ isparam, socket }: { isparam: string; socket: Socket }) {
+function Chatting({
+  isparam,
+  socket,
+  VideoHandler,
+  AudioHandler,
+  roomOwner,
+}: {
+  isparam: string;
+  socket: Socket;
+  VideoHandler: () => void;
+  AudioHandler: () => void;
+  roomOwner: boolean | undefined;
+}) {
   const [inputMessage, setInputMessage] = useState('');
   const [message, setMessage] = useState<Array<chattype>>([]);
   const token = localStorage.getItem('token');
@@ -32,11 +47,14 @@ function Chatting({ isparam, socket }: { isparam: string; socket: Socket }) {
   const payload = Buffer.from(base64Payload, 'base64');
   const userid = JSON.parse(payload.toString());
   const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [beforeMessage, setBeforeMessage] = useState([]);
+  const [micButtonClick, setMicButtonClick] = useState<boolean>(true);
+  const [audioButtonClick, setAudioButtonClick] = useState<boolean>(true);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const { isSuccess, data } = useQuery('userinfo', () =>
     userIdApi(userid.userId),
   );
-  // console.log(isSuccess && data.data.user.userNick);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputMessage(e.target.value);
@@ -47,14 +65,26 @@ function Chatting({ isparam, socket }: { isparam: string; socket: Socket }) {
       sendMessage();
     }
   };
+  const MiconButton = () => {
+    setMicButtonClick(!micButtonClick);
+    VideoHandler();
+  };
+
+  const AudioButton = () => {
+    setAudioButtonClick(!audioButtonClick);
+    AudioHandler();
+  };
 
   const handleDropdownPress = () => {
     setDropdownVisible(!dropdownVisible);
   };
 
+  const handleModalOpen = () => {
+    setModalOpen(!modalOpen);
+  };
+
   const sendMessage = () => {
     if (inputMessage.length > 0 && isSuccess) {
-      console.log(userid);
       const sendMessage = {
         roomId: isparam,
         content: inputMessage,
@@ -70,8 +100,16 @@ function Chatting({ isparam, socket }: { isparam: string; socket: Socket }) {
         content: inputMessage,
       });
       setInputMessage('');
+      console.log(socket);
     }
   };
+
+  useEffect(() => {
+    socket.on('all_users', (datatoclient) => {
+      console.log(datatoclient.chatInThisRoom);
+      setBeforeMessage(datatoclient.chatInThisRoom);
+    });
+  }, []);
 
   useEffect(() => {
     socket.on('chatForOther', (newChat) => {
@@ -80,68 +118,114 @@ function Chatting({ isparam, socket }: { isparam: string; socket: Socket }) {
     });
   }, [socket]);
 
+  console.log(roomOwner);
   return (
-    <ChattingBox>
-      <Chattinglist>
-        {message.map((e, i) => {
-          return (
-            <Messages
-              // eslint-disable-next-line react/no-array-index-key
-              key={i}
-              e={e}
+    <ChatBackGround>
+      <ChattingBox>
+        <Chattinglist>
+          {beforeMessage.map((e, i) => {
+            // eslint-disable-next-line no-useless-return, react/no-array-index-key
+            return <Messages key={i} e={e} />;
+          })}
+          {message.map((e, i) => {
+            return (
+              <Messages
+                // eslint-disable-next-line react/no-array-index-key
+                key={i}
+                e={e}
+              />
+            );
+          })}
+        </Chattinglist>
+        <ChattingBoxdiv>
+          <InputbuttonBox>
+            <ChatiingInput
+              placeholder="입력해주세요"
+              onChange={handleInput}
+              onKeyDown={handleKeyPressed}
+              value={inputMessage}
             />
-          );
-        })}
-      </Chattinglist>
-      <ChattingBoxdiv>
-        <InputbuttonBox>
-          <ChatiingInput
-            placeholder="입력해주세요"
-            onChange={handleInput}
-            onKeyDown={handleKeyPressed}
-            value={inputMessage}
+            <ChattingButton
+              style={{
+                position: 'absolute',
+                top: '10',
+                right: '0',
+                cursor: 'pointer',
+              }}
+              onClick={sendMessage}
+            />
+          </InputbuttonBox>
+          <ChattingAudioButton
+            onClick={handleDropdownPress}
+            style={{ cursor: 'pointer', right: '20', position: 'absolute' }}
           />
-          <ChattingButton
-            style={{
-              position: 'absolute',
-              top: '10',
-              right: '0',
-              cursor: 'pointer',
-            }}
-            onClick={sendMessage}
-          />
-        </InputbuttonBox>
-        <ChattingAudioButton
-          onClick={handleDropdownPress}
-          style={{ cursor: 'pointer', right: '20', position: 'absolute' }}
-        />
-        {dropdownVisible && (
-          <div>
-            <DropdownBox>
-              <DropdownItem>
-                <CameraButton />
-              </DropdownItem>
-            </DropdownBox>
-            <DropdownBox2>
-              <DropdownItem>
-                <MicButton />
-              </DropdownItem>
-            </DropdownBox2>
-          </div>
-        )}
-      </ChattingBoxdiv>
-    </ChattingBox>
+          {dropdownVisible && (
+            <div>
+              {micButtonClick ? (
+                <DropdownBox onClick={MiconButton}>
+                  <DropdownItem>
+                    <CameraButton />
+                  </DropdownItem>
+                </DropdownBox>
+              ) : (
+                <DropdownBox onClick={MiconButton}>
+                  <DropdownItem>
+                    <CameraOffButton />
+                  </DropdownItem>
+                </DropdownBox>
+              )}
+              {audioButtonClick ? (
+                <DropdownBox2 onClick={AudioButton}>
+                  <DropdownItem>
+                    <MicButton />
+                  </DropdownItem>
+                </DropdownBox2>
+              ) : (
+                <DropdownBox2 onClick={AudioButton}>
+                  <DropdownItem>
+                    <MicOffButton />
+                  </DropdownItem>
+                </DropdownBox2>
+              )}
+              {roomOwner === true ? (
+                <DropdownBox3 onClick={handleModalOpen}>
+                  <DropdownItem>
+                    <Kick>추방</Kick>
+                  </DropdownItem>
+                </DropdownBox3>
+              ) : (
+                <div />
+              )}
+            </div>
+          )}
+        </ChattingBoxdiv>
+      </ChattingBox>
+      {modalOpen && (
+        <KickModal modal={setModalOpen} socket={socket} isparam={isparam} />
+      )}
+    </ChatBackGround>
   );
 }
 
 export default Chatting;
 
+const ChatBackGround = styled.div`
+  width: ${460 * RATIO}px;
+  height: ${800 * RATIO_H}px;
+`;
+
 const ChattingBox = styled.div`
   position: fixed;
+  bottom: 0px;
   width: ${460 * RATIO}px;
+  height: ${250 * RATIO_H}px;
   max-width: 460px;
-  bottom: 50px;
-  height: 250px;
+  background: linear-gradient(
+    360deg,
+    rgba(0, 0, 0, 0.408) 0%,
+    rgba(0, 0, 0, 0.208) 72.92%,
+    rgba(67, 67, 67, 0) 100%
+  );
 `;
 
 const ChattingBoxdiv = styled.div`
@@ -154,8 +238,10 @@ const Chattinglist = styled.div`
   height: calc(100% - 50px);
   overflow-y: auto; //스크롤바 없애기
   ::-webkit-scrollbar {
-    display: none;
+    display: flex;
   }
+  padding-bottom: 10px;
+  box-sizing: border-box;
 `;
 
 const ChatiingInput = styled.input`
@@ -174,7 +260,7 @@ const DropdownBox = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 100px;
+  top: 110px;
   right: 20px;
   border-radius: 10px;
   background-color: white;
@@ -187,7 +273,20 @@ const DropdownBox2 = styled.div`
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: 150px;
+  top: 160px;
+  right: 20px;
+  border-radius: 10px;
+  background-color: white;
+  width: 54px;
+  max-width: ${148 * RATIO}px;
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
+`;
+
+const DropdownBox3 = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 60px;
   right: 20px;
   border-radius: 10px;
   background-color: white;
@@ -205,4 +304,8 @@ const DropdownItem = styled.div`
 const InputbuttonBox = styled.div`
   position: relative;
   width: 76%;
+`;
+
+const Kick = styled.span`
+  color: red;
 `;

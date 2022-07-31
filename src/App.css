@@ -3,3 +3,19 @@
 /* body {
     overflow: hidden
 } */
+
+video {
+    max-width: 49%;
+    width: 49%;
+    height: 50vh;
+    max-height: 50vh;
+    object-fit: cover;
+}
+
+/* .hiVideo {
+    max-width: 228px;
+    width: 228px;
+    height: 398px;
+    max-height: 398px;
+    object-fit: cover;
+} */

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { ReactComponent as Logo } from 'src/assets/icons/socialLogin/logo.svg';
 import { RATIO } from 'src/constants';
+
 import SocialSignIn from './SocialSignIn';
 
 function Login() {

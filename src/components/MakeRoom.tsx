@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { FieldValues, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
+import { ReactComponent as CloseButton } from 'src/assets/icons/webrtcroom/closebutton.svg';
 import { ImgSource } from './ImgSource';
 import PerSonnelButton from './PersonnelButton';
 import HashInput from './HashInput';
@@ -39,15 +40,6 @@ function MakeRoom({
     formData.append('openKakao', data.open_kakao);
     formData.append('maxPeople', count.toString());
 
-    // console.log(formData.get('image'));
-    // console.log(formData.get('title'));
-    // console.log(formData.get('content'));
-    // console.log(typeof formData.get('hashtag[]'));
-    // console.log(formData.getAll('hashtag[]'));
-    // console.log(formData.get('password'));
-    // console.log(formData.get('openKakao'));
-    // console.log(formData.get('maxPeople'));
-
     MakeRoomdata.mutate(formData);
   };
 
@@ -76,6 +68,9 @@ function MakeRoom({
           <ModalHeader>
             <ImgSource set={setImagePreview} />
           </ModalHeader>
+          <CloseButtonBox onClick={modalClose}>
+            <CloseButton />
+          </CloseButtonBox>
           <ModalMiddle>
             <PerSonnelButton set={setCount} count={count} />
             <InputText>
@@ -138,25 +133,25 @@ function MakeRoom({
             </InputText>
             <OrangeInput
               type="password"
-              placeholder="비밀번호를 입력하세요 (숫자 4글자)"
+              placeholder="(영문 + 숫자 4자리 이상 10이하)"
               {...register('password', {
                 required: true,
-                maxLength: 4,
+                maxLength: 10,
                 minLength: 4,
-                pattern: /^[0-9]*$/,
+                pattern: /^[a-zA-Z0-9]*$/,
               })}
             />
             {errors.password && errors.password.type === 'required' && (
               <ErrorText>필수 입력입니다.</ErrorText>
             )}
             {errors.password && errors.password.type === 'maxLength' && (
-              <ErrorText>4자리 입력해주세요.</ErrorText>
+              <ErrorText>10자리를 넘지 말아주세요.</ErrorText>
             )}
             {errors.password && errors.password.type === 'pattern' && (
-              <ErrorText>숫자만 입력해주세요.</ErrorText>
+              <ErrorText>영문 + 숫자로 해주세요.</ErrorText>
             )}
             {errors.password && errors.password.type === 'minLength' && (
-              <ErrorText>4자리 입력해주세요.</ErrorText>
+              <ErrorText>4자리를 넘겨주세요.</ErrorText>
             )}
             <InputText>해시태그</InputText>
             <HashInput set={setHashArr} hashArr2={hashArr} />
@@ -282,4 +277,11 @@ const ModalBtn = styled.button`
   color: white;
   border: none;
   font-weight: bold;
+`;
+
+const CloseButtonBox = styled.div`
+  position: absolute;
+  right: 25.73px;
+  top: 25.73px;
+  cursor: pointer;
 `;

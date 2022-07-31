@@ -1,53 +1,66 @@
+/* eslint-disable react/button-has-type */
 /* eslint-disable no-console */
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as CloseButton } from 'src/assets/icons/webrtcroom/closebutton.svg';
-import { ReactComponent as FirstClass } from 'src/assets/icons/rankingmodal/firstclass.svg';
 import { Socket } from 'socket.io-client';
+// import { useNavigate } from 'react-router-dom';
 
-interface timedatatype {
-  accumrecord: number;
-  currentrecord: number;
+interface kickdatatype {
   nickName: string;
   profilepic: string;
+  userId: string;
 }
 
-function padTo2Digits(num: number) {
-  return num.toString().padStart(2, '0');
-}
-
-function convertMsToTime(milliseconds: number) {
-  let seconds = Math.floor(milliseconds / 1000);
-  let minutes = Math.floor(seconds / 60);
-  let hours = Math.floor(minutes / 60);
-
-  seconds %= 60;
-  minutes %= 60;
-  hours %= 24;
-
-  return `${padTo2Digits(hours)}:${padTo2Digits(minutes)}`;
-}
-
-function RankingModal({
+function KickModal({
   modal,
   socket,
+  isparam,
 }: {
   modal: React.Dispatch<React.SetStateAction<boolean>>;
   socket: Socket;
+  isparam: string;
 }) {
-  const [timedata, setTimedata] = useState<Array<timedatatype>>([]);
-
+  const [kickdata, setkickdata] = useState<Array<kickdatatype>>([]);
+  // const nav = useNavigate();
   const modalClose = () => {
     modal(false);
   };
 
+  const whoKick = () => {
+    const data = {
+      roomId: isparam,
+      targetId: kickdata[1].userId,
+    };
+    socket.emit('addblacklist', data);
+    modalClose();
+  };
+
+  const whoKick2 = () => {
+    const data = {
+      roomId: isparam,
+      targetId: kickdata[2].userId,
+    };
+    socket.emit('addblacklist', data);
+    modalClose();
+  };
+
+  const whoKick3 = () => {
+    const data = {
+      roomId: isparam,
+      targetId: kickdata[3].userId,
+    };
+    socket.emit('addblacklist', data);
+    modalClose();
+  };
+
   useEffect(() => {
-    socket.emit('timertoggleon', () => {
+    socket.emit('kicktoggleon', () => {
       console.log('');
     });
-    socket.on('timeinfos', (data) => {
-      setTimedata(data);
+    socket.on('userInfos', (data) => {
+      setkickdata(data);
     });
   }, []);
 
@@ -60,38 +73,32 @@ function RankingModal({
     };
   }, []);
 
-  console.log('여기야', timedata);
+  console.log('여기야', kickdata);
 
   return (
     <ModalContainer>
       <ModalInner>
-        <Title>TODAY RANK</Title>
+        <Title>내보내기</Title>
         <CloseButtonBox onClick={modalClose}>
           <CloseButton />
         </CloseButtonBox>
         <RankingBox>
           <Menual>
-            <RankingMenu>순위</RankingMenu>
+            <RankingMenu>방유저</RankingMenu>
             <NicknameMenu>닉네임</NicknameMenu>
-            <TimeMenu>기록/누적시간</TimeMenu>
+            <TimeMenu>내보내기</TimeMenu>
           </Menual>
           <UserBox>
-            <FirstBox>
-              <FirstClass />
-            </FirstBox>
             <NumberBox>1</NumberBox>
-            {timedata[0] ? (
+            {kickdata[0] ? (
               <div>
                 <DetailBox>
                   <Imageheigth>
-                    <ImageBox src={timedata[0].profilepic} />
+                    <ImageBox src={kickdata[0].profilepic} />
                   </Imageheigth>
-                  <NicknameBox>{timedata[0].nickName}</NicknameBox>
-                  <TimeBox>
-                    <span>{convertMsToTime(timedata[0].currentrecord)}</span>/
-                    {convertMsToTime(timedata[0].accumrecord)}
-                  </TimeBox>
+                  <NicknameBox>{kickdata[0].nickName}</NicknameBox>
                 </DetailBox>
+                <KickBox>방장</KickBox>
               </div>
             ) : (
               <div />
@@ -99,18 +106,17 @@ function RankingModal({
           </UserBox>
           <UserBox>
             <NumberBox>2</NumberBox>
-            {timedata[1] ? (
+            {kickdata[1] ? (
               <div>
                 <DetailBox>
                   <Imageheigth>
-                    <ImageBox src={timedata[1].profilepic} />
+                    <ImageBox src={kickdata[1].profilepic} />
                   </Imageheigth>
-                  <NicknameBox>{timedata[1].nickName}</NicknameBox>
-                  <TimeBox>
-                    {convertMsToTime(timedata[1].currentrecord)}/
-                    {convertMsToTime(timedata[1].accumrecord)}
-                  </TimeBox>
+                  <NicknameBox>{kickdata[1].nickName}</NicknameBox>
                 </DetailBox>
+                <KickBox1>
+                  <button onClick={whoKick}> 추방 </button>
+                </KickBox1>
               </div>
             ) : (
               <div />
@@ -118,18 +124,17 @@ function RankingModal({
           </UserBox>
           <UserBox>
             <NumberBox>3</NumberBox>
-            {timedata[2] ? (
+            {kickdata[2] ? (
               <div>
                 <DetailBox>
                   <Imageheigth>
-                    <ImageBox src={timedata[2].profilepic} />
+                    <ImageBox src={kickdata[2].profilepic} />
                   </Imageheigth>
-                  <NicknameBox>{timedata[2].nickName}</NicknameBox>
-                  <TimeBox>
-                    {convertMsToTime(timedata[2].currentrecord)}/
-                    {convertMsToTime(timedata[2].accumrecord)}
-                  </TimeBox>
+                  <NicknameBox>{kickdata[2].nickName}</NicknameBox>
                 </DetailBox>
+                <KickBox2>
+                  <button onClick={whoKick2}> 추방 </button>
+                </KickBox2>
               </div>
             ) : (
               <div />
@@ -137,18 +142,17 @@ function RankingModal({
           </UserBox>
           <UserBox>
             <NumberBox>4</NumberBox>
-            {timedata[3] ? (
+            {kickdata[3] ? (
               <div>
                 <DetailBox>
                   <Imageheigth>
-                    <ImageBox src={timedata[3].profilepic} />
+                    <ImageBox src={kickdata[3].profilepic} />
                   </Imageheigth>
-                  <NicknameBox>{timedata[3].nickName}</NicknameBox>
-                  <TimeBox>
-                    {convertMsToTime(timedata[3].currentrecord)}/
-                    {convertMsToTime(timedata[3].accumrecord)}
-                  </TimeBox>
+                  <NicknameBox>{kickdata[3].nickName}</NicknameBox>
                 </DetailBox>
+                <KickBox3>
+                  <button onClick={whoKick3}> 추방 </button>
+                </KickBox3>
               </div>
             ) : (
               <div />
@@ -160,7 +164,7 @@ function RankingModal({
     </ModalContainer>
   );
 }
-export default RankingModal;
+export default KickModal;
 
 const ModalContainer = styled.div`
   top: 0;
@@ -248,7 +252,7 @@ const Menual = styled.div`
 const RankingMenu = styled.div`
   position: absolute;
   font-weight: 500;
-  width: 40px;
+  width: 50px;
   height: 24px;
   left: 13px;
   top: 14px;
@@ -287,12 +291,13 @@ const NumberBox = styled.div`
   line-height: 100px;
 `;
 
-const FirstBox = styled.div`
+const KickBox = styled.div`
   position: absolute;
-  left: 28px;
-  top: 74px;
+  width: 100px;
+  height: 24px;
+  left: 230px;
+  top: 90px;
 `;
-
 const DetailBox = styled.div`
   line-height: 100px;
   display: flex;
@@ -321,17 +326,26 @@ const NicknameBox = styled.div`
   padding-left: 2px;
 `;
 
-const TimeBox = styled.div`
+const KickBox1 = styled.div`
   position: absolute;
-  font-weight: 500;
-  font-size: 16px;
-  color: #7a7a7a;
-  right: 20px;
+  width: 100px;
+  height: 24px;
+  left: 230px;
+  top: 200px;
+`;
 
-  span {
-    font-style: normal;
-    font-weight: 600;
-    font-size: 24px;
-    color: #ff9052;
-  }
+const KickBox2 = styled.div`
+  position: absolute;
+  width: 100px;
+  height: 24px;
+  left: 230px;
+  top: 305px;
+`;
+
+const KickBox3 = styled.div`
+  position: absolute;
+  width: 100px;
+  height: 24px;
+  left: 230px;
+  top: 405px;
 `;

@@ -4,19 +4,40 @@ import { SetBackGround } from 'src/components/Styled';
 import { PRIMARY, RATIO } from 'src/constants';
 import icoArrowNext from 'src/assets/icons/icoArrowNext.svg';
 import { useCallback, useState } from 'react';
+import { useMutation } from 'react-query';
+import { ResigiterOutApi } from 'src/api/mypage';
+import { useNavigate } from 'react-router-dom';
+import { Buffer } from 'buffer';
 import ProfileImg from './ProfileImg';
 
 export default function Setting() {
   const [isEdit, setIsEdit] = useState(false);
-
+  const nav = useNavigate();
   const handleLogoutClick = () => {
     localStorage.clear();
-    window.location.replace('/login');
+    window.location.replace('/');
   };
 
   const onEditableChange = useCallback((e: boolean) => {
     setIsEdit(e);
   }, []);
+
+  const RegisterOutClick = () => {
+    const token = localStorage.getItem('token');
+    const base64Payload = token ? token.split('.')[1] : '';
+    const payload = Buffer.from(base64Payload, 'base64');
+    const userId = JSON.parse(payload.toString());
+    Deleteuserdata.mutate(userId.userId);
+  };
+
+  const Deleteuserdata = useMutation(
+    (userid: string) => ResigiterOutApi(userid),
+    {
+      onSuccess: () => {
+        nav(`/`);
+      },
+    },
+  );
 
   return (
     <SetBackGround>
@@ -46,7 +67,7 @@ export default function Setting() {
           </Row>
         </Container>
         <LogoutButton onClick={handleLogoutClick}>로그아웃</LogoutButton>
-        <KakaoUnlink>회원탈퇴</KakaoUnlink>
+        <KakaoUnlink onClick={RegisterOutClick}>회원탈퇴</KakaoUnlink>
         <VersionInfo>현재 버전 9.8.7</VersionInfo>
       </Background>
       <BottomBar currentPage="Setting" />

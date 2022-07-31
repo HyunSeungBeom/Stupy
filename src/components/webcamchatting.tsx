@@ -1,28 +1,28 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { BiArrowBack, BiUser } from 'react-icons/bi';
+import { BiArrowBack } from 'react-icons/bi';
 import { useNavigate, useParams } from 'react-router-dom';
-import Chatting from 'src/components/Chat/Chatting';
 import { SetBackGround } from 'src/components/Styled';
 import WebCam from 'src/components/WebRtc/WebCam';
 import { RATIO } from 'src/constants';
 import styled from 'styled-components';
-import { io } from 'socket.io-client';
 import { ReactComponent as RankingButton } from 'src/assets/icons/webrtcroom/ranking.svg';
 import RankingModal from 'src/components/RankingModal';
+import { Socket } from 'socket.io-client';
+import { useQuery } from 'react-query';
+import { roomTitleApi } from 'src/api/webcam';
 
-function Webcamchatting() {
+function Webcamchatting({ socket }: { socket: Socket }) {
   const param = useParams();
   const paramid = param.id;
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const localToken = localStorage.getItem('token');
-  const socket = io('http://stupy.shop', {
-    // const socket = io('http://localhost:3001', {
-    auth: {
-      token: localToken,
-    },
-  });
+  const [roomOwner, setRoomOwner] = useState<boolean>();
+  const nav = useNavigate();
+
+  const { isSuccess, data } = useQuery('roomTitle', () =>
+    roomTitleApi(paramid),
+  );
 
   const handleModalOpen = () => {
     setModalOpen(!modalOpen);
@@ -31,33 +31,42 @@ function Webcamchatting() {
   const backClick = () => {
     nav(-1);
   };
-  const nav = useNavigate();
+
+  useEffect(() => {
+    socket.on('all_users', (datatoclient) => {
+      setRoomOwner(datatoclient.roomOwner);
+    });
+  });
+
   return (
-    <>
+    <div
+      style={{
+        overflowY: 'hidden',
+        height: '100vh',
+        width: `${460 * RATIO}`,
+        maxWidth: '460px',
+      }}
+    >
       <SetBackGround>
         <WebScreen>
           <UpperMenu>
             <Block onClick={backClick}>
               <BackIcon />
             </Block>
-            <Block2>
-              <RoomTitle>디자이너 스터디 </RoomTitle>
-            </Block2>
+            <Block2>{isSuccess && <RoomTitle> {data.data} </RoomTitle>}</Block2>
             <RankButton onClick={handleModalOpen}>
               랭킹 <RankingButton />
             </RankButton>
           </UpperMenu>
           <WebCambox>
-            {paramid && <WebCam isparam={paramid} socket={socket} />}
+            {paramid && (
+              <WebCam isparam={paramid} socket={socket} roomOwner={roomOwner} />
+            )}
           </WebCambox>
-          <ChattingMenu>
-            <ChattingBox />
-            {paramid && <Chatting isparam={paramid} socket={socket} />}
-          </ChattingMenu>
         </WebScreen>
       </SetBackGround>
-      {modalOpen && <RankingModal modal={setModalOpen} />}
-    </>
+      {modalOpen && <RankingModal modal={setModalOpen} socket={socket} />}
+    </div>
   );
 }
 
@@ -66,12 +75,11 @@ export default Webcamchatting;
 const WebScreen = styled.div`
   display: flex;
   flex-direction: column;
-  border-radius: 10px;
   background-color: #e5e5e5;
-  height: 800px;
+  overflow: hidden;
   width: ${460 * RATIO}px;
+  height: 100vh;
   max-width: 460px;
-  overflow-y: hidden;
 `;
 
 const UpperMenu = styled.div`
@@ -79,9 +87,9 @@ const UpperMenu = styled.div`
   max-width: 460px;
   display: flex;
   position: fixed;
-  padding-left: ${3 * RATIO}px;
+  padding-left: ${7 * RATIO}px;
   padding-top: ${7 * RATIO}px;
-  z-index: 90;
+  z-index: 9;
 `;
 
 const RoomTitle = styled.div`
@@ -114,10 +122,6 @@ const WebCambox = styled.div`
   max-width: 460px;
   display: flex;
 `;
-
-const ChattingMenu = styled.div``;
-
-const ChattingBox = styled.div``;
 
 const RankButton = styled.div`
   margin-left: 10px;

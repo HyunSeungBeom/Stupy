@@ -84,7 +84,7 @@ export default function HashInput({
           value={hashtag}
           onChange={onChangeHashtag}
           onKeyUp={onKeyUp}
-          placeholder="해시태그 입력(최대 3개)"
+          placeholder="해시태그 입력후 엔터(최대 3개)"
         />
       )}
     </div>
@@ -124,7 +124,7 @@ const hashDivrap = css`
   }
 
   .HashInput {
-    width: auto;
+    width: 300px;
     display: inline-flex;
     outline: none;
     cursor: text;

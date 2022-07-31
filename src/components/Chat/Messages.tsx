@@ -5,11 +5,6 @@ import { chattype } from './Chatting';
 
 export default function Messages({ e }: { e: chattype }) {
   const chatRef = useRef<HTMLDivElement>(null);
-  // eslint-disable-next-line prefer-destructuring
-  // console.log(e);
-
-  // console.log(e);
-  // console.log(currentId, id);
   const scrollToBottom = () => {
     if (chatRef.current) {
       chatRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -29,17 +24,20 @@ export default function Messages({ e }: { e: chattype }) {
 
 const Chatid = styled.div`
   position: relative;
-  left: 2%;
+  left: 28px;
   color: #717171;
   font-size: 17px;
   text-align: center;
+  align-items: center;
+  display: flex;
 `;
 const Chatword = styled.div`
   position: relative;
+  width: 350px;
   border-radius: 5px;
   font-size: 17px;
   display: inline-block;
-  left: 2%;
+  left: 30px;
   color: white;
 `;
 
