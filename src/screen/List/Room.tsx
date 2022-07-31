@@ -6,6 +6,7 @@ import styled from 'styled-components';
 // import ico1st from 'src/assets/icons/ico1st.svg';
 // import ico2nd from 'src/assets/icons/ico2nd.svg';
 // import ico3rd from 'src/assets/icons/ico3rd.svg';
+import icoCheckCircle from 'src/assets/icons/list/icoCheckCircle.svg';
 import imgSample from 'src/assets/images/imgSample.png';
 import OpenChetModal from 'src/components/OpenChetModal';
 
@@ -53,6 +54,16 @@ export default function RoomBox({
   return (
     <>
       <Container onClick={handleModalOpen}>
+        {currentMember === maxMember && (
+          <MaxContainer>
+            <img
+              src={icoCheckCircle}
+              alt=""
+              style={{ width: 44, height: 44, marginBottom: 5 }}
+            />
+            인원 마감
+          </MaxContainer>
+        )}
         <ImgContainer
           style={{
             background: image ? `url(${image})` : `url(${imgSample})`,
@@ -87,6 +98,26 @@ export default function RoomBox({
   );
 }
 
+const MaxContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 24;
+  font-weight: 600;
+  color: white;
+  background-color: rgba(70, 70, 70, 0.76);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.17);
+  cursor: pointer;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+`;
+
 const Container = styled.div`
   display: flex;
   width: 100%;
@@ -97,6 +128,7 @@ const Container = styled.div`
   margin: 0px 20px;
   box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.17);
   cursor: pointer;
+  position: relative;
 `;
 
 const ImgContainer = styled.div`
