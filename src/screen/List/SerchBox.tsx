@@ -13,6 +13,7 @@ function SearchBox({ onChangeSearchKeywords }: Props) {
     setSearchKeyword(e.target.value);
   };
   const handleSearchClick = () => {
+    // eslint-disable-next-line no-console
     console.log('[SEARCH_KEYWORD]:', serchKeyword);
     onChangeSearchKeywords(serchKeyword);
   };
