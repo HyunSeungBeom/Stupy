@@ -22,6 +22,7 @@ type Props = {
   openKakao?: string;
   // eslint-disable-next-line react/require-default-props
   image?: string;
+  roomId: string;
 };
 
 export default function RoomBox({
@@ -35,6 +36,7 @@ export default function RoomBox({
   currentMember,
   maxMember,
   hashtag,
+  roomId,
 }: Props) {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const handleModalOpen = () => {
@@ -82,7 +84,17 @@ export default function RoomBox({
           )} */}
         </GroupNameRow>
       </Container>
-      {modalOpen && <OpenChetModal modal={setModalOpen} />}
+      {modalOpen && (
+        <OpenChetModal
+          modal={setModalOpen}
+          image={image}
+          title={title}
+          desc={desc}
+          hashtag={hashtag}
+          openkakao={openKakao}
+          roomId={roomId}
+        />
+      )}
     </>
   );
 }
