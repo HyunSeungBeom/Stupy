@@ -31,17 +31,6 @@ function ProtectedRoute({ redirectPath = '/' }) {
 }
 
 function App() {
-  document.addEventListener(
-    'keydown',
-    // eslint-disable-next-line func-names
-    function (event) {
-      if (event.code === 'Enter') {
-        event.preventDefault();
-      }
-    },
-    true,
-  );
-
   return (
     <div
       style={{

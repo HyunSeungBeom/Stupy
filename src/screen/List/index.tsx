@@ -95,10 +95,10 @@ function List() {
           </div>
         </TitleContainer>
         <RoomListContainer>
-          {rooms?.map((item) => {
+          {rooms?.map((item, index) => {
             return (
               <Room
-                key={item.roomId}
+                key={`${index + item.roomId}`}
                 title={item.title}
                 desc={item.content}
                 currentMember={item.usersNum}
@@ -107,6 +107,7 @@ function List() {
                 // rank={item.}
                 openKakao={item.openKakao}
                 image={item.image}
+                roomId={item.roomId}
               />
             );
           })}

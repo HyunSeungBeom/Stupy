@@ -53,6 +53,20 @@ function MakeRoom({
   };
 
   useEffect(() => {
+    document.addEventListener(
+      'keydown',
+      // eslint-disable-next-line func-names
+      function (event) {
+        if (event.keyCode === 13 || event.keyCode === 28) {
+          event.preventDefault();
+        }
+      },
+
+      true,
+    );
+  }, []);
+
+  useEffect(() => {
     document.body.style.cssText = `
       overflow: hidden;
       `;

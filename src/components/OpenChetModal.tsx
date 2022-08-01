@@ -1,18 +1,62 @@
+/* eslint-disable no-alert */
+/* eslint-disable react/require-default-props */
+/* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { BsFillPeopleFill } from 'react-icons/bs';
+import { ReactComponent as CloseButton } from 'src/assets/icons/webrtcroom/closebutton.svg';
+import { ReactComponent as RockPicture } from 'src/assets/icons/enterroom/enterroommodal.svg';
+import { ReactComponent as OpenChatButton } from 'src/assets/icons/enterroom/openchatgo.svg';
+import { ReactComponent as EnterButton } from 'src/assets/icons/enterroom/enter.svg';
+import { useMutation } from 'react-query';
+import { useNavigate } from 'react-router-dom';
+import { enterRoomApi } from 'src/api/room';
 
 function OpenChetModal({
   modal,
+  image,
+  title,
+  desc,
+  hashtag,
+  openkakao,
+  roomId,
 }: {
   modal: React.Dispatch<React.SetStateAction<boolean>>;
+  image?: string;
+  title: string;
+  desc: string;
+  hashtag: string[];
+  openkakao?: string;
+  roomId: string;
 }) {
-  const [, setPassword] = useState<string>(); // password 배포때문에 뺌.
+  const [password, setPassword] = useState<string>();
+
   const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const EnterRoom = useMutation(
+    (password: string) => enterRoomApi(roomId, password),
+    {
+      onSuccess: () => {
+        nav(`/room/${roomId}`);
+      },
+      onError: () => {
+        alert('비밀번호가 틀렸습니다.');
+      },
+    },
+  );
+  const nav = useNavigate();
+
   const modalClose = () => {
     modal(false);
+  };
+
+  const kakaoClick = () => {
+    window.open(`${openkakao}`, '_blank');
+  };
+
+  const EnterButtonClick = () => {
+    if (password) EnterRoom.mutate(password);
   };
 
   useEffect(() => {
@@ -24,40 +68,45 @@ function OpenChetModal({
     };
   }, []);
 
+  // console.log(image);
   return (
     <ModalContainer>
       <ModalInner>
-        <ModalHeader>
-          <ModalIsLive>Live</ModalIsLive>
-          <ModalPeopleBox>
-            <ModalPeopleCount>+3/4</ModalPeopleCount>
-            <ModalPeopleIcon size={20} />
-          </ModalPeopleBox>
-        </ModalHeader>
-        <ModalTitle>영어회화모임</ModalTitle>
-        <ModalContent>
-          어 영어 어쩌고 저쩌고 할 사람 오세요 오픈카톡으로 연락먼저 주세요
-          어쩌고
-        </ModalContent>
-        <ModalTag>
-          <ModalText>#해시태그</ModalText>
-          <ModalText>#해시태그</ModalText>
-        </ModalTag>
-        <ModalPassword
-          type="password"
-          placeholder="비밀번호"
-          onChange={onChangePassword}
-        />
-        <ModalBtnBox>
-          <ModalBtn>신청하기</ModalBtn>
-          <ModalBtn>오픈채팅가기</ModalBtn>
-        </ModalBtnBox>
+        <ImgBox>
+          <img src={image} style={{ width: '380px', height: '286px' }} />
+          <TitleBox>{title}</TitleBox>
+          <ContentBox>{desc}</ContentBox>
+          <HashTagBox>
+            #{hashtag[0]} #{hashtag[1]} #{hashtag[2]}
+          </HashTagBox>
+          <RockBox>
+            <RockPicture />
+          </RockBox>
+        </ImgBox>
+        <CloseButtonBox onClick={modalClose}>
+          <CloseButton />
+        </CloseButtonBox>
+        <PasswordBox>
+          <PasswordTitle>비밀번호를 입력해주세요.</PasswordTitle>
+          <PasswordInput
+            type="password"
+            placeholder="영문+숫자 4자리 이상 10자리 이하"
+            onChange={onChangePassword}
+            value={password}
+          />
+        </PasswordBox>
+        <ButtonBox>
+          <OpenChatButton style={{ cursor: 'pointer' }} onClick={kakaoClick} />
+          <EnterButton
+            style={{ cursor: 'pointer' }}
+            onClick={EnterButtonClick}
+          />
+        </ButtonBox>
       </ModalInner>
       <Zindex onClick={modalClose} />
     </ModalContainer>
   );
 }
-
 export default OpenChetModal;
 
 const ModalContainer = styled.div`
@@ -68,7 +117,7 @@ const ModalContainer = styled.div`
   position: fixed;
   background-color: rgba(0, 0, 0, 0.4);
   display: relative;
-  z-index: 999;
+  z-index: 9999;
 `;
 
 const Zindex = styled.div`
@@ -82,91 +131,122 @@ const Zindex = styled.div`
   z-index: -1;
 `;
 
-const ModalIsLive = styled.div`
-  background-color: red;
-  border-radius: 20px;
-  font-size: small;
-  color: white;
-  height: 20px;
-  padding: 2px 15px;
-`;
-
-const ModalPeopleBox = styled.div`
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-  height: 25px;
-`;
-
-const ModalPeopleCount = styled.p`
-  font-size: small;
-`;
-
-const ModalPeopleIcon = styled(BsFillPeopleFill)`
-  padding-left: 8px;
-`;
-
 const ModalInner = styled.div`
+  border-radius: 9px;
   box-sizing: border-box;
   position: relative;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.5);
   background-color: #fff;
-  width: 360px;
-  max-width: 400px;
+  width: 380px;
+  max-width: 380px;
+  height: 558px;
+  max-height: 558px;
   top: 50%;
   transform: translateY(-50%);
   margin: 0 auto;
-  padding: 40px 20px;
 `;
 
-const ModalHeader = styled.div`
+const ImgBox = styled.div`
+  position: relative;
+  width: 380px;
+  height: 286px;
+  border-radius: 5px 5px 0px 0px;
+  background: yellow;
+`;
+const CloseButtonBox = styled.div`
+  position: absolute;
+  right: 25.73px;
+  top: 25.73px;
+  cursor: pointer;
+`;
+
+const TitleBox = styled.div`
+  position: absolute;
+  width: 300px;
+  height: 35px;
+  left: 38px;
+  top: 90px;
+  color: #ff9052;
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 35px;
   display: flex;
-  justify-content: space-between;
-`;
-
-const ModalTitle = styled.h2`
-  font-weight: bold;
-`;
-
-const ModalContent = styled.p`
-  width: 70%;
-  font-size: small;
-  word-wrap: break-word;
-  margin: 0;
-`;
-
-const ModalTag = styled.div`
-  margin: 0;
-  display: flex;
-  margin-left: 7%;
-`;
-
-const ModalText = styled.span`
-  font-size: x-small;
-  padding: 5px;
-`;
-
-const ModalPassword = styled.input`
-  padding: 5px;
-  padding-left: 10px;
-  border-radius: 5px;
-  width: calc(100% - 40px);
-  margin: 20px;
-  box-sizing: border-box;
-`;
-
-const ModalBtnBox = styled.div`
-  display: flex;
-  justify-content: space-around;
-  box-sizing: border-box;
-  padding: 20px;
-`;
-
-const ModalBtn = styled.button`
-  display: flex;
-  width: 110px;
-  padding: 5px 10px;
-  justify-content: center;
   align-items: center;
-  border-radius: 20px;
+`;
+
+const ContentBox = styled.div`
+  position: absolute;
+  width: 310px;
+  height: 69px;
+  left: 40px;
+  top: 140px;
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 23px;
+  text-align: justify;
+  color: #ffffff;
+`;
+
+const HashTagBox = styled.div`
+  position: absolute;
+  width: 284px;
+  height: 20px;
+  left: 40px;
+  top: 212px;
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  /* identical to box height, or 125% */
+
+  text-align: justify;
+  letter-spacing: -0.04em;
+
+  color: #ffffff;
+`;
+
+const RockBox = styled.div`
+  position: absolute;
+  width: 72px;
+  height: 72px;
+  left: 280px;
+  top: 250px;
+`;
+
+const PasswordBox = styled.div``;
+
+const PasswordTitle = styled.div`
+  margin-top: 49px;
+  margin-left: 20px;
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 20px;
+  /* identical to box height, or 111% */
+
+  color: #1f1f1f;
+`;
+
+const PasswordInput = styled.input`
+  width: 348px;
+  height: 42px;
+  padding-left: 3px;
+  margin-left: 20px;
+  margin-top: 10px;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #eaeaea;
+`;
+
+const ButtonBox = styled.div`
+  display: flex;
+  margin-top: 85px;
+  margin-left: 17px;
+  gap: 8px;
 `;

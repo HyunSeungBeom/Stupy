@@ -19,7 +19,7 @@ export const roomTitleApi = async (roomId: string | undefined) => {
   return roomTitleApi;
 };
 
-export const enterRoomApi = async (roomId: string | undefined) => {
-  const enterRoomApi = await callApi.get(`/room/enter_room/${roomId}`);
-  return enterRoomApi;
+export const SocketApi = async (roomId: string | undefined) => {
+  const SocketApi = await callApi.get(`/room/socket/${roomId}`);
+  return SocketApi;
 };

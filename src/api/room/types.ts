@@ -15,3 +15,9 @@ export type GetRoom = {
   openKakao: string;
   image: string;
 }[];
+
+export type EnterRoom = {
+  params: {
+    password: string | undefined;
+  };
+};
