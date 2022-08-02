@@ -10,6 +10,7 @@ const SetBackGround = styled.div`
   border-radius: 20px;
   overflow: hidden;
   position: relative;
+  margin: 45px 0px 45px;
 `;
 
 const TopContainer = styled.div`
