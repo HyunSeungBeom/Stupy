@@ -8,7 +8,7 @@ const SetBackGround = styled.div`
   max-height: ${window.innerHeight}px;
   box-shadow: 10px 20px 30px 5px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
-  overflow: hidden;
+  overflow: scroll;
 `;
 
 const TopContainer = styled.div`
@@ -32,7 +32,7 @@ const BodyContainer = styled.div`
   background-color: white;
   padding: 20px 0px 90px;
   position: relative;
-  overflow: scroll;
+  /* overflow: scroll; */
 `;
 
 const TitleContainer = styled.div`
