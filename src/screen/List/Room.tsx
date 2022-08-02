@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { RATIO } from 'src/constants';
 import styled from 'styled-components';
-// import icoOn from 'src/assets/icons/icoOn.svg';
+import icoOn from 'src/assets/icons/icoOn.svg';
 // import icoOff from 'src/assets/icons/icoOff.svg';
 // import ico1st from 'src/assets/icons/ico1st.svg';
 // import ico2nd from 'src/assets/icons/ico2nd.svg';
@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import icoCheckCircle from 'src/assets/icons/list/icoCheckCircle.svg';
 import imgSample from 'src/assets/images/imgSample.png';
 import OpenChetModal from 'src/components/OpenChetModal';
+import btnEnter from 'src/assets/icons/main/btnEnter.svg';
 
 type Props = {
   // isOn: boolean;
@@ -46,16 +47,22 @@ export default function RoomBox({
     else alert('정원이 가득찬 그룹입니다.');
   };
 
-  // function rankIcon() {
-  //   if (rank === 1) return ico1st;
-  //   if (rank === 2) return ico2nd;
-  //   if (rank === 3) return ico3rd;
+  // function rankSplit() {
+  //   if (rank === 1) return '| 누적시간 1위';
+  //   if (rank === 2) return '| 누적시간 2위';
+  //   if (rank === 3) return '| 누적시간 3위';
   //   return undefined;
   // }
 
   return (
     <>
-      <Container onClick={handleModalOpen}>
+      <Container
+        onClick={handleModalOpen}
+        style={{
+          background: image ? `url(${image})` : `url(${imgSample})`,
+          backgroundSize: 'cover',
+        }}
+      >
         {currentMember === maxMember && (
           <MaxContainer>
             <img
@@ -66,34 +73,34 @@ export default function RoomBox({
             인원 마감
           </MaxContainer>
         )}
-        <ImgContainer
-          style={{
-            background: image ? `url(${image})` : `url(${imgSample})`,
-            backgroundSize: 'cover',
-          }}
-        >
-          {/* <img
-            src={isOn ? icoOn : icoOff}
+        <div>
+          <img
+            src={icoOn}
             alt=""
-            style={{ width: 45, height: 22 }}
-          /> */}
+            style={{
+              width: 63,
+              height: 26,
+              marginBottom: 10,
+            }}
+          />
+          {/* {hashtag.map((item) => {
+          return `#${item} `;
+        })} */}
+          <GroupNameRow>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <GroupName>{title}</GroupName>
+              {/* {!!rank && (
+              <>
+                <Divider />
+                <Times>누적시간 </Times>
+                <RankText>{rankSplit()}</RankText>
+              </>
+            )} */}
+            </div>
+          </GroupNameRow>
           {desc}
-          <br />
-          {hashtag.map((item) => {
-            return `#${item} `;
-          })}
-        </ImgContainer>
-        <GroupNameRow>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <GroupName>{title}</GroupName>
-            <MemberCount>
-              +{currentMember}/{maxMember}
-            </MemberCount>
-          </div>
-          {/* {!!rank && (
-            <img src={rankIcon()} alt="" style={{ width: 34, height: 46 }} />
-          )} */}
-        </GroupNameRow>
+        </div>
+        <EnterBtn src={btnEnter} alt="" />
       </Container>
       {modalOpen && (
         <OpenChetModal
@@ -133,38 +140,29 @@ const MaxContainer = styled.div`
 const Container = styled.div`
   display: flex;
   width: 100%;
-  flex-direction: column;
-  background-color: white;
-  border-radius: 10px;
-  overflow: hidden;
-  margin: 0px 20px;
-  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.17);
-  cursor: pointer;
-  position: relative;
-`;
-
-const ImgContainer = styled.div`
-  display: flex;
+  height: ${196 * RATIO}px;
+  max-height: 196px;
   flex-direction: column;
   justify-content: space-between;
   background-color: gray;
-  padding: 14px 18px;
-  height: ${138 * RATIO}px;
-  max-height: 140px;
   font-size: 16px;
-  font-weight: 400;
-  line-height: 20px;
+  font-weight: 500;
+  line-height: 21px;
   color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 0px 20px;
+  padding: 26px 18px 20px;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.17);
+  cursor: pointer;
+  position: relative;
 `;
 
 const GroupNameRow = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  height: ${58 * RATIO}px;
-  max-height: 58px;
-  padding-left: 18px;
-  padding-right: 18px;
+  margin-bottom: 4px;
 `;
 
 const GroupName = styled.div`
@@ -172,9 +170,26 @@ const GroupName = styled.div`
   font-weight: 600;
   margin-right: 8px;
 `;
-
-const MemberCount = styled.div`
-  font-size: 20px;
+const Divider = styled.div`
+  width: 2px;
+  height: 20px;
+  background-color: white;
+  margin-left: 10px;
+  margin-right: 10px;
+`;
+const Times = styled.div`
+  font-size: 16px;
   font-weight: 500;
-  color: rgba(80, 80, 80, 0.69);
+  color: white;
+`;
+const RankText = styled.div`
+  font-size: 16px;
+  font-weight: 500;
+  color: #ff9052;
+`;
+const EnterBtn = styled.img`
+  width: 83px;
+  height: 24px;
+  align-self: flex-end;
+  cursor: pointer;
 `;
