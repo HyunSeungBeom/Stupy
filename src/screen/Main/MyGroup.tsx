@@ -8,15 +8,20 @@ import { RATIO } from 'src/constants';
 type Props = {
   id: string;
   isMaster: boolean;
+  image: string;
   title: string;
   desc: string;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function MyGroup({ id, isMaster, title, desc }: Props) {
+export default function MyGroup({ id, isMaster, image, title, desc }: Props) {
   return (
     <Container
-      style={{ background: `url(${imgSample})`, backgroundSize: 'cover' }}
+      style={{
+        backgroundColor: 'gray',
+        background: `url(${image || imgSample})`,
+        backgroundSize: 'cover',
+      }}
     >
       <div>
         {isMaster && <MasterIcon src={icoMaster} alt="" />}

@@ -87,6 +87,7 @@ export default function Main() {
                     <MyGroup
                       id={item.roomId}
                       isMaster={item.isMaster}
+                      image={item.image}
                       title={item.title}
                       desc={item.content}
                     />
@@ -173,64 +174,3 @@ const SwiperDotContainer = styled.div`
   gap: 6px;
   margin-bottom: 18px;
 `;
-
-// const MOCK_UP_DATA = [
-//   {
-//     id: 1,
-//     subject: '제목 없음',
-//     to_do_list_item: [{ id: 1, content: '할 일 적어보기', is_done: false }],
-//   },
-//   {
-//     id: 2,
-//     subject: 'TO_DO_LIST_TITLE_B',
-//     to_do_list_item: [
-//       { id: 1, content: 'TO DO ITEM 1', is_done: true },
-//       { id: 2, content: 'TO DO ITEM 2', is_done: true },
-//       { id: 3, content: 'TO DO ITEM 3', is_done: true },
-//       { id: 4, content: 'TO DO ITEM 4', is_done: false },
-//     ],
-//   },
-//   {
-//     id: 3,
-//     subject: 'TO_DO_LIST_TITLE_C',
-//     to_do_list_item: [
-//       { id: 1, content: 'TO DO ITEM 1', is_done: true },
-//       { id: 2, content: 'TO DO ITEM 2', is_done: true },
-//       { id: 3, content: 'TO DO ITEM 3', is_done: true },
-//       { id: 4, content: 'TO DO ITEM 4', is_done: false },
-//     ],
-//   },
-// ];
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const MOCK_UP_GROUP = [
-  {
-    id: 1,
-    is_master: true,
-    title: 'GROUP_NAME_A',
-    description: '함께 영어 공부 하실분, 꾸준히 오래 하실분만 들어와 주세요!!',
-    current_member: 2,
-    max_member: 4,
-    hashtag: ['TOEIC', 'TOEFL', '영어회화'],
-    rank: 1,
-  },
-  {
-    id: 2,
-    is_master: false,
-    title: 'GROUP_NAME_B',
-    description: '어쩌구 저쩌구 블라블라 이러쿵 저러쿵 솰라솰라 잉잉잉',
-    current_member: 1,
-    max_member: 4,
-    hashtag: ['해시태그는', '최대여섯글자'],
-    rank: 2,
-  },
-  {
-    id: 3,
-    is_master: true,
-    title: 'GROUP_NAME_C',
-    description: '어쩌구 저쩌구 블라블라 이러쿵 저러쿵 솰라솰라 잉잉잉',
-    current_member: 2,
-    max_member: 2,
-    hashtag: ['해시태그는', '최대여섯글자'],
-  },
-];
