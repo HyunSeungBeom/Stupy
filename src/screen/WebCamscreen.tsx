@@ -19,28 +19,24 @@ export default function WebCamscreen() {
 
   const [isSocket, setIsSocket] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { isSuccess, data } = useQuery(
-    'beforesocket',
-    () => SocketApi(paramid),
-    {
-      retry: 5,
-      onSuccess: () => {
-        socket = io('https://stupy.shop', {
-          auth: {
-            token: localToken,
-            roomId: paramid,
-          },
-        });
-        setIsSocket(true);
-        console.log(isSocket);
-      },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      onError: (data: any) => {
-        alert(`${data.response.data.message}`);
-        nav(-1);
-      },
+  const { data } = useQuery('beforesocket', () => SocketApi(paramid), {
+    retry: 7,
+    onSuccess: () => {
+      socket = io('https://stupy.shop', {
+        auth: {
+          token: localToken,
+          roomId: paramid,
+        },
+      });
+      setIsSocket(true);
+      console.log(isSocket);
     },
-  );
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: (data: any) => {
+      alert(`${data.response.data.message}`);
+      nav(-1);
+    },
+  });
 
   // useEffect(() => {
   //   if (isSocket) {

@@ -52,9 +52,7 @@ function Chatting({
   const [audioButtonClick, setAudioButtonClick] = useState<boolean>(true);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
-  const { isSuccess, data } = useQuery('userinfo', () =>
-    userIdApi(userid.userId),
-  );
+  const { isSuccess, data } = useQuery('userinfo', () => userIdApi());
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputMessage(e.target.value);
@@ -85,6 +83,7 @@ function Chatting({
 
   const sendMessage = () => {
     if (inputMessage.length > 0 && isSuccess) {
+      console.log(data);
       const sendMessage = {
         roomId: isparam,
         content: inputMessage,
