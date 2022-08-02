@@ -47,20 +47,11 @@ export const leaveRoomApi = async (roomId: string) => {
   }
 };
 
-export const EditRoomApi = async (roomId: string) => {
-  try {
-    const res = await axios.patch(`/room/${roomId}`);
-    return res;
-  } catch (err) {
-    throw err;
-  }
-};
-
-export const GetRoomInfoApi = async () => {
-  try {
-    const res = await axios.get(`/room/myrooms`);
-    return res;
-  } catch (err) {
-    throw err;
-  }
+export const EditRoomApi = async (formdata: FormData, roomId: string) => {
+  const cra = await axios.patch(`/room/${roomId}`, formdata, {
+    headers: {
+      'content-type': 'multipart/form-data',
+    },
+  });
+  return cra;
 };
