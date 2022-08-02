@@ -104,6 +104,7 @@ function List() {
                 currentMember={item.usersNum}
                 maxMember={item.maxPeople}
                 hashtag={item.hashtags}
+                isOn={item.isOn}
                 // rank={item.}
                 openKakao={item.openKakao}
                 image={item.image}

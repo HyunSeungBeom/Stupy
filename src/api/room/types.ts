@@ -6,6 +6,7 @@ export type GetRoomPayload = {
 };
 
 export type GetRoom = {
+  isOn: boolean;
   roomId: string;
   title: string;
   usersNum: number;
