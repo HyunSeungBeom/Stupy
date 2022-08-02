@@ -10,7 +10,7 @@ import { ReactComponent as CloseButton } from 'src/assets/icons/webrtcroom/close
 import { GetMyRoom } from 'src/api/myRooms/types';
 import PerSonnelButton from './PersonnelButton';
 import HashInput from './HashInput';
-import { createRoomApi } from '../api/room';
+import { EditRoomApi } from '../api/room';
 import { ReviseImgSource } from './ReviseImgSource';
 
 function ReviseRoom({
@@ -48,18 +48,21 @@ function ReviseRoom({
     formData.append('openKakao', data.open_kakao);
     formData.append('maxPeople', count.toString());
 
-    MakeRoomdata.mutate(formData);
+    EditRoomdata.mutate(formData);
   };
 
-  const MakeRoomdata = useMutation((data: FormData) => createRoomApi(data), {
-    onSuccess: (v) => {
-      nav(`/room/${v.data.id}`);
+  const EditRoomdata = useMutation(
+    (data: FormData) => EditRoomApi(data, myRoomData.roomId),
+    {
+      onSuccess: () => {
+        nav('/main');
+      },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      onError: (data: any) => {
+        alert(`${data.response.data.message}`);
+      },
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onError: (data: any) => {
-      alert(`${data.response.data.message}`);
-    },
-  });
+  );
   const modalClose = () => {
     modal();
   };

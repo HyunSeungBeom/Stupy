@@ -5,10 +5,11 @@ import icoMaster from 'src/assets/icons/main/icoMaster.svg';
 import imgSample from 'src/assets/images/imgSample.png';
 import btnEnter from 'src/assets/icons/main/btnEnter.svg';
 import { RATIO } from 'src/constants';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { leaveRoomApi } from 'src/api/room';
 import { ReactComponent as EditButton } from 'src/assets/icons/main/editbutton.svg';
 import { GetMyRoom } from 'src/api/myRooms/types';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
   item: GetMyRoom;
@@ -21,18 +22,22 @@ type Props = {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default function MyGroup({ item, openModal }: Props) {
+  const queryClient = useQueryClient();
+  const nav = useNavigate();
   const { roomId, isMaster, title, content } = item;
   const OutRoomCLick = () => {
     leaveRoom.mutate();
   };
+  const leaveRoom = useMutation(() => leaveRoomApi(roomId), {
+    onSuccess: () => {
+      queryClient.invalidateQueries('myRoomData');
+    },
+  });
 
-  const leaveRoom = useMutation(() => leaveRoomApi(roomId));
+  const MyEnterRoom = () => {
+    nav(`/room/${item.roomId}`);
+  };
 
-  // const editRoom = useMutation(() => EditRoomApi(id), {
-  //   onSuccess: (v) => {
-  //     console.log(v);
-  //   },
-  // });
   return (
     <Container
       style={{
@@ -44,16 +49,18 @@ export default function MyGroup({ item, openModal }: Props) {
       <div>
         {isMaster && <MasterIcon src={icoMaster} alt="" />}
         {isMaster && (
-          <EditButton
-            style={{ cursor: 'pointer' }}
-            onClick={openModal({ myRoomData: item })}
-          />
+          <EditButtonBox>
+            <EditButton
+              style={{ cursor: 'pointer' }}
+              onClick={openModal({ myRoomData: item })}
+            />
+          </EditButtonBox>
         )}
         <OutRoomButton onClick={OutRoomCLick}>방나가기</OutRoomButton>
         <GroupName>{title}</GroupName>
         <Description>{content}</Description>
       </div>
-      <EnterBtn src={btnEnter} alt="" />
+      <EnterBtn src={btnEnter} alt="" onClick={MyEnterRoom} />
     </Container>
   );
 }
@@ -105,9 +112,15 @@ const OutRoomButton = styled.div`
   width: 75px;
   height: 38px;
   right: 20px;
-  top: 0px;
+  top: 40px;
   background: #d9d9d99d 48%;
-  border-radius: 0 10px 0 0;
+
   cursor: pointer;
   color: white;
+`;
+
+const EditButtonBox = styled.div`
+  position: absolute;
+  right: 20px;
+  top: 0px;
 `;
