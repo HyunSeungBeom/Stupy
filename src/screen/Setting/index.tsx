@@ -124,6 +124,7 @@ const Background = styled.div`
   max-height: 828px;
   padding: 20px 20px 30px;
   background-color: #e5e5e5;
+  overflow: scroll;
 `;
 const Title = styled.div`
   display: flex;
