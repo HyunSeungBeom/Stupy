@@ -5,7 +5,7 @@ const SetBackGround = styled.div`
   justify-content: center;
   align-items: center;
   /* height: ${1009 * RATIO}px; */
-  max-height: ${window.innerHeight}px;
+  max-height: 1009px;
   box-shadow: 10px 20px 30px 5px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
   overflow: hidden;
@@ -29,7 +29,7 @@ const BodyContainer = styled.div`
   width: ${window.innerWidth}px;
   height: ${828 * RATIO}px;
   max-width: 428px;
-  max-height: 828px;
+  max-height: ${window.innerHeight}px;
   background-color: white;
   padding: 20px 0px 90px;
   position: relative;
