@@ -2,8 +2,8 @@
 /* eslint-disable no-console */
 /* eslint-disable prefer-const */
 /* eslint-disable react/button-has-type */
-import { useEffect } from 'react';
-import { useQuery, useQueryClient } from 'react-query';
+import { useState } from 'react';
+import { useQuery } from 'react-query';
 import { useParams, useNavigate } from 'react-router-dom';
 import { io, Socket } from 'socket.io-client';
 import { SocketApi } from 'src/api/webcam';
@@ -15,16 +15,24 @@ export default function WebCamscreen() {
   const paramid = param.id;
   const nav = useNavigate();
   const localToken = localStorage.getItem('token');
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
+  const [isSocket, setIsSocket] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { isSuccess, data } = useQuery(
     'beforesocket',
     () => SocketApi(paramid),
     {
-      retry: false,
+      retry: 5,
       onSuccess: () => {
-        queryClient.invalidateQueries('beforesocket');
+        socket = io('https://stupy.shop', {
+          auth: {
+            token: localToken,
+            roomId: paramid,
+          },
+        });
+        setIsSocket(true);
+        console.log(isSocket);
       },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       onError: (data: any) => {
@@ -34,20 +42,24 @@ export default function WebCamscreen() {
     },
   );
 
-  useEffect(() => {
-    if (isSuccess) {
-      socket = io('https://stupy.shop', {
-        auth: {
-          token: localToken,
-          roomId: paramid,
-        },
-      });
-    }
-  }, [isSuccess]);
+  // useEffect(() => {
+  //   if (isSocket) {
+  //     socket = io('https://stupy.shop', {
+  //       auth: {
+  //         token: localToken,
+  //         roomId: paramid,
+  //       },
+  //     });
+  //   }
+  // }, [isSuccess]);
 
-  // console.log(socket);
-  if (socket === null) {
-    return <div />;
-  }
-  return <Webcamchatting socket={socket} />;
+  return (
+    <div>
+      {socket !== null ? (
+        <Webcamchatting socket={socket} />
+      ) : (
+        <div> 소켓 연결중 ...</div>
+      )}
+    </div>
+  );
 }
