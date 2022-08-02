@@ -35,7 +35,11 @@ export default function MyGroup({ item, openModal }: Props) {
   // });
   return (
     <Container
-      style={{ background: `url(${imgSample})`, backgroundSize: 'cover' }}
+      style={{
+        backgroundColor: 'gray',
+        background: `url(${item.image || imgSample})`,
+        backgroundSize: 'cover',
+      }}
     >
       <div>
         {isMaster && <MasterIcon src={icoMaster} alt="" />}

@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
 import { useSearchParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import moment from 'moment';
 import 'moment/locale/ko';
 import BottomBar from 'src/components/BottomBar';
 import TodoList from 'src/screen/Main/TodoList';
-import icoPlus from 'src/assets/icons/main/icoPlus.svg';
+// import icoPlus from 'src/assets/icons/main/icoPlus.svg';
 import styled from 'styled-components';
 import {
   SetBackGround,
@@ -20,7 +20,7 @@ import 'swiper/scss/navigation';
 import 'swiper/scss/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { getTodolist, postTodolist } from 'src/api/todolist';
+import { deleteTodolistId, getTodolist, postTodolist } from 'src/api/todolist';
 import { getMyRooms } from 'src/api/myRooms';
 import ReviseRoom from 'src/components/ReviseRoom';
 import UseModal from 'src/components/UseModal';
@@ -33,7 +33,8 @@ export default function Main() {
   const queryClient = useQueryClient();
   const [swiperIdx, setSwiperIdx] = useState(0);
   const [params] = useSearchParams();
-
+  const [isDelete, setIsDelete] = useState(false);
+  const [selectedDelCategory, setSelectedDelCategory] = useState('');
   // console.log(params.get('token'));
 
   const { data: myRoomData } = useQuery(['myRoomData'], getMyRooms);
@@ -55,6 +56,18 @@ export default function Main() {
       console.warn(err);
     },
   });
+  const { mutate: deleteCategory } = useMutation(
+    () => deleteTodolistId(selectedDelCategory),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('todolistData');
+        setIsDelete(false);
+      },
+      onError: (err) => {
+        console.warn(err);
+      },
+    },
+  );
 
   useEffect(() => {
     const kakaotoken = params.get('token');
@@ -68,9 +81,21 @@ export default function Main() {
   const handleAddCategory = () => {
     addCategory();
   };
-  console.log(myRoomData);
+
+  const delCategoryOn = () => {
+    if (!isDelete) {
+      setIsDelete(true);
+    } else {
+      deleteCategory();
+    }
+  };
+
+  const onSelectCategory = useCallback((e: string) => {
+    setSelectedDelCategory(e);
+  }, []);
+
   return (
-    <div>
+    <>
       <SetBackGround>
         <TopContainer>
           <DayOfWeek>{moment().format('dddd')}</DayOfWeek>
@@ -123,18 +148,28 @@ export default function Main() {
           <Divider />
           <TitleContainer>
             <Title>TO DO LIST</Title>
-            <AddButton onClick={handleAddCategory}>
-              카테고리 추가
-              <PlusIcon src={icoPlus} alt="" />
-            </AddButton>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <DelButton
+                onClick={delCategoryOn}
+                style={{ color: isDelete ? PRIMARY : '#8f8f8f' }}
+              >
+                삭제
+              </DelButton>
+              {!isDelete && (
+                <AddButton onClick={handleAddCategory}>추가</AddButton>
+              )}
+            </div>
           </TitleContainer>
           {todolistData?.map((item) => {
             return (
               <TodoList
                 key={item.todoListId}
                 id={item.todoListId}
+                selectedId={selectedDelCategory}
                 subject={item.title}
                 item={item.todos}
+                isDelete={isDelete}
+                onSelectedCategory={onSelectCategory}
               />
             );
           })}
@@ -148,7 +183,7 @@ export default function Main() {
           isOpen={isOpenedModal}
         />
       )}
-    </div>
+    </>
   );
 }
 
@@ -174,12 +209,26 @@ const AddButton = styled.div`
   font-size: 16px;
   color: ${PRIMARY};
   font-weight: 500;
+  border: 1px solid #e8e8e8;
+  border-radius: 5px;
+  padding: 5px 11px;
   cursor: pointer;
 `;
-const PlusIcon = styled.img`
-  width: 24px;
-  height: 24px;
+const DelButton = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: #8f8f8f;
+  font-weight: 500;
+  border: 1px solid #e8e8e8;
+  border-radius: 5px;
+  padding: 5px 11px;
+  cursor: pointer;
 `;
+// const PlusIcon = styled.img`
+//   width: 24px;
+//   height: 24px;
+// `;
 const SwiperDotContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -187,64 +236,3 @@ const SwiperDotContainer = styled.div`
   gap: 6px;
   margin-bottom: 18px;
 `;
-
-// const MOCK_UP_DATA = [
-//   {
-//     id: 1,
-//     subject: '제목 없음',
-//     to_do_list_item: [{ id: 1, content: '할 일 적어보기', is_done: false }],
-//   },
-//   {
-//     id: 2,
-//     subject: 'TO_DO_LIST_TITLE_B',
-//     to_do_list_item: [
-//       { id: 1, content: 'TO DO ITEM 1', is_done: true },
-//       { id: 2, content: 'TO DO ITEM 2', is_done: true },
-//       { id: 3, content: 'TO DO ITEM 3', is_done: true },
-//       { id: 4, content: 'TO DO ITEM 4', is_done: false },
-//     ],
-//   },
-//   {
-//     id: 3,
-//     subject: 'TO_DO_LIST_TITLE_C',
-//     to_do_list_item: [
-//       { id: 1, content: 'TO DO ITEM 1', is_done: true },
-//       { id: 2, content: 'TO DO ITEM 2', is_done: true },
-//       { id: 3, content: 'TO DO ITEM 3', is_done: true },
-//       { id: 4, content: 'TO DO ITEM 4', is_done: false },
-//     ],
-//   },
-// ];
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const MOCK_UP_GROUP = [
-  {
-    id: 1,
-    is_master: true,
-    title: 'GROUP_NAME_A',
-    description: '함께 영어 공부 하실분, 꾸준히 오래 하실분만 들어와 주세요!!',
-    current_member: 2,
-    max_member: 4,
-    hashtag: ['TOEIC', 'TOEFL', '영어회화'],
-    rank: 1,
-  },
-  {
-    id: 2,
-    is_master: false,
-    title: 'GROUP_NAME_B',
-    description: '어쩌구 저쩌구 블라블라 이러쿵 저러쿵 솰라솰라 잉잉잉',
-    current_member: 1,
-    max_member: 4,
-    hashtag: ['해시태그는', '최대여섯글자'],
-    rank: 2,
-  },
-  {
-    id: 3,
-    is_master: true,
-    title: 'GROUP_NAME_C',
-    description: '어쩌구 저쩌구 블라블라 이러쿵 저러쿵 솰라솰라 잉잉잉',
-    current_member: 2,
-    max_member: 2,
-    hashtag: ['해시태그는', '최대여섯글자'],
-  },
-];

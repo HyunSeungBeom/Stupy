@@ -6,13 +6,13 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Checkbox from 'src/components/Checkbox';
 import { useMutation, useQueryClient } from 'react-query';
 import {
-  deleteTodolistId,
   deleteTodolistIdTodoId,
   patchTodolistId,
   patchTodolistIdTodoId,
   postTodolistId,
 } from 'src/api/todolist';
 import { postStatusToFalse, postStatusToTrue } from 'src/api/todolist/status';
+import { PRIMARY } from 'src/constants';
 
 type Props = {
   id: string;
@@ -23,13 +23,24 @@ type Props = {
     status: boolean;
     createdAt: string;
   }[];
+  isDelete: boolean;
+  onSelectedCategory: (e: string) => void;
+  selectedId: string;
 };
 
-export default function TodoList({ id, subject, item }: Props) {
+export default function TodoList({
+  isDelete,
+  id,
+  subject,
+  item,
+  onSelectedCategory,
+  selectedId,
+}: Props) {
   const queryClient = useQueryClient();
   const todolistId = id;
   const [subjectData, setSubjectData] = useState('');
   const [itemData, setItemData] = useState<typeof item>([]);
+  const [isEdit, setIsEdit] = useState(false);
 
   const { mutate: postTodolistItem } = useMutation(
     () => postTodolistId(todolistId),
@@ -90,17 +101,7 @@ export default function TodoList({ id, subject, item }: Props) {
       },
     },
   );
-  const { mutate: deleteTodolist } = useMutation(
-    () => deleteTodolistId(todolistId),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('todolistData');
-      },
-      onError: (err) => {
-        console.warn(err);
-      },
-    },
-  );
+
   useEffect(() => {
     setSubjectData(subject);
     setItemData(item);
@@ -124,13 +125,27 @@ export default function TodoList({ id, subject, item }: Props) {
   const handleEditCategory = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.code === 'Enter') patchTodolist();
   };
-
-  const handleDelCategory = () => {
-    deleteTodolist();
+  const editOn = () => {
+    setIsEdit(true);
   };
-
+  const editOff = () => {
+    setIsEdit(false);
+  };
+  // eslint-disable-next-line no-underscore-dangle
+  const _onClick = (id: string) => {
+    if (isDelete) onSelectedCategory(id);
+  };
+  console.log('[TodoList]:', isDelete);
   return (
     <Wrap>
+      {isDelete && (
+        <SelectBorder
+          onClick={() => _onClick(id)}
+          style={{
+            border: selectedId === id ? `1px solid ${PRIMARY}` : 'none',
+          }}
+        />
+      )}
       <SubjectRow>
         <Input
           value={subjectData}
@@ -152,13 +167,18 @@ export default function TodoList({ id, subject, item }: Props) {
             isDoneProp={item.status}
             onDeleteContent={handleDeleteContent}
             onChangeContentStatus={handleChangeContentStatus}
+            isDeleteCategory={isDelete}
           />
         );
       })}
       <ItemAddBtn src={btnAdd} alt="" onClick={handleAddContent} />
-      <CartegoryDelBtn onClick={handleDelCategory}>
-        카테고리 삭제
-      </CartegoryDelBtn>
+      {isEdit ? (
+        <CartegoryEditDoneBtn onClick={editOff}>수정 완료</CartegoryEditDoneBtn>
+      ) : (
+        <CartegoryEditStartBtn onClick={editOn}>
+          카테고리 수정
+        </CartegoryEditStartBtn>
+      )}
     </Wrap>
   );
 }
@@ -170,9 +190,11 @@ type ItemProps = {
   isDoneProp: boolean;
   onDeleteContent: (id: string) => void;
   onChangeContentStatus: (id: string, status: boolean) => void;
+  isDeleteCategory: boolean;
 };
 
 function TodoItem({
+  isDeleteCategory,
   categoryId,
   id,
   contentProp,
@@ -210,19 +232,22 @@ function TodoItem({
     setContent(contentProp);
     setIsDone(isDoneProp);
   }, [contentProp, isDoneProp]);
-
+  console.log('[TodoItem]:', isDeleteCategory);
   return (
     <ItemRow>
       <div>
         <Checkbox
           isCheckedProp={isDone}
           onChangeChecked={(e) => {
-            setIsDone(e);
-            handleChangeStatus(id, e);
+            if (!isDeleteCategory) {
+              setIsDone(e);
+              handleChangeStatus(id, e);
+            }
           }}
         />
         <Input
           value={content}
+          contentEditable={!isDeleteCategory}
           onChange={(e) => setContent(e.target.value)}
           onKeyUp={handleEditItem}
         />
@@ -230,7 +255,11 @@ function TodoItem({
       <ItemDelBtn
         src={icoXbutton}
         alt=""
-        onClick={() => handleDelItemPress(id)}
+        onClick={() => {
+          if (!isDeleteCategory) {
+            handleDelItemPress(id);
+          }
+        }}
       />
     </ItemRow>
   );
@@ -244,8 +273,17 @@ const Wrap = styled.div`
   padding: 20px 0px 0px;
   background-color: white;
   box-shadow: 0px 3px 10px 0px rgba(0, 0, 0, 0.17);
+  position: relative;
 `;
-
+const SelectBorder = styled.div`
+  display: flex;
+  position: absolute;
+  border-radius: 10px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+`;
 const SubjectRow = styled.div`
   display: flex;
   flex-direction: row;
@@ -263,7 +301,7 @@ const ItemAddBtn = styled.img`
   cursor: pointer;
 `;
 
-const CartegoryDelBtn = styled.div`
+const CartegoryEditStartBtn = styled.div`
   display: flex;
   justify-content: center;
   border-top: #e8e8e8 1px solid;
@@ -271,6 +309,17 @@ const CartegoryDelBtn = styled.div`
   background-color: rgba(237, 237, 237, 0.3);
   font-size: 16px;
   color: #c7c7c7;
+  cursor: pointer;
+`;
+const CartegoryEditDoneBtn = styled.div`
+  display: flex;
+  justify-content: center;
+  border-top: #e8e8e8 1px solid;
+  padding: 18px;
+  background-color: rgba(237, 237, 237, 0.3);
+  font-size: 16px;
+  font-weight: bold;
+  color: ${PRIMARY};
   cursor: pointer;
 `;
 
