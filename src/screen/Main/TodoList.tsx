@@ -6,7 +6,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Checkbox from 'src/components/Checkbox';
 import { useMutation, useQueryClient } from 'react-query';
 import {
-  deleteTodolistId,
   deleteTodolistIdTodoId,
   patchTodolistId,
   patchTodolistIdTodoId,
@@ -102,17 +101,6 @@ export default function TodoList({
       },
     },
   );
-  const { mutate: deleteTodolist } = useMutation(
-    () => deleteTodolistId(todolistId),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('todolistData');
-      },
-      onError: (err) => {
-        console.warn(err);
-      },
-    },
-  );
 
   useEffect(() => {
     setSubjectData(subject);
@@ -143,10 +131,6 @@ export default function TodoList({
   const editOff = () => {
     setIsEdit(false);
   };
-  const handleDelCategory = () => {
-    deleteTodolist();
-  };
-
   // eslint-disable-next-line no-underscore-dangle
   const _onClick = (id: string) => {
     if (isDelete) onSelectedCategory(id);
