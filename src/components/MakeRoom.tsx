@@ -7,6 +7,7 @@ import { FieldValues, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as CloseButton } from 'src/assets/icons/webrtcroom/closebutton.svg';
+
 import { ImgSource } from './ImgSource';
 import PerSonnelButton from './PersonnelButton';
 import HashInput from './HashInput';
@@ -14,8 +15,10 @@ import { createRoomApi } from '../api/room';
 
 function MakeRoom({
   modal,
+  text,
 }: {
   modal: React.Dispatch<React.SetStateAction<boolean>>;
+  text: string;
 }) {
   const {
     register,
@@ -176,7 +179,7 @@ function MakeRoom({
           </ModalMiddle>
 
           <ModalBtnBox>
-            <ModalBtn type="submit">방만들기</ModalBtn>
+            <ModalBtn type="submit">{text}</ModalBtn>
           </ModalBtnBox>
         </form>
       </ModalInner>

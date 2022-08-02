@@ -22,6 +22,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { deleteTodolistId, getTodolist, postTodolist } from 'src/api/todolist';
 import { getMyRooms } from 'src/api/myRooms';
+import ReviseRoom from 'src/components/ReviseRoom';
+import UseModal from 'src/components/UseModal';
 import MyGroup from './MyGroup';
 import EmptyGroup from './EmptyGroup';
 
@@ -38,6 +40,13 @@ export default function Main() {
   const { data: myRoomData } = useQuery(['myRoomData'], getMyRooms);
   const { data: todolistData } = useQuery(['todolistData'], getTodolist);
   // eslint-disable-next-line no-console
+
+  const {
+    open: openModal,
+    close: closeModal,
+    isOpen: isOpenedModal,
+    myRoomData: meRoomData,
+  } = UseModal();
 
   const { mutate: addCategory } = useMutation(postTodolist, {
     onSuccess: () => {
@@ -86,92 +95,95 @@ export default function Main() {
   }, []);
 
   return (
-    <SetBackGround>
-      <TopContainer>
-        <DayOfWeek>{moment().format('dddd')}</DayOfWeek>
-        <Date>{moment().format('M월 D일')}</Date>
-      </TopContainer>
-      <BodyContainer style={{ backgroundColor: 'white' }}>
-        <TitleContainer>
-          <Title>GROUP</Title>
-        </TitleContainer>
-        {myRoomData?.length ? (
-          <>
-            <Swiper
-              style={{
-                paddingBottom: 27,
-              }}
-              spaceBetween={1}
-              slidesPerView={1}
-              pagination={{ clickable: true }}
-              onSlideChange={(e) => setSwiperIdx(e.snapIndex)}
-              // onSwiper={(swiper) => console.log(swiper.el)}
-            >
-              {myRoomData.map((item) => {
-                return (
-                  <SwiperSlide key={item.roomId}>
-                    <MyGroup
-                      id={item.roomId}
-                      isMaster={item.isMaster}
-                      image={item.image}
-                      title={item.title}
-                      desc={item.content}
+    <>
+      <SetBackGround>
+        <TopContainer>
+          <DayOfWeek>{moment().format('dddd')}</DayOfWeek>
+          <Date>{moment().format('M월 D일')}</Date>
+        </TopContainer>
+        <BodyContainer style={{ backgroundColor: 'white' }}>
+          <TitleContainer>
+            <Title>GROUP</Title>
+          </TitleContainer>
+          {myRoomData?.length ? (
+            <>
+              <Swiper
+                style={{
+                  paddingBottom: 27,
+                }}
+                spaceBetween={1}
+                slidesPerView={1}
+                pagination={{ clickable: true }}
+                onSlideChange={(e) => setSwiperIdx(e.snapIndex)}
+                // onSwiper={(swiper) => console.log(swiper.el)}
+              >
+                {myRoomData.map((item) => {
+                  return (
+                    <SwiperSlide key={item.roomId}>
+                      <MyGroup item={item} openModal={openModal} />
+                    </SwiperSlide>
+                  );
+                })}
+              </Swiper>
+              <SwiperDotContainer>
+                {myRoomData.map((item, index) => {
+                  return (
+                    <div
+                      key={item.roomId}
+                      style={{
+                        width: 8,
+                        height: 8,
+                        borderRadius: 4,
+                        backgroundColor:
+                          index === swiperIdx ? PRIMARY : '#d9d9d9',
+                      }}
                     />
-                  </SwiperSlide>
-                );
-              })}
-            </Swiper>
-            <SwiperDotContainer>
-              {myRoomData.map((item, index) => {
-                return (
-                  <div
-                    key={item.roomId}
-                    style={{
-                      width: 8,
-                      height: 8,
-                      borderRadius: 4,
-                      backgroundColor:
-                        index === swiperIdx ? PRIMARY : '#d9d9d9',
-                    }}
-                  />
-                );
-              })}
-            </SwiperDotContainer>
-          </>
-        ) : (
-          <EmptyGroup />
-        )}
-        <Divider />
-        <TitleContainer>
-          <Title>TO DO LIST</Title>
-          <div style={{ display: 'flex', gap: 8 }}>
-            <DelButton
-              onClick={delCategoryOn}
-              style={{ color: isDelete ? PRIMARY : '#8f8f8f' }}
-            >
-              삭제
-            </DelButton>
-            {!isDelete && (
-              <AddButton onClick={handleAddCategory}>추가</AddButton>
-            )}
-          </div>
-        </TitleContainer>
-        {todolistData?.map((item) => {
-          return (
-            <TodoList
-              key={item.todoListId}
-              id={item.todoListId}
-              selectedId={selectedDelCategory}
-              subject={item.title}
-              item={item.todos}
-              isDelete={isDelete}
-              onSelectedCategory={onSelectCategory}
-            />
-          );
-        })}
-      </BodyContainer>
-      <BottomBar currentPage="Main" />
-    </SetBackGround>
+                  );
+                })}
+              </SwiperDotContainer>
+            </>
+          ) : (
+            <EmptyGroup />
+          )}
+          <Divider />
+          <TitleContainer>
+            <Title>TO DO LIST</Title>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <DelButton
+                onClick={delCategoryOn}
+                style={{ color: isDelete ? PRIMARY : '#8f8f8f' }}
+              >
+                삭제
+              </DelButton>
+              {!isDelete && (
+                <AddButton onClick={handleAddCategory}>추가</AddButton>
+              )}
+            </div>
+          </TitleContainer>
+          {todolistData?.map((item) => {
+            return (
+              <TodoList
+                key={item.todoListId}
+                id={item.todoListId}
+                selectedId={selectedDelCategory}
+                subject={item.title}
+                item={item.todos}
+                isDelete={isDelete}
+                onSelectedCategory={onSelectCategory}
+              />
+            );
+          })}
+        </BodyContainer>
+        <BottomBar currentPage="Main" />
+      </SetBackGround>
+      {meRoomData && (
+        <ReviseRoom
+          modal={closeModal}
+          myRoomData={meRoomData}
+          isOpen={isOpenedModal}
+        />
+      )}
+    </>
   );
 }
 

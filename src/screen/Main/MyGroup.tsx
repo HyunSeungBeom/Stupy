@@ -1,32 +1,57 @@
+/* eslint-disable no-alert */
 // import React, { useState } from 'react';
 import styled from 'styled-components';
 import icoMaster from 'src/assets/icons/main/icoMaster.svg';
 import imgSample from 'src/assets/images/imgSample.png';
 import btnEnter from 'src/assets/icons/main/btnEnter.svg';
 import { RATIO } from 'src/constants';
+import { useMutation } from 'react-query';
+import { leaveRoomApi } from 'src/api/room';
+import { ReactComponent as EditButton } from 'src/assets/icons/main/editbutton.svg';
+import { GetMyRoom } from 'src/api/myRooms/types';
 
 type Props = {
-  id: string;
-  isMaster: boolean;
-  image: string;
-  title: string;
-  desc: string;
+  item: GetMyRoom;
+  openModal: ({
+    myRoomData,
+  }: {
+    myRoomData: GetMyRoom | undefined;
+  }) => () => void;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function MyGroup({ id, isMaster, image, title, desc }: Props) {
+export default function MyGroup({ item, openModal }: Props) {
+  const { roomId, isMaster, title, content } = item;
+  const OutRoomCLick = () => {
+    leaveRoom.mutate();
+  };
+
+  const leaveRoom = useMutation(() => leaveRoomApi(roomId));
+
+  // const editRoom = useMutation(() => EditRoomApi(id), {
+  //   onSuccess: (v) => {
+  //     console.log(v);
+  //   },
+  // });
   return (
     <Container
       style={{
         backgroundColor: 'gray',
-        background: `url(${image || imgSample})`,
+        background: `url(${item.image || imgSample})`,
         backgroundSize: 'cover',
       }}
     >
       <div>
         {isMaster && <MasterIcon src={icoMaster} alt="" />}
+        {isMaster && (
+          <EditButton
+            style={{ cursor: 'pointer' }}
+            onClick={openModal({ myRoomData: item })}
+          />
+        )}
+        <OutRoomButton onClick={OutRoomCLick}>방나가기</OutRoomButton>
         <GroupName>{title}</GroupName>
-        <Description>{desc}</Description>
+        <Description>{content}</Description>
       </div>
       <EnterBtn src={btnEnter} alt="" />
     </Container>
@@ -72,4 +97,17 @@ const EnterBtn = styled.img`
   height: 24px;
   align-self: flex-end;
   cursor: pointer;
+`;
+
+const OutRoomButton = styled.div`
+  text-align: center;
+  position: absolute;
+  width: 75px;
+  height: 38px;
+  right: 20px;
+  top: 0px;
+  background: #d9d9d99d 48%;
+  border-radius: 0 10px 0 0;
+  cursor: pointer;
+  color: white;
 `;

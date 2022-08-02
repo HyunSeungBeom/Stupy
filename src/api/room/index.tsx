@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 import axios from 'src/api/';
 import { GetRoomPayload, GetRoom, EnterRoom } from './types';
 
@@ -13,7 +14,6 @@ export const createRoomApi = async (formdata: FormData) => {
 };
 
 export const getRoom = async ({ params }: GetRoomPayload) => {
-  // eslint-disable-next-line no-useless-catch
   try {
     const res = await axios.get<GetRoom>('/room/', { params });
     return res.data;
@@ -26,13 +26,39 @@ export const enterRoomApi = async (
   roomId: string,
   password: string | undefined,
 ) => {
-  // eslint-disable-next-line no-useless-catch
   try {
     const res = await axios.get<EnterRoom>(`/room/enter_room/${roomId}`, {
       params: {
         password,
       },
     });
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const leaveRoomApi = async (roomId: string) => {
+  try {
+    const res = await axios.get(`/room/leave_room/${roomId}`);
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const EditRoomApi = async (roomId: string) => {
+  try {
+    const res = await axios.patch(`/room/${roomId}`);
+    return res;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const GetRoomInfoApi = async () => {
+  try {
+    const res = await axios.get(`/room/myrooms`);
     return res;
   } catch (err) {
     throw err;
