@@ -51,7 +51,7 @@ const BottomBox = styled.div`
   max-width: 428;
   height: 90px;
   display: flex;
-  position: sticky;
+  position: absolute;
   bottom: 0px;
   padding: 0px 60px 20px 60px;
   width: 100%;

@@ -71,7 +71,7 @@ export default function Setting() {
       </TopContainer>
       <BodyContainer
         style={{
-          padding: '20px 0px 120px',
+          padding: '20px 20px 120px',
           backgroundColor: '#e5e5e5',
         }}
       >
