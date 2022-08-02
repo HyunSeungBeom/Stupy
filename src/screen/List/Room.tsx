@@ -2,18 +2,15 @@
 import { useState } from 'react';
 import { RATIO } from 'src/constants';
 import styled from 'styled-components';
-// import icoOn from 'src/assets/icons/icoOn.svg';
-// import icoOff from 'src/assets/icons/icoOff.svg';
-// import ico1st from 'src/assets/icons/ico1st.svg';
-// import ico2nd from 'src/assets/icons/ico2nd.svg';
-// import ico3rd from 'src/assets/icons/ico3rd.svg';
+import icoOn from 'src/assets/icons/icoOn.svg';
+import icoOff from 'src/assets/icons/icoOff.svg';
 import icoCheckCircle from 'src/assets/icons/list/icoCheckCircle.svg';
 import imgSample from 'src/assets/images/imgSample.png';
 import OpenChetModal from 'src/components/OpenChetModal';
 import btnEnter from 'src/assets/icons/main/btnEnter.svg';
 
 type Props = {
-  // isOn: boolean;
+  isOn: boolean;
   title: string;
   desc: string;
   currentMember: number;
@@ -29,7 +26,7 @@ type Props = {
 };
 
 export default function RoomBox({
-  // isOn,
+  isOn,
   // rank,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   openKakao,
@@ -75,7 +72,7 @@ export default function RoomBox({
           </MaxContainer>
         )}
         <div>
-          {/* <img
+          <img
             src={isOn ? icoOn : icoOff}
             alt=""
             style={{
@@ -83,7 +80,7 @@ export default function RoomBox({
               height: 26,
               marginBottom: 10,
             }}
-          /> */}
+          />
           {/* {hashtag.map((item) => {
           return `#${item} `;
         })} */}

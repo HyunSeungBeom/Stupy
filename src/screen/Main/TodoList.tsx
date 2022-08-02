@@ -7,7 +7,7 @@ import Checkbox from 'src/components/Checkbox';
 import { useMutation, useQueryClient } from 'react-query';
 import {
   deleteTodolistIdTodoId,
-  patchTodolistId,
+  // patchTodolistId,
   patchTodolistIdTodoId,
   postTodolistId,
 } from 'src/api/todolist';
@@ -28,6 +28,11 @@ type Props = {
   selectedId: string;
 };
 
+type EditItemData = {
+  id: string;
+  content: string;
+}[];
+
 export default function TodoList({
   isDelete,
   id,
@@ -40,6 +45,7 @@ export default function TodoList({
   const todolistId = id;
   const [subjectData, setSubjectData] = useState('');
   const [itemData, setItemData] = useState<typeof item>([]);
+  const [editItemData, setEditItemData] = useState<EditItemData>([]);
   const [isEdit, setIsEdit] = useState(false);
 
   const { mutate: postTodolistItem } = useMutation(
@@ -54,17 +60,17 @@ export default function TodoList({
     },
   );
 
-  const { mutate: patchTodolist } = useMutation(
-    () => patchTodolistId(todolistId, subjectData),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('todolistData');
-      },
-      onError: (err) => {
-        console.warn(err);
-      },
-    },
-  );
+  // const { mutate: patchTodolist } = useMutation(
+  //   () => patchTodolistId(todolistId, subjectData),
+  //   {
+  //     onSuccess: () => {
+  //       queryClient.invalidateQueries('todolistData');
+  //     },
+  //     onError: (err) => {
+  //       console.warn(err);
+  //     },
+  //   },
+  // );
 
   const { mutate: changeStatusToTrue } = useMutation(
     (todoId: string) => postStatusToTrue(todolistId, todoId),
@@ -122,15 +128,19 @@ export default function TodoList({
     deleteTodolistItem(id);
   }, []);
 
-  const handleEditCategory = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.code === 'Enter') patchTodolist();
-  };
+  // const handleEditCategory = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  //   if (e.code === 'Enter') patchTodolist();
+  // };
+
   const editOn = () => {
     setIsEdit(true);
   };
   const editOff = () => {
     setIsEdit(false);
   };
+  // const onEditTodoItem = useCallback((id: string, content: string) => {
+
+  // },[]);
   // eslint-disable-next-line no-underscore-dangle
   const _onClick = (id: string) => {
     if (isDelete) onSelectedCategory(id);
@@ -147,13 +157,17 @@ export default function TodoList({
         />
       )}
       <SubjectRow>
-        <Input
-          value={subjectData}
-          onChange={(e) => {
-            setSubjectData(e.target.value);
-          }}
-          onKeyUp={handleEditCategory}
-        />
+        {isEdit ? (
+          <Input
+            value={subjectData}
+            onChange={(e) => {
+              setSubjectData(e.target.value);
+            }}
+            // onKeyUp={handleEditCategory}
+          />
+        ) : (
+          subjectData
+        )}
       </SubjectRow>
       {itemData?.map((item) => {
         return (
@@ -168,6 +182,7 @@ export default function TodoList({
             onDeleteContent={handleDeleteContent}
             onChangeContentStatus={handleChangeContentStatus}
             isDeleteCategory={isDelete}
+            isEditCategory={isEdit}
           />
         );
       })}
@@ -191,10 +206,12 @@ type ItemProps = {
   onDeleteContent: (id: string) => void;
   onChangeContentStatus: (id: string, status: boolean) => void;
   isDeleteCategory: boolean;
+  isEditCategory: boolean;
 };
 
 function TodoItem({
   isDeleteCategory,
+  isEditCategory,
   categoryId,
   id,
   contentProp,
@@ -245,12 +262,16 @@ function TodoItem({
             }
           }}
         />
-        <Input
-          value={content}
-          contentEditable={!isDeleteCategory}
-          onChange={(e) => setContent(e.target.value)}
-          onKeyUp={handleEditItem}
-        />
+        {isEditCategory ? (
+          <Input
+            value={content}
+            contentEditable={!isDeleteCategory}
+            onChange={(e) => setContent(e.target.value)}
+            onKeyUp={handleEditItem}
+          />
+        ) : (
+          content
+        )}
       </div>
       <ItemDelBtn
         src={icoXbutton}
