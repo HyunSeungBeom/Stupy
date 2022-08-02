@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { RATIO } from 'src/constants';
 import styled from 'styled-components';
-import icoOn from 'src/assets/icons/icoOn.svg';
+// import icoOn from 'src/assets/icons/icoOn.svg';
 // import icoOff from 'src/assets/icons/icoOff.svg';
 // import ico1st from 'src/assets/icons/ico1st.svg';
 // import ico2nd from 'src/assets/icons/ico2nd.svg';
@@ -74,15 +74,15 @@ export default function RoomBox({
           </MaxContainer>
         )}
         <div>
-          <img
-            src={icoOn}
+          {/* <img
+            src={isOn ? icoOn : icoOff}
             alt=""
             style={{
               width: 63,
               height: 26,
               marginBottom: 10,
             }}
-          />
+          /> */}
           {/* {hashtag.map((item) => {
           return `#${item} `;
         })} */}

@@ -9,7 +9,7 @@ import {
 } from 'src/components/Styled';
 import BottomBar from 'src/components/BottomBar';
 import { useCallback, useEffect, useState } from 'react';
-import { RATIO } from 'src/constants';
+import { PRIMARY, RATIO } from 'src/constants';
 import { getRoom } from 'src/api/room';
 import { useQuery } from 'react-query';
 import Room from './Room';
@@ -70,7 +70,7 @@ function List() {
                 alignItems: 'center',
               }}
             >
-              <Title>{filter}</Title>
+              <Title style={{ color: PRIMARY }}>{filter}</Title>
               <AlignBtn onClick={handleDropdownPress}>
                 <RiEqualizerLine style={{ cursor: 'pointer' }} />
                 정렬
