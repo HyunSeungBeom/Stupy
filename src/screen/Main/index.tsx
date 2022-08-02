@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { useSearchParams } from 'react-router-dom';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import moment from 'moment';
 import 'moment/locale/ko';
 import BottomBar from 'src/components/BottomBar';

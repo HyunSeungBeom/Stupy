@@ -8,7 +8,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import {
   deleteTodolistIdTodoId,
   patchTodolistId,
-  patchTodolistIdTodoId,
+  // patchTodolistIdTodoId,
   postTodolistId,
 } from 'src/api/todolist';
 import { postStatusToFalse, postStatusToTrue } from 'src/api/todolist/status';
@@ -175,7 +175,7 @@ export default function TodoList({
           <TodoItem
             // eslint-disable-next-line no-underscore-dangle
             key={item._id}
-            categoryId={id}
+            // categoryId={id}
             // eslint-disable-next-line no-underscore-dangle
             id={item._id}
             contentProp={item.content}
@@ -202,7 +202,7 @@ export default function TodoList({
 }
 
 type ItemProps = {
-  categoryId: string;
+  // categoryId: string;
   id: string;
   contentProp: string;
   isDoneProp: boolean;
@@ -217,7 +217,7 @@ type ItemProps = {
 function TodoItem({
   isDeleteCategory,
   isEditCategory,
-  categoryId,
+  // categoryId,
   id,
   contentProp,
   isDoneProp,
@@ -228,19 +228,19 @@ function TodoItem({
 }: ItemProps) {
   const [content, setContent] = useState('');
   const [isDone, setIsDone] = useState(false);
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
-  const { mutate: patchTodolistItem } = useMutation(
-    () => patchTodolistIdTodoId(categoryId, id, content),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('todolistData');
-      },
-      onError: (err) => {
-        console.warn(err);
-      },
-    },
-  );
+  // const { mutate: patchTodolistItem } = useMutation(
+  //   () => patchTodolistIdTodoId(categoryId, id, content),
+  //   {
+  //     onSuccess: () => {
+  //       queryClient.invalidateQueries('todolistData');
+  //     },
+  //     onError: (err) => {
+  //       console.warn(err);
+  //     },
+  //   },
+  // );
 
   const handleDelItemPress = (id: string) => {
     onDeleteContent(id);
