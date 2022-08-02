@@ -33,8 +33,13 @@ export default function WebCamscreen() {
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (data: any) => {
-      alert(`${data.response.data.message}`);
-      nav(-1);
+      if (data) {
+        alert(`${data.response.data.message}`);
+        nav(-1);
+      } else {
+        alert('비정상 접근 감지!');
+        nav(-1);
+      }
     },
   });
 
