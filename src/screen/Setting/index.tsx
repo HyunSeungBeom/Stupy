@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 import BottomBar from 'src/components/BottomBar';
-import { SetBackGround, TopContainer } from 'src/components/Styled';
+import {
+  BodyContainer,
+  SetBackGround,
+  TopContainer,
+} from 'src/components/Styled';
 import { PRIMARY, RATIO } from 'src/constants';
 import icoArrowNext from 'src/assets/icons/icoArrowNext.svg';
 import { useCallback, useState } from 'react';
@@ -65,7 +69,12 @@ export default function Setting() {
       <TopContainer>
         <Title>환경설정</Title>
       </TopContainer>
-      <Background>
+      <BodyContainer
+        style={{
+          padding: '20px 0px 120px',
+          backgroundColor: '#e5e5e5',
+        }}
+      >
         <Container>
           <ProfileImg
             isEdit={isEdit}
@@ -109,23 +118,24 @@ export default function Setting() {
         <LogoutButton onClick={handleLogoutClick}>로그아웃</LogoutButton>
         <KakaoUnlink onClick={RegisterOutClick}>회원탈퇴</KakaoUnlink>
         <VersionInfo>현재 버전 9.8.7</VersionInfo>
-      </Background>
+      </BodyContainer>
       <BottomBar currentPage="Setting" />
     </SetBackGround>
   );
 }
 
-const Background = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: ${window.innerWidth}px;
-  height: ${828 * RATIO}px;
-  max-width: 428px;
-  max-height: 828px;
-  padding: 20px 20px 30px;
-  background-color: #e5e5e5;
-  overflow: scroll;
-`;
+// const Background = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   width: ${window.innerWidth}px;
+//   height: ${828 * RATIO}px;
+//   max-width: 428px;
+//   max-height: 828px;
+//   padding: 20px 20px 30px;
+//   background-color: #e5e5e5;
+//   position: relative;
+//   overflow: scroll;
+// `;
 const Title = styled.div`
   display: flex;
   font-size: 26px;
@@ -180,6 +190,7 @@ const LogoutButton = styled.div`
 `;
 const KakaoUnlink = styled.div`
   align-self: center;
+  text-align: center;
   padding: 5px 10px;
   font-size: 17px;
   font-weight: 500;
@@ -189,6 +200,7 @@ const KakaoUnlink = styled.div`
 `;
 
 const VersionInfo = styled.div`
+  text-align: center;
   align-self: center;
   font-size: 14px;
   font-weight: 500;
