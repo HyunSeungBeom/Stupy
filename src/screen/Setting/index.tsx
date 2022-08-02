@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import BottomBar from 'src/components/BottomBar';
-import { SetBackGround } from 'src/components/Styled';
+import { SetBackGround, TopContainer } from 'src/components/Styled';
 import { PRIMARY, RATIO } from 'src/constants';
 import icoArrowNext from 'src/assets/icons/icoArrowNext.svg';
 import { useCallback, useState } from 'react';
@@ -62,7 +62,9 @@ export default function Setting() {
 
   return (
     <SetBackGround>
-      <Title>환경설정</Title>
+      <TopContainer>
+        <Title>환경설정</Title>
+      </TopContainer>
       <Background>
         <Container>
           <ProfileImg
@@ -117,9 +119,9 @@ const Background = styled.div`
   display: flex;
   flex-direction: column;
   width: ${window.innerWidth}px;
-  height: ${836 * RATIO}px;
+  height: ${828 * RATIO}px;
   max-width: 428px;
-  max-height: 745px;
+  max-height: 828px;
   padding: 20px 20px 30px;
   background-color: #e5e5e5;
 `;
@@ -128,8 +130,6 @@ const Title = styled.div`
   font-size: 26px;
   font-weight: 600;
   color: #fff;
-  padding: 30px 20px 24px;
-  background-color: ${PRIMARY};
 `;
 const Container = styled.div`
   display: flex;
