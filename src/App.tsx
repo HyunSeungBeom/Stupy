@@ -33,31 +33,31 @@ function ProtectedRoute({ redirectPath = '/' }) {
 
 function App() {
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'gray',
-        height: '100vh',
-        background: `url(${BackgroundImage})`,
-        backgroundSize: 'cover',
-      }}
-    >
-      <BrowserRouter>
-        <GlobalStyle />
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/kakao/login" element={<Main />} />
-          <Route element={<ProtectedRoute />}>
-            <Route path="/main" element={<Main />} />
-            <Route path="/list" element={<List />} />
-            <Route path="/setting" element={<Setting />} />
-            <Route path="/room/:id" element={<WebCamscreen />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </div>
+    // <div
+    //   style={{
+    //     display: 'flex',
+    //     alignItems: 'center',
+    //     justifyContent: 'center',
+    //     backgroundColor: 'gray',
+    //     height: '100vh',
+    //     background: `url(${BackgroundImage})`,
+    //     backgroundSize: 'cover',
+    //   }}
+    // >
+    <BrowserRouter>
+      <GlobalStyle />
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/kakao/login" element={<Main />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/main" element={<Main />} />
+          <Route path="/list" element={<List />} />
+          <Route path="/setting" element={<Setting />} />
+          <Route path="/room/:id" element={<WebCamscreen />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+    // </div>
   );
 }
 
