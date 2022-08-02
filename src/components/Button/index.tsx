@@ -21,7 +21,7 @@ function CreateButton() {
       <CircleButton onClick={handleModalOpen}>
         <PlusIcon src={icoPlus} alt="" />
       </CircleButton>
-      {modalOpen && <MakeRoom modal={setModalOpen} />}
+      {modalOpen && <MakeRoom modal={setModalOpen} text="시작하기" />}
     </>
   );
 }

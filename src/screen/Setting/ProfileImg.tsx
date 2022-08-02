@@ -58,6 +58,7 @@ export default function ProfileImg({
     if (imgFile) {
       formData.append('image', imgFile);
     }
+
     if (userNickProp) {
       formData.append('userNick', userNickProp);
     }
