@@ -94,13 +94,13 @@ export default function ProfileImg({
         <ProfileImage>
           {isEdit ? (
             <img
-              src={previewImg?.toString() || IU}
+              src={previewImg?.toString()}
               alt=""
               style={{ width: 140, height: 140, objectFit: 'cover' }}
             />
           ) : (
             <img
-              src={imageProp || IU}
+              src={imageProp}
               alt=""
               style={{ width: 140, height: 140, objectFit: 'cover' }}
             />
