@@ -41,8 +41,9 @@ function OpenChetModal({
       onSuccess: () => {
         nav(`/room/${roomId}`);
       },
-      onError: () => {
-        alert('비밀번호가 틀렸습니다.');
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      onError: (data: any) => {
+        alert(`${data.response.data.message}`);
       },
     },
   );

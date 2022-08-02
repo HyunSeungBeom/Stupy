@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 /* eslint-disable prefer-const */
 /* eslint-disable react/button-has-type */
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { useParams, useNavigate } from 'react-router-dom';
 import { io, Socket } from 'socket.io-client';
@@ -17,36 +17,50 @@ export default function WebCamscreen() {
   const localToken = localStorage.getItem('token');
   // const queryClient = useQueryClient();
 
+  const [isSocket, setIsSocket] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { isSuccess, data } = useQuery(
-    'beforesocket',
-    () => SocketApi(paramid),
-    {
-      retry: false,
-      onSuccess: () => {
-        // queryClient.invalidateQueries('beforesocket');
-      },
-      onError: () => {
-        alert('비정상 접근입니다.');
-        nav(-1);
-      },
-    },
-  );
-
-  useEffect(() => {
-    if (isSuccess) {
+  const { data } = useQuery('beforesocket', () => SocketApi(paramid), {
+    retry: 7,
+    onSuccess: () => {
       socket = io('https://stupy.shop', {
         auth: {
           token: localToken,
           roomId: paramid,
         },
       });
-    }
-  }, [isSuccess]);
+      setIsSocket(true);
+      console.log(isSocket);
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: (data: any) => {
+      if (data) {
+        alert(`${data.response.data.message}`);
+        nav(-1);
+      } else {
+        alert('비정상 접근 감지!');
+        nav(-1);
+      }
+    },
+  });
 
-  // console.log(socket);
-  if (socket === null) {
-    return <div />;
-  }
-  return <Webcamchatting socket={socket} />;
+  // useEffect(() => {
+  //   if (isSocket) {
+  //     socket = io('https://stupy.shop', {
+  //       auth: {
+  //         token: localToken,
+  //         roomId: paramid,
+  //       },
+  //     });
+  //   }
+  // }, [isSuccess]);
+
+  return (
+    <div>
+      {socket !== null ? (
+        <Webcamchatting socket={socket} />
+      ) : (
+        <div> 소켓 연결중 ...</div>
+      )}
+    </div>
+  );
 }

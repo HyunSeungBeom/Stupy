@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable prettier/prettier */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useState } from 'react';
@@ -46,6 +47,10 @@ function MakeRoom({
   const MakeRoomdata = useMutation((data: FormData) => createRoomApi(data), {
     onSuccess: (v) => {
       nav(`/room/${v.data.id}`);
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: (data: any) => {
+      alert(`${data.response.data.message}`);
     },
   });
   const modalClose = () => {

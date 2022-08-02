@@ -8,8 +8,8 @@ const baseApi = axios.create({
 
 const callApi = setupInterceptorsTo(baseApi);
 
-export const userIdApi = async (id: string) => {
-  const userIdApi = await callApi.get(`/api/users/${id}`);
+export const userIdApi = async () => {
+  const userIdApi = await callApi.get(`/api/users/`);
   return userIdApi;
 };
 
