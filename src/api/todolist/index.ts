@@ -1,4 +1,5 @@
 import axios from 'src/api/';
+import { EditItemData } from 'src/screen/Main/TodoList';
 import { GetTodolist, PostTodolistId } from './types';
 
 export const getTodolist = async () => {
@@ -43,11 +44,13 @@ export const postTodolistId = async (todolistId: string) => {
 export const patchTodolistId = async (
   todolistId: string,
   categoryTitle: string,
+  todoItem: EditItemData,
 ) => {
   // eslint-disable-next-line no-useless-catch
   try {
     const res = await axios.patch<PostTodolistId>(`/todolist/${todolistId}`, {
-      title: categoryTitle,
+      categoryTitle,
+      todoItem,
     });
     return res.data;
   } catch (err) {

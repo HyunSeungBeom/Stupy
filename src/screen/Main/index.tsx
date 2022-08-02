@@ -151,7 +151,7 @@ export default function Main() {
                 onClick={delCategoryOn}
                 style={{ color: isDelete ? PRIMARY : '#8f8f8f' }}
               >
-                삭제
+                {selectedDelCategory !== '' ? '완료' : '삭제'}
               </DelButton>
               {!isDelete && (
                 <AddButton onClick={handleAddCategory}>추가</AddButton>
