@@ -1,11 +1,10 @@
 /* eslint-disable no-console */
 import { useSearchParams } from 'react-router-dom';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import moment from 'moment';
 import 'moment/locale/ko';
 import BottomBar from 'src/components/BottomBar';
 import TodoList from 'src/screen/Main/TodoList';
-// import icoPlus from 'src/assets/icons/main/icoPlus.svg';
 import styled from 'styled-components';
 import {
   SetBackGround,
@@ -83,16 +82,15 @@ export default function Main() {
   };
 
   const delCategoryOn = () => {
-    if (!isDelete) {
-      setIsDelete(true);
-    } else {
-      deleteCategory();
-    }
+    if (!isDelete) setIsDelete(true);
+    else if (!selectedDelCategory) setIsDelete(false);
+    else deleteCategory();
   };
 
-  const onSelectCategory = useCallback((e: string) => {
-    setSelectedDelCategory(e);
-  }, []);
+  const onSelectCategory = (e: string) => {
+    if (selectedDelCategory === e) setSelectedDelCategory('');
+    else setSelectedDelCategory(e);
+  };
 
   return (
     <>
@@ -153,7 +151,7 @@ export default function Main() {
                 onClick={delCategoryOn}
                 style={{ color: isDelete ? PRIMARY : '#8f8f8f' }}
               >
-                삭제
+                {selectedDelCategory !== '' ? '완료' : '삭제'}
               </DelButton>
               {!isDelete && (
                 <AddButton onClick={handleAddCategory}>추가</AddButton>

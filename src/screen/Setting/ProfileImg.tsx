@@ -3,7 +3,7 @@ import { PRIMARY, RATIO } from 'src/constants';
 import styled from 'styled-components';
 import icoEdit from 'src/assets/icons/setting/icoEdit.svg';
 import icoPhoto from 'src/assets/icons/setting/icoPhoto.svg';
-import IU from 'src/assets/images/imgProfileSample.jpeg';
+// import IU from 'src/assets/images/imgProfileSample.jpeg';
 import { useMutation, useQueryClient } from 'react-query';
 import { patchUsers } from 'src/api/users';
 
@@ -94,13 +94,13 @@ export default function ProfileImg({
         <ProfileImage>
           {isEdit ? (
             <img
-              src={previewImg?.toString() || IU}
+              src={previewImg?.toString()}
               alt=""
               style={{ width: 140, height: 140, objectFit: 'cover' }}
             />
           ) : (
             <img
-              src={imageProp || IU}
+              src={imageProp}
               alt=""
               style={{ width: 140, height: 140, objectFit: 'cover' }}
             />

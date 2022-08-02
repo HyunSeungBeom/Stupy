@@ -40,9 +40,10 @@ function Webcamchatting({ socket }: { socket: Socket }) {
     <div
       style={{
         overflowY: 'hidden',
-        height: '100vh',
-        width: `${428 * RATIO}`,
-        maxWidth: '460px',
+        height: 1009 * RATIO,
+        maxHeight: 1009,
+        width: 428 * RATIO,
+        maxWidth: 428,
       }}
     >
       <SetBackGround>
@@ -76,7 +77,8 @@ const WebScreen = styled.div`
   background-color: #e5e5e5;
   overflow: hidden;
   width: ${428 * RATIO}px;
-  height: 100vh;
+  height: ${1009 * RATIO}px;
+  max-height: 1009px;
   max-width: 428px;
 `;
 

@@ -210,14 +210,18 @@ export default Chatting;
 const ChatBackGround = styled.div`
   width: ${428 * RATIO}px;
   height: ${800 * RATIO_H}px;
+  max-height: 800px;
+  /* background-color: pink; */
+  /* position: relative; */
 `;
 
 const ChattingBox = styled.div`
-  position: fixed;
+  position: absolute;
   bottom: 0px;
   width: ${428 * RATIO}px;
   height: ${250 * RATIO_H}px;
   max-width: 428px;
+  max-height: 250px;
   background: linear-gradient(
     360deg,
     rgba(0, 0, 0, 0.408) 0%,

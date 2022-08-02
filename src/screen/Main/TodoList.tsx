@@ -7,8 +7,8 @@ import Checkbox from 'src/components/Checkbox';
 import { useMutation, useQueryClient } from 'react-query';
 import {
   deleteTodolistIdTodoId,
-  // patchTodolistId,
-  patchTodolistIdTodoId,
+  patchTodolistId,
+  // patchTodolistIdTodoId,
   postTodolistId,
 } from 'src/api/todolist';
 import { postStatusToFalse, postStatusToTrue } from 'src/api/todolist/status';
@@ -28,7 +28,7 @@ type Props = {
   selectedId: string;
 };
 
-type EditItemData = {
+export type EditItemData = {
   id: string;
   content: string;
 }[];
@@ -60,17 +60,18 @@ export default function TodoList({
     },
   );
 
-  // const { mutate: patchTodolist } = useMutation(
-  //   () => patchTodolistId(todolistId, subjectData),
-  //   {
-  //     onSuccess: () => {
-  //       queryClient.invalidateQueries('todolistData');
-  //     },
-  //     onError: (err) => {
-  //       console.warn(err);
-  //     },
-  //   },
-  // );
+  const { mutate: patchTodolist } = useMutation(
+    () => patchTodolistId(todolistId, subjectData, editItemData),
+    {
+      onSuccess: () => {
+        setIsEdit(false);
+        queryClient.invalidateQueries('todolistData');
+      },
+      onError: (err) => {
+        console.warn(err);
+      },
+    },
+  );
 
   const { mutate: changeStatusToTrue } = useMutation(
     (todoId: string) => postStatusToTrue(todolistId, todoId),
@@ -136,11 +137,11 @@ export default function TodoList({
     setIsEdit(true);
   };
   const editOff = () => {
-    setIsEdit(false);
+    patchTodolist();
   };
-  // const onEditTodoItem = useCallback((id: string, content: string) => {
-
-  // },[]);
+  const onEditTodoItem = useCallback((arr: EditItemData) => {
+    setEditItemData(arr);
+  }, []);
   // eslint-disable-next-line no-underscore-dangle
   const _onClick = (id: string) => {
     if (isDelete) onSelectedCategory(id);
@@ -174,7 +175,7 @@ export default function TodoList({
           <TodoItem
             // eslint-disable-next-line no-underscore-dangle
             key={item._id}
-            categoryId={id}
+            // categoryId={id}
             // eslint-disable-next-line no-underscore-dangle
             id={item._id}
             contentProp={item.content}
@@ -183,6 +184,8 @@ export default function TodoList({
             onChangeContentStatus={handleChangeContentStatus}
             isDeleteCategory={isDelete}
             isEditCategory={isEdit}
+            editItemData={editItemData}
+            onEditTodoItem={onEditTodoItem}
           />
         );
       })}
@@ -199,7 +202,7 @@ export default function TodoList({
 }
 
 type ItemProps = {
-  categoryId: string;
+  // categoryId: string;
   id: string;
   contentProp: string;
   isDoneProp: boolean;
@@ -207,33 +210,37 @@ type ItemProps = {
   onChangeContentStatus: (id: string, status: boolean) => void;
   isDeleteCategory: boolean;
   isEditCategory: boolean;
+  editItemData: EditItemData;
+  onEditTodoItem: (arr: EditItemData) => void;
 };
 
 function TodoItem({
   isDeleteCategory,
   isEditCategory,
-  categoryId,
+  // categoryId,
   id,
   contentProp,
   isDoneProp,
   onDeleteContent,
   onChangeContentStatus,
+  editItemData,
+  onEditTodoItem,
 }: ItemProps) {
   const [content, setContent] = useState('');
   const [isDone, setIsDone] = useState(false);
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
-  const { mutate: patchTodolistItem } = useMutation(
-    () => patchTodolistIdTodoId(categoryId, id, content),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('todolistData');
-      },
-      onError: (err) => {
-        console.warn(err);
-      },
-    },
-  );
+  // const { mutate: patchTodolistItem } = useMutation(
+  //   () => patchTodolistIdTodoId(categoryId, id, content),
+  //   {
+  //     onSuccess: () => {
+  //       queryClient.invalidateQueries('todolistData');
+  //     },
+  //     onError: (err) => {
+  //       console.warn(err);
+  //     },
+  //   },
+  // );
 
   const handleDelItemPress = (id: string) => {
     onDeleteContent(id);
@@ -242,7 +249,10 @@ function TodoItem({
     onChangeContentStatus(id, status);
   };
   const handleEditItem = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.code === 'Enter') patchTodolistItem();
+    if (e.code === 'Enter')
+      onEditTodoItem(
+        editItemData.filter((el) => el.id !== id).concat({ id, content }),
+      );
   };
 
   useEffect(() => {
@@ -268,20 +278,29 @@ function TodoItem({
             contentEditable={!isDeleteCategory}
             onChange={(e) => setContent(e.target.value)}
             onKeyUp={handleEditItem}
+            onBlur={() =>
+              onEditTodoItem(
+                editItemData
+                  .filter((el) => el.id !== id)
+                  .concat({ id, content }),
+              )
+            }
           />
         ) : (
           content
         )}
       </div>
-      <ItemDelBtn
-        src={icoXbutton}
-        alt=""
-        onClick={() => {
-          if (!isDeleteCategory) {
-            handleDelItemPress(id);
-          }
-        }}
-      />
+      {isEditCategory && (
+        <ItemDelBtn
+          src={icoXbutton}
+          alt=""
+          onClick={() => {
+            if (!isDeleteCategory) {
+              handleDelItemPress(id);
+            }
+          }}
+        />
+      )}
     </ItemRow>
   );
 }
