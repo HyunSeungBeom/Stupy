@@ -12,6 +12,7 @@ import Main from './screen/Main';
 import './App.css';
 import Setting from './screen/Setting';
 // eslint-disable-next-line import/order
+import BackgroundImage from 'src/assets/images/StupyBackground.svg';
 import WebCamscreen from './screen/WebCamscreen';
 
 const GlobalStyle = createGlobalStyle`
@@ -39,6 +40,8 @@ function App() {
         justifyContent: 'center',
         backgroundColor: 'gray',
         height: window.innerHeight,
+        background: `url(${BackgroundImage})`,
+        backgroundSize: 'cover',
       }}
     >
       <BrowserRouter>

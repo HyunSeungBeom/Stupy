@@ -6,6 +6,9 @@ const SetBackGround = styled.div`
   align-items: center;
   /* height: ${1009 * RATIO}px; */
   max-height: 1009px;
+  box-shadow: 10px 20px 30px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  overflow: hidden;
 `;
 
 const TopContainer = styled.div`
