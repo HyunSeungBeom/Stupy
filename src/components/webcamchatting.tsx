@@ -32,10 +32,8 @@ function Webcamchatting({ socket }: { socket: Socket }) {
     nav(-1);
   };
 
-  useEffect(() => {
-    socket.on('all_users', (datatoclient) => {
-      setRoomOwner(datatoclient.roomOwner);
-    });
+  socket.on('all_users', (datatoclient) => {
+    setRoomOwner(datatoclient.roomOwner);
   });
 
   return (

@@ -118,7 +118,6 @@ function Chatting({
     });
   }, [socket]);
 
-  console.log(roomOwner);
   return (
     <ChatBackGround>
       <ChattingBox>

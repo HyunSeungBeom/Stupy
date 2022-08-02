@@ -1,3 +1,4 @@
+/* eslint-disable react/void-dom-elements-no-children */
 /* eslint-disable no-alert */
 /* eslint-disable react/require-default-props */
 /* eslint-disable jsx-a11y/alt-text */
@@ -52,7 +53,7 @@ function OpenChetModal({
   };
 
   const kakaoClick = () => {
-    window.open(`${openkakao}`, '_blank');
+    window.open(`https://${openkakao}`, '_blank');
   };
 
   const EnterButtonClick = () => {
@@ -73,11 +74,23 @@ function OpenChetModal({
     <ModalContainer>
       <ModalInner>
         <ImgBox>
-          <img src={image} style={{ width: '380px', height: '286px' }} />
+          <img
+            src={image}
+            style={{
+              width: '380px',
+              height: '286px',
+              zIndex: -99,
+              background: 'rgba(0,0,0,0.55)',
+              backgroundSize: 'cover',
+            }}
+          />
+
           <TitleBox>{title}</TitleBox>
           <ContentBox>{desc}</ContentBox>
           <HashTagBox>
-            #{hashtag[0]} #{hashtag[1]} #{hashtag[2]}
+            {hashtag[0] ? `#${hashtag[0]}` : null}{' '}
+            {hashtag[1] ? `#${hashtag[1]}` : null}
+            {hashtag[2] ? `#${hashtag[2]}` : null}
           </HashTagBox>
           <RockBox>
             <RockPicture />
@@ -151,8 +164,10 @@ const ImgBox = styled.div`
   width: 380px;
   height: 286px;
   border-radius: 5px 5px 0px 0px;
-  background: yellow;
+  background: 'rgba(0,0,0,0.55)';
+  z-index: 999;
 `;
+
 const CloseButtonBox = styled.div`
   position: absolute;
   right: 25.73px;

@@ -12,7 +12,7 @@ function PerSonnelButton({
   count: number;
 }) {
   const MinusClick = () => {
-    if (count > 1) set(count - 1);
+    if (count > 2) set(count - 1);
   };
   const PlusClick = () => {
     if (count < 4) set(count + 1);

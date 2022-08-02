@@ -354,4 +354,10 @@ const KickButton = styled.button`
   color: white;
   font-weight: 600px;
   background: #ff9052;
+  border: solid 1px white;
+  width: 100px;
+  border-radius: 20px;
+  height: 35px;
+
+  box-sizing: border-box;
 `;

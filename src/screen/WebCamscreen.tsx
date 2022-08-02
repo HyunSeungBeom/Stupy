@@ -44,6 +44,7 @@ export default function WebCamscreen() {
     }
   }, [isSuccess]);
 
+  // console.log(socket);
   if (socket === null) {
     return <div />;
   }

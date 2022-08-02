@@ -22,7 +22,7 @@ function MakeRoom({
     handleSubmit,
   } = useForm();
 
-  const [count, setCount] = useState<number>(1);
+  const [count, setCount] = useState<number>(2);
   const [imagePreview, setImagePreview] = useState<File | undefined>();
   const [hashArr, setHashArr] = useState<string[] | []>([]);
   const nav = useNavigate();
@@ -61,7 +61,6 @@ function MakeRoom({
           event.preventDefault();
         }
       },
-
       true,
     );
   }, []);

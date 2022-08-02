@@ -12,7 +12,7 @@ import Main from './screen/Main';
 import './App.css';
 import Setting from './screen/Setting';
 // eslint-disable-next-line import/order
-import WebCam from './screen/WebCamscreen';
+import WebCamscreen from './screen/WebCamscreen';
 
 const GlobalStyle = createGlobalStyle`
 
@@ -49,7 +49,7 @@ function App() {
             <Route path="/main" element={<Main />} />
             <Route path="/list" element={<List />} />
             <Route path="/setting" element={<Setting />} />
-            <Route path="/room/:id" element={<WebCam />} />
+            <Route path="/room/:id" element={<WebCamscreen />} />
           </Route>
         </Routes>
       </BrowserRouter>

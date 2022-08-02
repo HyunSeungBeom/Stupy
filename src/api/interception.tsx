@@ -32,7 +32,7 @@ const onResponse = (response: AxiosResponse): AxiosResponse => {
 };
 
 const onResponseError = (error: AxiosError): Promise<AxiosError> => {
-  console.error(`[response error] [${JSON.stringify(error)}]`);
+  // console.error(`[response error] [${JSON.stringify(error)}]`);
   return Promise.reject(error);
 };
 

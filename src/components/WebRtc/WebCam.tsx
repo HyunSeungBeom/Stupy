@@ -80,7 +80,6 @@ function WebCam({
       localStreamRef.current = localStream;
       if (localVideoRef.current) localVideoRef.current.srcObject = localStream;
       if (!socket) return;
-      console.log(socket);
       socket.emit('join_room', {
         roomId: isparam,
       });
