@@ -39,7 +39,7 @@ function App() {
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'gray',
-        height: window.innerHeight,
+        height: '100vh',
         background: `url(${BackgroundImage})`,
         backgroundSize: 'cover',
       }}
