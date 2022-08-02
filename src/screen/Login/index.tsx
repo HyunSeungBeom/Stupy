@@ -32,17 +32,22 @@ export default Login;
 const PageBackground = styled.div`
   width: ${428 * RATIO}px;
   max-width: 428px;
-  height: 100vh;
+  max-height: 1009px;
   background: #ff9052;
   align-items: center;
   text-align: center;
   margin-left: auto;
   margin-right: auto;
+  overflow: scroll;
+  border-radius: 20px;
+  box-shadow: 10px 20px 30px 5px rgba(0, 0, 0, 0.2);
+  padding-bottom: 50px;
 `;
 const LogoBox = styled.div`
-  padding-top: 100px;
+  padding-top: 220px;
   box-sizing: border-box;
-  height: 60vh;
+  height: ${602 * RATIO}px;
+  max-height: 602px;
   border-radius: 0 0 40px 40px;
   background: white;
 `;
