@@ -5,7 +5,7 @@ import {
   SetBackGround,
   TopContainer,
 } from 'src/components/Styled';
-import { PRIMARY, RATIO } from 'src/constants';
+import { PRIMARY } from 'src/constants';
 import icoArrowNext from 'src/assets/icons/icoArrowNext.svg';
 import { useCallback, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
