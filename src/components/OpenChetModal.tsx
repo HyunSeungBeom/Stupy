@@ -45,6 +45,8 @@ function OpenChetModal({
     {
       onSuccess: () => {
         nav(`/room/${roomId}`);
+        // eslint-disable-next-line no-restricted-globals
+        location.reload();
       },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       onError: (data: any) => {

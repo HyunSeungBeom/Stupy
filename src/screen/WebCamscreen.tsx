@@ -18,6 +18,7 @@ export default function WebCamscreen() {
   // const queryClient = useQueryClient();
 
   const [isSocket, setIsSocket] = useState(false);
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data } = useQuery('beforesocket', () => SocketApi(paramid), {
     retry: 10,
