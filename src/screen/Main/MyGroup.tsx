@@ -41,29 +41,33 @@ export default function MyGroup({ item, openModal }: Props) {
   };
 
   return (
-    <Container
-      style={{
-        backgroundColor: 'gray',
-        background: `url(${item.image || imgSample})`,
-        backgroundSize: 'cover',
-      }}
-    >
-      <div>
-        {isMaster && <MasterIcon src={icoMaster} alt="" />}
-        {isMaster && (
-          <EditButtonBox>
-            <EditButton
-              style={{ cursor: 'pointer' }}
-              onClick={openModal({ myRoomData: item })}
-            />
-          </EditButtonBox>
-        )}
-        <OutRoomButton onClick={OutRoomCLick}>방나가기</OutRoomButton>
-        <GroupName>{title}</GroupName>
-        <Description>{content}</Description>
-      </div>
-      <EnterBtn src={btnEnter} alt="" onClick={MyEnterRoom} />
-    </Container>
+    <div style={{ position: 'relative' }}>
+      {isMaster && (
+        <EditButtonBox>
+          <EditButton
+            style={{ cursor: 'pointer' }}
+            onClick={openModal({ myRoomData: item })}
+          />
+        </EditButtonBox>
+      )}
+      <OutRoomButton onClick={OutRoomCLick}>방나가기</OutRoomButton>
+      <Container
+        style={{
+          backgroundColor: 'gray',
+          background: `url(${item.image || imgSample})`,
+          backgroundSize: 'cover',
+        }}
+        onClick={MyEnterRoom}
+      >
+        <div>
+          {isMaster && <MasterIcon src={icoMaster} alt="" />}
+
+          <GroupName>{title}</GroupName>
+          <Description>{content}</Description>
+        </div>
+        <EnterBtn src={btnEnter} alt="" />
+      </Container>
+    </div>
   );
 }
 

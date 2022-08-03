@@ -4,7 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FieldValues, useForm } from 'react-hook-form';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as CloseButton } from 'src/assets/icons/webrtcroom/closebutton.svg';
 import { GetMyRoom } from 'src/api/myRooms/types';
