@@ -59,7 +59,7 @@ function OpenChetModal({
   };
 
   const kakaoClick = () => {
-    window.open(`https://${openkakao}`, '_blank');
+    window.open(`${openkakao}`, '_blank');
   };
 
   const EnterButtonClick = () => {
