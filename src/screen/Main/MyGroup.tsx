@@ -120,6 +120,7 @@ const OutRoomButton = styled.div`
   right: 20px;
   top: 40px;
   background: #d9d9d99d 48%;
+  align-items: center;
 
   cursor: pointer;
   color: white;

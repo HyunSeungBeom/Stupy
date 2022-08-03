@@ -157,9 +157,9 @@ function Chatting({
             onClick={handleDropdownPress}
             style={{
               cursor: 'pointer',
-              boxSizing: 'border-box',
-              width: '200px',
+              marginLeft: '20px',
               position: 'relative',
+              width: '54px',
             }}
           />
           {dropdownVisible && (
@@ -239,7 +239,6 @@ const ChattingBox = styled.div`
 const ChattingBoxdiv = styled.div`
   display: flex;
   flex-direction: row;
-  width: 100%;
 `;
 
 const Chattinglist = styled.div`
@@ -265,9 +264,9 @@ const ChatiingInput = styled.input`
 `;
 
 const DropdownBox = styled.div`
-  position: relative;
+  position: absolute;
   flex-direction: column;
-  top: -50px;
+  top: 150px;
   right: 30px;
   border-radius: 10px;
   background-color: white;
@@ -276,10 +275,10 @@ const DropdownBox = styled.div`
 `;
 
 const DropdownBox2 = styled.div`
-  position: relative;
+  position: absolute;
   flex-direction: column;
   right: 30px;
-  top: -140px;
+  top: 100px;
   border-radius: 10px;
   background-color: white;
   width: 54px;
@@ -288,9 +287,9 @@ const DropdownBox2 = styled.div`
 
 const DropdownBox3 = styled.div`
   flex-direction: column;
-  position: relative;
+  position: absolute;
   right: 30px;
-  top: -230px;
+  top: 50px;
   border-radius: 10px;
   background-color: white;
   width: 54px;
