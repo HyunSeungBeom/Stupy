@@ -14,7 +14,7 @@ import './App.css';
 import { BrowserView, MobileView } from 'react-device-detect';
 import Setting from './screen/Setting';
 // eslint-disable-next-line import/order
-import BackgroundImage from 'src/assets/images/StupyBackground.svg';
+// import BackgroundImage from 'src/assets/images/StupyBackground.svg';
 import WebCamscreen from './screen/WebCamscreen';
 
 const GlobalStyle = createGlobalStyle`
@@ -44,7 +44,8 @@ function App() {
             justifyContent: 'center',
             backgroundColor: 'gray',
             height: '100vh',
-            background: `url(${BackgroundImage})`,
+            // background: `url(${BackgroundImage})`,
+            background: 'white',
             backgroundSize: 'cover',
           }}
         >
