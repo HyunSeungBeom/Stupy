@@ -176,6 +176,7 @@ export default function Main() {
       </SetBackGround>
       {meRoomData && (
         <ReviseRoom
+          image={meRoomData.image}
           modal={closeModal}
           myRoomData={meRoomData}
           isOpen={isOpenedModal}

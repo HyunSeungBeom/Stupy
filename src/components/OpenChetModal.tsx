@@ -11,6 +11,9 @@ import { ReactComponent as EnterButton } from 'src/assets/icons/enterroom/enter.
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { enterRoomApi } from 'src/api/room';
+import icoOn from 'src/assets/icons/icoOn.svg';
+import icoOff from 'src/assets/icons/icoOff.svg';
+import imgSample from 'src/assets/images/imgSample.png';
 
 function OpenChetModal({
   modal,
@@ -20,6 +23,7 @@ function OpenChetModal({
   hashtag,
   openkakao,
   roomId,
+  isOn,
 }: {
   modal: React.Dispatch<React.SetStateAction<boolean>>;
   image?: string;
@@ -28,6 +32,7 @@ function OpenChetModal({
   hashtag: string[];
   openkakao?: string;
   roomId: string;
+  isOn: boolean;
 }) {
   const [password, setPassword] = useState<string>();
 
@@ -76,21 +81,31 @@ function OpenChetModal({
       <ModalInner>
         <ImgBox>
           <img
-            src={image}
             style={{
               width: '380px',
               height: '286px',
-              zIndex: -99,
-              background: 'rgba(0,0,0,0.55)',
+              background: image ? `url(${image})` : `url(${imgSample})`,
               backgroundSize: 'cover',
             }}
           />
 
-          <TitleBox>{title}</TitleBox>
+          <TitleBox>
+            <img
+              src={isOn ? icoOn : icoOff}
+              alt=""
+              style={{
+                position: 'absolute',
+                width: 63,
+                height: 26,
+                marginBottom: 80,
+              }}
+            />
+            {title}
+          </TitleBox>
           <ContentBox>{desc}</ContentBox>
           <HashTagBox>
             {hashtag[0] ? `#${hashtag[0]}` : null}{' '}
-            {hashtag[1] ? `#${hashtag[1]}` : null}
+            {hashtag[1] ? `#${hashtag[1]}` : null}{' '}
             {hashtag[2] ? `#${hashtag[2]}` : null}
           </HashTagBox>
           <RockBox>
@@ -164,9 +179,6 @@ const ImgBox = styled.div`
   position: relative;
   width: 380px;
   height: 286px;
-  border-radius: 5px 5px 0px 0px;
-  background: 'rgba(0,0,0,0.55)';
-  z-index: 999;
 `;
 
 const CloseButtonBox = styled.div`

@@ -155,7 +155,12 @@ function Chatting({
           </InputbuttonBox>
           <ChattingAudioButton
             onClick={handleDropdownPress}
-            style={{ cursor: 'pointer', right: '20', position: 'absolute' }}
+            style={{
+              cursor: 'pointer',
+              boxSizing: 'border-box',
+              width: '200px',
+              position: 'relative',
+            }}
           />
           {dropdownVisible && (
             <div>
@@ -228,6 +233,7 @@ const ChattingBox = styled.div`
     rgba(0, 0, 0, 0.208) 72.92%,
     rgba(67, 67, 67, 0) 100%
   );
+  border-radius: 0 0 20px 20px;
 `;
 
 const ChattingBoxdiv = styled.div`
@@ -247,7 +253,7 @@ const Chattinglist = styled.div`
 `;
 
 const ChatiingInput = styled.input`
-  width: 100%;
+  width: 320px;
   height: ${44 * RATIO}px;
   max-height: 44px;
   background: #ffffff;
@@ -259,41 +265,35 @@ const ChatiingInput = styled.input`
 `;
 
 const DropdownBox = styled.div`
-  display: flex;
+  position: relative;
   flex-direction: column;
-  position: absolute;
-  top: 140px;
-  right: 20px;
+  top: -50px;
+  right: 30px;
   border-radius: 10px;
   background-color: white;
   width: 54px;
-  max-width: ${148 * RATIO}px;
   box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 
 const DropdownBox2 = styled.div`
-  display: flex;
+  position: relative;
   flex-direction: column;
-  position: absolute;
-  top: 190px;
-  right: 20px;
+  right: 30px;
+  top: -140px;
   border-radius: 10px;
   background-color: white;
   width: 54px;
-  max-width: ${148 * RATIO}px;
   box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 
 const DropdownBox3 = styled.div`
-  display: flex;
   flex-direction: column;
-  position: absolute;
-  top: 90px;
-  right: 20px;
+  position: relative;
+  right: 30px;
+  top: -230px;
   border-radius: 10px;
   background-color: white;
   width: 54px;
-  max-width: ${148 * RATIO}px;
   box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 

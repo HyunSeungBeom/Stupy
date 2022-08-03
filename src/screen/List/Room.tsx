@@ -109,6 +109,7 @@ export default function RoomBox({
           hashtag={hashtag}
           openkakao={openKakao}
           roomId={roomId}
+          isOn={isOn}
         />
       )}
     </>

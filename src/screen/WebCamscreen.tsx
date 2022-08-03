@@ -20,7 +20,7 @@ export default function WebCamscreen() {
   const [isSocket, setIsSocket] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data } = useQuery('beforesocket', () => SocketApi(paramid), {
-    retry: 7,
+    retry: 10,
     onSuccess: () => {
       socket = io('https://stupy.shop', {
         auth: {
@@ -42,17 +42,6 @@ export default function WebCamscreen() {
       }
     },
   });
-
-  // useEffect(() => {
-  //   if (isSocket) {
-  //     socket = io('https://stupy.shop', {
-  //       auth: {
-  //         token: localToken,
-  //         roomId: paramid,
-  //       },
-  //     });
-  //   }
-  // }, [isSuccess]);
 
   return (
     <div>

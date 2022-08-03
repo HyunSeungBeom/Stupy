@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
+import nullImg from 'src/assets/images/imgSample.png';
 import ImgPlus from '../assets/icons/makeroom/ImgPlus.svg';
 
 export function ReviseImgSource({
@@ -13,7 +14,9 @@ export function ReviseImgSource({
   set: React.Dispatch<React.SetStateAction<File | undefined>>;
   Reviseimage: string;
 }) {
-  const [imagePreview, setImagePreview] = useState(Reviseimage);
+  const [imagePreview, setImagePreview] = useState(
+    Reviseimage === null ? nullImg : Reviseimage,
+  );
   const { watch, register } = useForm();
   const image = watch('image');
 

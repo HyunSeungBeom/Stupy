@@ -36,6 +36,8 @@ export default function MyGroup({ item, openModal }: Props) {
 
   const MyEnterRoom = () => {
     nav(`/room/${item.roomId}`);
+    // eslint-disable-next-line no-restricted-globals
+    location.reload();
   };
 
   return (

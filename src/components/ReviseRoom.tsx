@@ -17,10 +17,12 @@ function ReviseRoom({
   modal,
   isOpen,
   myRoomData,
+  image,
 }: {
   modal: () => void;
   isOpen: boolean;
   myRoomData: GetMyRoom;
+  image: string;
 }) {
   const {
     register,
