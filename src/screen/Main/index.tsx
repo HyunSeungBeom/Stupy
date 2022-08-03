@@ -174,7 +174,7 @@ export default function Main() {
         </BodyContainer>
         <BottomBar currentPage="Main" />
       </SetBackGround>
-      {meRoomData && (
+      {isOpenedModal && meRoomData && (
         <ReviseRoom
           modal={closeModal}
           myRoomData={meRoomData}

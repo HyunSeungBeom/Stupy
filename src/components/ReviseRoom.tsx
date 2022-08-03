@@ -4,7 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FieldValues, useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as CloseButton } from 'src/assets/icons/webrtcroom/closebutton.svg';
 import { GetMyRoom } from 'src/api/myRooms/types';
@@ -55,7 +55,10 @@ function ReviseRoom({
     (data: FormData) => EditRoomApi(data, myRoomData.roomId),
     {
       onSuccess: () => {
+        alert('방수정 완료');
         nav('/main');
+
+        modalClose();
       },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       onError: (data: any) => {
