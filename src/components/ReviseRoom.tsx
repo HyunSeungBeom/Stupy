@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FieldValues, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
-import { useNavigate } from 'react-router-dom';
 import { ReactComponent as CloseButton } from 'src/assets/icons/webrtcroom/closebutton.svg';
 import { GetMyRoom } from 'src/api/myRooms/types';
 import PerSonnelButton from './PersonnelButton';
@@ -33,7 +32,6 @@ function ReviseRoom({
   const [hashArr, setHashArr] = useState<string[] | []>([
     ...myRoomData.hashtags,
   ]);
-  const nav = useNavigate();
 
   const onSubmit = (data: FieldValues) => {
     const formData = new FormData();
@@ -56,8 +54,6 @@ function ReviseRoom({
     {
       onSuccess: () => {
         alert('방수정 완료');
-        nav('/main');
-
         modalClose();
       },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
