@@ -17,7 +17,7 @@ type Props = {
   maxMember: number;
   hashtag: string[];
   // eslint-disable-next-line react/require-default-props
-  // rank?: number;
+  rank?: number;
   // eslint-disable-next-line react/require-default-props
   openKakao?: string;
   // eslint-disable-next-line react/require-default-props
@@ -27,7 +27,7 @@ type Props = {
 
 export default function RoomBox({
   isOn,
-  // rank,
+  rank,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   openKakao,
   image,
@@ -45,12 +45,12 @@ export default function RoomBox({
     else alert('정원이 가득찬 그룹입니다.');
   };
 
-  // function rankSplit() {
-  //   if (rank === 1) return '| 누적시간 1위';
-  //   if (rank === 2) return '| 누적시간 2위';
-  //   if (rank === 3) return '| 누적시간 3위';
-  //   return undefined;
-  // }
+  function rankSplit() {
+    if (rank === 1) return '1위';
+    if (rank === 2) return '2위';
+    if (rank === 3) return '3위';
+    return undefined;
+  }
 
   return (
     <>
@@ -81,19 +81,16 @@ export default function RoomBox({
               marginBottom: 10,
             }}
           />
-          {/* {hashtag.map((item) => {
-          return `#${item} `;
-        })} */}
           <GroupNameRow>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <GroupName>{title}</GroupName>
-              {/* {!!rank && (
-              <>
-                <Divider />
-                <Times>누적시간 </Times>
-                <RankText>{rankSplit()}</RankText>
-              </>
-            )} */}
+              {rank && rank <= 3 && (
+                <>
+                  <Divider />
+                  <Times>누적시간</Times>
+                  <RankText>{rankSplit()}</RankText>
+                </>
+              )}
             </div>
           </GroupNameRow>
           {desc}
@@ -167,7 +164,6 @@ const GroupNameRow = styled.div`
 const GroupName = styled.div`
   font-size: 24px;
   font-weight: 600;
-  margin-right: 8px;
 `;
 const Divider = styled.div`
   width: 2px;
@@ -180,6 +176,7 @@ const Times = styled.div`
   font-size: 16px;
   font-weight: 500;
   color: white;
+  margin-right: 8px;
 `;
 const RankText = styled.div`
   font-size: 16px;
