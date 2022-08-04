@@ -22,7 +22,7 @@ import './App.css';
 import { BrowserView, MobileView } from 'react-device-detect';
 import Setting from './screen/Setting';
 // eslint-disable-next-line import/order
-// import BackgroundImage from 'src/assets/images/StupyBackground.svg';
+import BackgroundImage from 'src/assets/images/StupyBackground.svg';
 import WebCamscreen from './screen/WebCamscreen';
 
 const localToken = localStorage.getItem('token');
@@ -40,30 +40,33 @@ function App() {
       <BrowserView>
         <div
           style={{
-            display: 'flex',
+            position: 'absolute',
+            background: `url(${BackgroundImage})`,
             alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'gray',
-            height: '100vh',
-            // background: `url(${BackgroundImage})`,
-            background: 'white',
-            backgroundSize: 'cover',
+            width: '100%',
+            height: '100%',
+            boxSizing: 'border-box',
+            top: '0',
+            right: '0',
+            backgroundPosition: 'top right',
           }}
         >
-          <BrowserRouter>
-            <RecoilRoot>
-              <Routes>
-                <Route path="/" element={<Login />} />
-                <Route path="/kakao/login" element={<Main />} />
-                <Route element={<ProtectedRoute />}>
-                  <Route path="/main" element={<Main />} />
-                  <Route path="/list" element={<List />} />
-                  <Route path="/setting" element={<Setting />} />
-                  <Route path="/room/:id" element={<WebCamscreen />} />
-                </Route>
-              </Routes>
-            </RecoilRoot>
-          </BrowserRouter>
+          <div>
+            <BrowserRouter>
+              <RecoilRoot>
+                <Routes>
+                  <Route path="/" element={<Login />} />
+                  <Route path="/kakao/login" element={<Main />} />
+                  <Route element={<ProtectedRoute />}>
+                    <Route path="/main" element={<Main />} />
+                    <Route path="/list" element={<List />} />
+                    <Route path="/setting" element={<Setting />} />
+                    <Route path="/room/:id" element={<WebCamscreen />} />
+                  </Route>
+                </Routes>
+              </RecoilRoot>
+            </BrowserRouter>
+          </div>
         </div>
       </BrowserView>
       <MobileView>

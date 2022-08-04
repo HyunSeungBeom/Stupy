@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as CloseButton } from 'src/assets/icons/webrtcroom/closebutton.svg';
+import { ReactComponent as KickButtonon } from 'src/assets/icons/kickmodal/kickbutton.svg';
 import { Socket } from 'socket.io-client';
 // import { useNavigate } from 'react-router-dom';
 
@@ -115,7 +116,7 @@ function KickModal({
                   <NicknameBox>{kickdata[1].nickName}</NicknameBox>
                 </DetailBox>
                 <KickBox1>
-                  <KickButton onClick={whoKick}> 강퇴 </KickButton>
+                  <KickButtonon onClick={whoKick}> 강퇴 </KickButtonon>
                 </KickBox1>
               </div>
             ) : (
@@ -133,7 +134,7 @@ function KickModal({
                   <NicknameBox>{kickdata[2].nickName}</NicknameBox>
                 </DetailBox>
                 <KickBox2>
-                  <KickButton onClick={whoKick2}> 강퇴 </KickButton>
+                  <KickButtonon onClick={whoKick2}> 강퇴 </KickButtonon>
                 </KickBox2>
               </div>
             ) : (
@@ -151,7 +152,7 @@ function KickModal({
                   <NicknameBox>{kickdata[3].nickName}</NicknameBox>
                 </DetailBox>
                 <KickBox3>
-                  <KickButton onClick={whoKick3}> 강퇴 </KickButton>
+                  <KickButtonon onClick={whoKick3}> 강퇴 </KickButtonon>
                 </KickBox3>
               </div>
             ) : (
@@ -348,16 +349,4 @@ const KickBox3 = styled.div`
   height: 24px;
   left: 230px;
   top: 405px;
-`;
-
-const KickButton = styled.button`
-  color: white;
-  font-weight: 600px;
-  background: #ff9052;
-  border: solid 1px white;
-  width: 100px;
-  border-radius: 20px;
-  height: 35px;
-
-  box-sizing: border-box;
 `;

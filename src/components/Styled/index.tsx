@@ -4,12 +4,11 @@ import { RATIO, PRIMARY } from 'src/constants';
 const SetBackGround = styled.div`
   justify-content: center;
   align-items: center;
-  /* height: ${1009 * RATIO}px;
-  max-height: 1009px; */
-  box-shadow: 10px 20px 30px 5px rgba(0, 0, 0, 0.2);
-  border-radius: 20px;
+  height: 100vh;
   overflow: hidden;
-  position: relative;
+  position: absolute;
+  right: 211px;
+  top: 0px;
 `;
 
 const TopContainer = styled.div`
@@ -33,7 +32,10 @@ const BodyContainer = styled.div`
   background-color: white;
   padding: 20px 0px 90px;
   position: relative;
-  overflow: scroll;
+  overflow-y: auto; //스크롤바 없애기
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const TitleContainer = styled.div`

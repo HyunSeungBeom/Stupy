@@ -5,25 +5,28 @@ import { ReactComponent as SmallLogin } from 'src/assets/icons/socialLogin/small
 import { ReactComponent as BottomLetter } from 'src/assets/icons/socialLogin/bottomletter.svg';
 import { RATIO } from 'src/constants';
 
+import { SetBackGround } from 'src/components/Styled';
 import SocialSignIn from './SocialSignIn';
 
 function Login() {
   return (
-    <PageBackground>
-      <LogoBox>
-        <Logo />
-        <div>
-          <LogoLetter />
-        </div>
-      </LogoBox>
-      <SmallLoginBox>
-        <SmallLogin />
-      </SmallLoginBox>
-      <SocialSignBox>
-        <SocialSignIn />
-      </SocialSignBox>
-      <BottomLetter />
-    </PageBackground>
+    <SetBackGround>
+      <PageBackground>
+        <LogoBox>
+          <Logo />
+          <div>
+            <LogoLetter />
+          </div>
+        </LogoBox>
+        <SmallLoginBox>
+          <SmallLogin />
+        </SmallLoginBox>
+        <SocialSignBox>
+          <SocialSignIn />
+        </SocialSignBox>
+        <BottomLetter />
+      </PageBackground>
+    </SetBackGround>
   );
 }
 
@@ -37,11 +40,7 @@ const PageBackground = styled.div`
   align-items: center;
   text-align: center;
   margin-left: auto;
-  margin-right: auto;
-  overflow: scroll;
-  border-radius: 20px;
-  box-shadow: 10px 20px 30px 5px rgba(0, 0, 0, 0.2);
-  padding-bottom: 50px;
+  height: 100%;
 `;
 const LogoBox = styled.div`
   padding-top: 220px;
