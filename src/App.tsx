@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   BrowserRouter,
   Route,
@@ -5,7 +6,6 @@ import {
   Outlet,
   Navigate,
 } from 'react-router-dom';
-import { createGlobalStyle } from 'styled-components';
 import {
   RecoilRoot,
   atom,

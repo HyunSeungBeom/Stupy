@@ -13,6 +13,7 @@ import { PRIMARY, RATIO } from 'src/constants';
 import { getRoom } from 'src/api/room';
 import { useQuery } from 'react-query';
 import { KickState } from 'src/recoil/state';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { constSelector, useRecoilValue } from 'recoil';
 import Room from './Room';
 import SearchBox from './SerchBox';

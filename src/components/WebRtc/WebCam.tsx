@@ -230,7 +230,7 @@ function WebCam({
       },
     );
 
-    socket.on('disconnectuser', (errormessage) => {
+    socket.on('disconnectuser', () => {
       // eslint-disable-next-line no-unused-expressions, no-sequences, no-alert
       nav('/list'), setKickuser(true);
     });
