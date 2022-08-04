@@ -70,20 +70,30 @@ function App() {
         </div>
       </BrowserView>
       <MobileView>
-        <BrowserRouter>
-          <RecoilRoot>
-            <Routes>
-              <Route path="/" element={<Login />} />
-              <Route path="/kakao/login" element={<Main />} />
-              <Route element={<ProtectedRoute />}>
-                <Route path="/main" element={<Main />} />
-                <Route path="/list" element={<List />} />
-                <Route path="/setting" element={<Setting />} />
-                <Route path="/room/:id" element={<WebCamscreen />} />
-              </Route>
-            </Routes>
-          </RecoilRoot>
-        </BrowserRouter>
+        <div
+          style={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            left: '211px',
+            boxSizing: 'border-box',
+          }}
+        >
+          <BrowserRouter>
+            <RecoilRoot>
+              <Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="/kakao/login" element={<Main />} />
+                <Route element={<ProtectedRoute />}>
+                  <Route path="/main" element={<Main />} />
+                  <Route path="/list" element={<List />} />
+                  <Route path="/setting" element={<Setting />} />
+                  <Route path="/room/:id" element={<WebCamscreen />} />
+                </Route>
+              </Routes>
+            </RecoilRoot>
+          </BrowserRouter>
+        </div>
       </MobileView>
     </>
   );
