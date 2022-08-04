@@ -227,7 +227,7 @@ function WebCam({
     );
     socket.on('disconnectuser', (errormessage) => {
       // eslint-disable-next-line no-unused-expressions, no-sequences, no-alert
-      nav('/list'), console.log(errormessage);
+      nav('/list'), alert(errormessage);
     });
 
     socket.on('user_exit', (data: { id: string }) => {

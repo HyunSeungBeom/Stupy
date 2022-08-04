@@ -5,7 +5,7 @@ import { BiArrowBack } from 'react-icons/bi';
 import { useNavigate, useParams } from 'react-router-dom';
 import { SetBackGround } from 'src/components/Styled';
 import WebCam from 'src/components/WebRtc/WebCam';
-import { RATIO } from 'src/constants';
+import { RATIO, RATIO_H } from 'src/constants';
 import styled from 'styled-components';
 import { ReactComponent as RankingButton } from 'src/assets/icons/webrtcroom/ranking.svg';
 import RankingModal from 'src/components/RankingModal';
@@ -40,7 +40,7 @@ function Webcamchatting({ socket }: { socket: Socket }) {
     <div
       style={{
         overflowY: 'hidden',
-        height: '100vh',
+        height: 900 * RATIO_H,
         maxHeight: 900,
         width: 428 * RATIO,
         maxWidth: 428,
