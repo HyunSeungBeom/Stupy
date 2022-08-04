@@ -37,6 +37,7 @@ function WebCam({
   const [cameraOn, setCameraOn] = useState(true);
   const [audioOn, setAudioOn] = useState(true);
   const nav = useNavigate();
+  const [timealert, SetTimealert] = useState(true);
 
   // 카메라 온오프
   const VideoHandler = () => {
@@ -225,9 +226,15 @@ function WebCam({
         console.log('candidate add success');
       },
     );
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const timer = setTimeout(() => {
+      SetTimealert(false);
+    }, 3000);
+
     socket.on('disconnectuser', (errormessage) => {
       // eslint-disable-next-line no-unused-expressions, no-sequences, no-alert
-      nav('/list'), alert(errormessage);
+      nav('/list'), timealert === true ? alert(errormessage) : null;
     });
 
     socket.on('user_exit', (data: { id: string }) => {
