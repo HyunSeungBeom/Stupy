@@ -49,6 +49,8 @@ function App() {
             top: '0',
             right: '0',
             backgroundPosition: 'top right',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
           }}
         >
           <div>

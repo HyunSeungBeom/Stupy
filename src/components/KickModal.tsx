@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as CloseButton } from 'src/assets/icons/webrtcroom/closebutton.svg';
 import { ReactComponent as KickButtonon } from 'src/assets/icons/kickmodal/kickbutton.svg';
+import { ReactComponent as RoomOwner } from 'src/assets/icons/kickmodal/roomowner.svg';
 import { Socket } from 'socket.io-client';
 // import { useNavigate } from 'react-router-dom';
 
@@ -99,7 +100,9 @@ function KickModal({
                   </Imageheigth>
                   <NicknameBox>{kickdata[0].nickName}</NicknameBox>
                 </DetailBox>
-                <KickBox>방장</KickBox>
+                <KickBox>
+                  <RoomOwner />
+                </KickBox>
               </div>
             ) : (
               <div />

@@ -5,7 +5,7 @@ import { BiArrowBack } from 'react-icons/bi';
 import { useNavigate, useParams } from 'react-router-dom';
 import { SetBackGround } from 'src/components/Styled';
 import WebCam from 'src/components/WebRtc/WebCam';
-import { RATIO, RATIO_H } from 'src/constants';
+import { RATIO } from 'src/constants';
 import styled from 'styled-components';
 import { ReactComponent as RankingButton } from 'src/assets/icons/webrtcroom/ranking.svg';
 import RankingModal from 'src/components/RankingModal';
