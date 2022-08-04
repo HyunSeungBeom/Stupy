@@ -38,7 +38,7 @@ src="https://camo.githubusercontent.com/54a2f74f3cbb3cb810faa417fb9a56b4d947be01
 ## 💡 담당 포지션
 | 이름       | 포지션       | 개인 깃허브 or 이메일          | 담당                             |
 | ---------- | ------------ | ------------------------------ |  ------------------------------ |
-| **현승범** | `프론트엔드` | https://github.com/HyunSeungBeom| [부리더]<br/>1. CICD/무중단배포 <br/> 2. 소셜로그인<br/> 3. WebRTC<br/> 4. socket<br/> 5. 방생성 모달 <br/> 6. 방리스트 모달<br/>
+| **현승범** | `프론트엔드` | https://github.com/HyunSeungBeom| [부리더]<br/>1. CICD/무중단배포 <br/> 2. 소셜로그인<br/> 3. WebRTC<br/> 4. socket<br/> 5. 방생성 모달 <br/> 6. 방리스트 모달<br/> 7. 튜토리얼 
 | **주재인** | `프론트엔드` | https://github.com/demian0721 | 1. 메인페이지<br/> 2. 방 리스트페이지<br/> 3. 환경설정페이지 <br/>4. 공통컴포넌트<br/>
 
 ## 🚀 프론트앤드 이슈 및 트러블슈팅
