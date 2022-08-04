@@ -29,11 +29,12 @@ const Chatid = styled.div`
   font-size: 17px;
   text-align: center;
   align-items: center;
+  width: auto;
   display: flex;
 `;
 const Chatword = styled.div`
   position: relative;
-  width: 350px;
+  width: 300px;
   border-radius: 5px;
   font-size: 17px;
   display: inline-block;
@@ -42,7 +43,6 @@ const Chatword = styled.div`
 `;
 
 const OneChat = styled.div`
-  width: 100%;
   display: flex;
   margin-top: 10px;
   gap: 5px;
