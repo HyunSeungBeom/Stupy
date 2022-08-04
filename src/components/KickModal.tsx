@@ -116,7 +116,10 @@ function KickModal({
                   <NicknameBox>{kickdata[1].nickName}</NicknameBox>
                 </DetailBox>
                 <KickBox1>
-                  <KickButtonon onClick={whoKick}> 강퇴 </KickButtonon>
+                  <KickButtonon
+                    style={{ cursor: 'pointer' }}
+                    onClick={whoKick}
+                  />
                 </KickBox1>
               </div>
             ) : (
@@ -134,7 +137,10 @@ function KickModal({
                   <NicknameBox>{kickdata[2].nickName}</NicknameBox>
                 </DetailBox>
                 <KickBox2>
-                  <KickButtonon onClick={whoKick2}> 강퇴 </KickButtonon>
+                  <KickButtonon
+                    style={{ cursor: 'pointer' }}
+                    onClick={whoKick2}
+                  />
                 </KickBox2>
               </div>
             ) : (
@@ -152,7 +158,10 @@ function KickModal({
                   <NicknameBox>{kickdata[3].nickName}</NicknameBox>
                 </DetailBox>
                 <KickBox3>
-                  <KickButtonon onClick={whoKick3}> 강퇴 </KickButtonon>
+                  <KickButtonon
+                    style={{ cursor: 'pointer' }}
+                    onClick={whoKick3}
+                  />
                 </KickBox3>
               </div>
             ) : (

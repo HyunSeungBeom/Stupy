@@ -39,7 +39,7 @@ function List() {
       // eslint-disable-next-line no-alert
       alert('당신은 방장에 의해 강퇴당하셨습니다.');
     }
-  }, [kickuser]);
+  }, []);
 
   const { data: rooms } = useQuery(['rooms', keywords, filterParams], () =>
     getRoom({ params: { text: keywords, sort: filterParams } }),

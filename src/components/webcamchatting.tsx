@@ -37,15 +37,7 @@ function Webcamchatting({ socket }: { socket: Socket }) {
   });
 
   return (
-    <div
-      style={{
-        overflowY: 'hidden',
-        height: 900 * RATIO_H,
-        maxHeight: 900,
-        width: 428 * RATIO,
-        maxWidth: 428,
-      }}
-    >
+    <>
       <SetBackGround>
         <WebScreen>
           <UpperMenu>
@@ -65,7 +57,7 @@ function Webcamchatting({ socket }: { socket: Socket }) {
         </WebScreen>
       </SetBackGround>
       {modalOpen && <RankingModal modal={setModalOpen} socket={socket} />}
-    </div>
+    </>
   );
 }
 
@@ -76,9 +68,8 @@ const WebScreen = styled.div`
   flex-direction: column;
   background-color: #e5e5e5;
   overflow: hidden;
+  height: 100vh;
   width: ${428 * RATIO}px;
-  height: ${967 * RATIO}px;
-  max-height: 900px;
   max-width: 428px;
 `;
 

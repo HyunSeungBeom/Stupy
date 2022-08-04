@@ -8,6 +8,7 @@ import { RATIO } from 'src/constants';
 import { useMutation, useQueryClient } from 'react-query';
 import { leaveRoomApi } from 'src/api/room';
 import { ReactComponent as EditButton } from 'src/assets/icons/main/editbutton.svg';
+import { ReactComponent as LeaveButton } from 'src/assets/icons/main/leaveroombutton.svg';
 import { GetMyRoom } from 'src/api/myRooms/types';
 import { useNavigate } from 'react-router-dom';
 
@@ -51,7 +52,10 @@ export default function MyGroup({ item, openModal }: Props) {
           />
         </EditButtonBox>
       )}
-      <OutRoomButton onClick={OutRoomCLick}>방나가기</OutRoomButton>
+      <LeaveButtonBox>
+        <LeaveButton onClick={OutRoomCLick} />
+      </LeaveButtonBox>
+
       <Container
         style={{
           backgroundColor: 'gray',
@@ -113,14 +117,13 @@ const EnterBtn = styled.img`
   cursor: pointer;
 `;
 
-const OutRoomButton = styled.div`
+const LeaveButtonBox = styled.div`
   text-align: center;
   position: absolute;
-  width: 75px;
-  height: 38px;
-  right: 20px;
-  top: 40px;
-  background: #d9d9d99d 48%;
+
+  right: 30px;
+  top: 3px;
+
   align-items: center;
 
   cursor: pointer;
@@ -129,6 +132,6 @@ const OutRoomButton = styled.div`
 
 const EditButtonBox = styled.div`
   position: absolute;
-  right: 20px;
-  top: 0px;
+  left: 110px;
+  top: 25px;
 `;
