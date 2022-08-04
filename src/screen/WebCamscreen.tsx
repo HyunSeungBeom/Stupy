@@ -49,7 +49,7 @@ export default function WebCamscreen() {
       {socket !== null ? (
         <Webcamchatting socket={socket} />
       ) : (
-        <div> 소켓 연결중 ...</div>
+        <div> 연결중 ... </div>
       )}
     </div>
   );

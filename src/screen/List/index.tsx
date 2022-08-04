@@ -12,6 +12,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { PRIMARY, RATIO } from 'src/constants';
 import { getRoom } from 'src/api/room';
 import { useQuery } from 'react-query';
+import { KickState } from 'src/recoil/state';
+import { constSelector, useRecoilValue } from 'recoil';
 import Room from './Room';
 import SearchBox from './SerchBox';
 
@@ -22,6 +24,7 @@ function List() {
     'latest' | 'open' | 'popularity' | undefined
   >();
   const [keywords, setKeywords] = useState<string>();
+  const kickuser = useRecoilValue(KickState);
 
   useEffect(() => {
     if (filter === '전체') setFilterParams(undefined);
@@ -29,6 +32,13 @@ function List() {
     else if (filter === '인기순') setFilterParams('popularity');
     else if (filter === '모집중') setFilterParams('open');
   }, [filter]);
+
+  useEffect(() => {
+    if (kickuser === true) {
+      // eslint-disable-next-line no-alert
+      alert('당신은 방장에 의해 강퇴당하셨습니다.');
+    }
+  }, [kickuser]);
 
   const { data: rooms } = useQuery(['rooms', keywords, filterParams], () =>
     getRoom({ params: { text: keywords, sort: filterParams } }),

@@ -31,6 +31,7 @@ export default function MyGroup({ item, openModal }: Props) {
   const leaveRoom = useMutation(() => leaveRoomApi(roomId), {
     onSuccess: () => {
       queryClient.invalidateQueries('myRoomData');
+      alert('방을 탈퇴하셨습니다.');
     },
   });
 

@@ -8,6 +8,8 @@ import { Socket } from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
 
 import { RATIO } from 'src/constants';
+import { useRecoilState } from 'recoil';
+import { KickState } from 'src/recoil/state';
 import Video from './Video/index';
 import { WebRTCUser } from '../../types/types';
 import Chatting from '../Chat/Chatting';
@@ -36,9 +38,10 @@ function WebCam({
   const [users, setUsers] = useState<WebRTCUser[]>([]);
   const [cameraOn, setCameraOn] = useState(true);
   const [audioOn, setAudioOn] = useState(true);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [kickuser, setKickuser] = useRecoilState<boolean>(KickState);
   const nav = useNavigate();
-  const [timealert, SetTimealert] = useState(true);
-
+  console.log(kickuser);
   // 카메라 온오프
   const VideoHandler = () => {
     if (localStreamRef.current) {
@@ -227,14 +230,9 @@ function WebCam({
       },
     );
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const timer = setTimeout(() => {
-      SetTimealert(false);
-    }, 3000);
-
     socket.on('disconnectuser', (errormessage) => {
       // eslint-disable-next-line no-unused-expressions, no-sequences, no-alert
-      nav('/list'), timealert === true ? alert(errormessage) : null;
+      nav('/list'), setKickuser(true);
     });
 
     socket.on('user_exit', (data: { id: string }) => {
