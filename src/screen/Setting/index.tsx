@@ -64,6 +64,13 @@ export default function Setting() {
     },
   );
 
+  const GongiClick = () => {
+    window.open(
+      'https://www.notion.so/Stupy-b64175667b824f26854f874505474caf',
+      '_blank',
+    );
+  };
+
   return (
     <SetBackGround>
       <TopContainer>
@@ -106,7 +113,7 @@ export default function Setting() {
         </Container>
         <Container>
           <Row>
-            <MenuText>공지사항</MenuText>
+            <MenuText onClick={GongiClick}>공지사항</MenuText>
             <img src={icoArrowNext} alt="" style={{ width: 22, height: 24 }} />
           </Row>
           <BorderLine />
