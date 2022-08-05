@@ -40,15 +40,15 @@ function App() {
       <BrowserView>
         <div
           style={{
-            position: 'absolute',
+            display: 'flex',
             background: `url(${BackgroundImage})`,
             alignItems: 'center',
             width: '100%',
             height: '100%',
+            marginLeft: 'auto',
+            marginRight: 'auto',
             boxSizing: 'border-box',
-            top: '0',
-            right: '0',
-            backgroundPosition: 'top right',
+            justifyContent: 'center',
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',
           }}
@@ -72,30 +72,20 @@ function App() {
         </div>
       </BrowserView>
       <MobileView>
-        <div
-          style={{
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-            left: '211px',
-            boxSizing: 'border-box',
-          }}
-        >
-          <BrowserRouter>
-            <RecoilRoot>
-              <Routes>
-                <Route path="/" element={<Login />} />
-                <Route path="/kakao/login" element={<Main />} />
-                <Route element={<ProtectedRoute />}>
-                  <Route path="/main" element={<Main />} />
-                  <Route path="/list" element={<List />} />
-                  <Route path="/setting" element={<Setting />} />
-                  <Route path="/room/:id" element={<WebCamscreen />} />
-                </Route>
-              </Routes>
-            </RecoilRoot>
-          </BrowserRouter>
-        </div>
+        <BrowserRouter>
+          <RecoilRoot>
+            <Routes>
+              <Route path="/" element={<Login />} />
+              <Route path="/kakao/login" element={<Main />} />
+              <Route element={<ProtectedRoute />}>
+                <Route path="/main" element={<Main />} />
+                <Route path="/list" element={<List />} />
+                <Route path="/setting" element={<Setting />} />
+                <Route path="/room/:id" element={<WebCamscreen />} />
+              </Route>
+            </Routes>
+          </RecoilRoot>
+        </BrowserRouter>
       </MobileView>
     </>
   );

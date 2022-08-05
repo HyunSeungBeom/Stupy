@@ -6,9 +6,7 @@ const SetBackGround = styled.div`
   align-items: center;
   height: 100vh;
   overflow: hidden;
-  position: absolute;
-  right: 211px;
-  top: 0px;
+  position: relative;
 `;
 
 const TopContainer = styled.div`
