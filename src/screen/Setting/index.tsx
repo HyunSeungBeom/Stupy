@@ -112,8 +112,8 @@ export default function Setting() {
           </Row>
         </Container>
         <Container>
-          <Row>
-            <MenuText onClick={GongiClick}>공지사항</MenuText>
+          <Row onClick={GongiClick}>
+            <MenuText>공지사항</MenuText>
             <img src={icoArrowNext} alt="" style={{ width: 22, height: 24 }} />
           </Row>
           <BorderLine />

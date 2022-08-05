@@ -28,7 +28,7 @@ const BodyContainer = styled.div`
   max-width: 428px;
   max-height: 828px;
   background-color: white;
-  padding: 20px 0px 180px;
+  padding: 20px 0px 90px;
   position: relative;
   overflow-y: auto; //스크롤바 없애기
   ::-webkit-scrollbar {
