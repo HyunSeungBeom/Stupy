@@ -26,7 +26,7 @@
 </div>
 
 ## 😃 서비스 아키택처
-<img src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/a4785c2d-acd7-41b8-9f2d-42ffc181bbcf/Stupy_Architecture_%282%29.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220801%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220801T093044Z&X-Amz-Expires=86400&X-Amz-Signature=e058f6f1efad0e906272b07de333d56c82093d6bdc4bda6a7dd97555eb283ee7&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Stupy%2520Architecture%2520%282%29.png%22&x-id=GetObject"/>
+![image](https://github.com/user-attachments/assets/530d3a89-1562-479c-8194-062d760a52cd)
 
 ## 💡 담당 포지션
 | 이름       | 포지션       | 개인 깃허브 or 이메일          | 담당                             |
