@@ -1,10 +1,11 @@
 ## Stupy 소개
 <div align="center">
-<img src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/0b561a64-96a8-4fbc-bb57-05cbff6d3e48/StupyLogo%28160_160%29.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220801%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220801T070401Z&X-Amz-Expires=86400&X-Amz-Signature=d56eed5d20141c803c619a48ebccf5bdf7e2345df257404c9bd73ad3ee0e67d5&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22StupyLogo%28160_160%29.png%22&x-id=GetObject"/> 
+![image](https://github.com/user-attachments/assets/c1eef27d-d052-4673-b459-0327fe9d3516) 
 </div>
 <p fontWeight="bold">💡 Study + (P)eople + (Y)ou</p> 
 <p>-Stupy는 온라인으로 같은 목표를 가진 사람들과 공부 할 수 있는 플랫폼입니다.</p>
 <p>-여럿이서 공부할 수 있는 환경을 만들고, 같은 공부를 할 수 있는 커뮤니티를 만드는 장입니다.</p>
+
 
 
 ## 📚 기술스택
