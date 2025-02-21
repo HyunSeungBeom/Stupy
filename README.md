@@ -5,14 +5,7 @@
 <p fontWeight="bold">💡 Study + (P)eople + (Y)ou</p> 
 <p>-Stupy는 온라인으로 같은 목표를 가진 사람들과 공부 할 수 있는 플랫폼입니다.</p>
 <p>-여럿이서 공부할 수 있는 환경을 만들고, 같은 공부를 할 수 있는 커뮤니티를 만드는 장입니다.</p>
-<div display="flex">
-<img src= "https://s3.us-west-2.amazonaws.com/secure.notion-static.com/79592240-07bb-46b6-9f98-6fcb6f3a3fdd/Apple_iPhone_11_Pro_Max_Screenshot_0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220801%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220801T093353Z&X-Amz-Expires=86400&X-Amz-Signature=e4823aa4a1d5254a28dac2ac489fa5ecec47bee1247431b7681b16e0ed7934a3&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Apple%2520iPhone%252011%2520Pro%2520Max%2520Screenshot%25200.png%22&x-id=GetObject" width= "24%"/>
-<img src ="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/125847d3-c961-4654-aa9f-fe83044fd983/Apple_iPhone_11_Pro_Max_Screenshot_1.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220801%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220801T093654Z&X-Amz-Expires=86400&X-Amz-Signature=39b1d75af378c45e17e621eb829f23c7ca21fe0bf40ca48e1050ee88127b2978&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Apple%2520iPhone%252011%2520Pro%2520Max%2520Screenshot%25201.png%22&x-id=GetObject" width="24%"/>
-<img src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/d35172a4-f4a6-4ae5-9243-e6a3e54ff62a/Apple_iPhone_11_Pro_Max_Screenshot_2.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220801%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220801T093732Z&X-Amz-Expires=86400&X-Amz-Signature=018fb90b82233dbb7827f4e44813093b543dea309ca1a2eddd1eb6d2b750dd3b&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Apple%2520iPhone%252011%2520Pro%2520Max%2520Screenshot%25202.png%22&x-id=GetObject" width="24%" />
-<img src="https://s3.us-west-2.amazonaws.com/secure.notion-static.com/5964007a-cfd9-4898-9936-a3d615515a51/Apple_iPhone_11_Pro_Max_Screenshot_3.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220801%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220801T093811Z&X-Amz-Expires=86400&X-Amz-Signature=0b5dfbc5169b72e1c1d55223f1031003ee991f628e6b4bb0db5f2ca5d9a822ae&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Apple%2520iPhone%252011%2520Pro%2520Max%2520Screenshot%25203.png%22&x-id=GetObject" width="24%" />
 
-
-</div>
 
 ## 📚 기술스택
 <div align="center">
